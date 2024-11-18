@@ -1,0 +1,405 @@
+#VRML_SIM R2023b utf8
+
+PROTO LBRiiwa7R800 [
+  field  SFVec3f     translation     0 0 0
+  field  SFRotation  rotation        0 0 1 0
+  field  SFString    name            "LBRiiwa7R800"  		# Is `Robot.name`.
+  field  SFString    controller      "<generic>"   			# Is `Robot.controller`.
+  field  MFString    controllerArgs  []       				# Is `Robot.controllerArgs`.
+  field  SFString    customData      ""       				# Is `Robot.customData`.
+  field  SFBool      supervisor      FALSE    				# Is `Robot.supervisor`.
+  field  SFBool      synchronization TRUE     				# Is `Robot.synchronization`.
+  field  SFBool      selfCollision   FALSE    				# Is `Robot.selfCollision`.
+]
+{
+  Robot {
+    translation IS translation
+    rotation IS rotation
+    controller IS controller
+    controllerArgs IS controllerArgs
+    customData IS customData
+    supervisor IS supervisor
+    synchronization IS synchronization
+    selfCollision IS selfCollision
+    children [
+      Solid {
+        children [
+          DEF link_0_visual CadShape {
+            url "./meshes/LBRiiwa7R800/visual/link_0.dae"
+          }
+          HingeJoint {
+            jointParameters HingeJointParameters {
+              axis 0.000000 0.000000 1.000000
+              anchor 0.000000 0.000000 0.147500
+              dampingConstant 10.0
+              staticFriction 0.1
+            }
+            device [
+              RotationalMotor {
+                name "lbr_A1"
+                maxVelocity 1.710422666954443
+                minPosition -2.9670597283903604
+                maxPosition 2.9670597283903604
+                maxTorque 200.0
+              }
+              PositionSensor {
+                name "lbr_A1_sensor"
+              }
+            ]
+            endPoint Solid {
+              translation 0.000000 0.000000 0.147500
+              children [
+                Pose {
+                  translation 0.000000 0.000000 -0.147500
+                  children [
+                    DEF link_1_visual CadShape {
+                      url "./meshes/LBRiiwa7R800/visual/link_1.dae"
+                    }
+                  ]
+                }
+                HingeJoint {
+                  jointParameters HingeJointParameters {
+                    axis 0.000000 1.000000 0.000000
+                    anchor 0.000000 -0.010500 0.192500
+                    dampingConstant 10.0
+                    staticFriction 0.1
+                  }
+                  device [
+                    RotationalMotor {
+                      name "lbr_A2"
+                      maxVelocity 1.710422666954443
+                      minPosition -2.0943951023931953
+                      maxPosition 2.0943951023931953
+                      maxTorque 200.0
+                    }
+                    PositionSensor {
+                      name "lbr_A2_sensor"
+                    }
+                  ]
+                  endPoint Solid {
+                    translation 0.000000 -0.010500 0.192500
+                    children [
+                      Pose {
+                        translation 0.000000 0.010500 -0.340000
+                        children [
+                          DEF link_2_visual CadShape {
+                            url "./meshes/LBRiiwa7R800/visual/link_2.dae"
+                          }
+                        ]
+                      }
+                      HingeJoint {
+                        jointParameters HingeJointParameters {
+                          axis 0.000000 0.000000 1.000000
+                          anchor 0.000000 0.010500 0.207500
+                          dampingConstant 10.0
+                          staticFriction 0.1
+                        }
+                        device [
+                          RotationalMotor {
+                            name "lbr_A3"
+                            maxVelocity 1.7453292519943295
+                            minPosition -2.9670597283903604
+                            maxPosition 2.9670597283903604
+                            maxTorque 200.0
+                          }
+                          PositionSensor {
+                            name "lbr_A3_sensor"
+                          }
+                        ]
+                        endPoint Solid {
+                          translation 0.000000 0.010500 0.207500
+                          children [
+                            Pose {
+                              translation 0.000000 0.000000 -0.547500
+                              children [
+                                DEF link_3_visual CadShape {
+                                  url "./meshes/LBRiiwa7R800/visual/link_3.dae"
+                                }
+                              ]
+                            }
+                            HingeJoint {
+                              jointParameters HingeJointParameters {
+                                axis 0.000000 -1.000000 0.000000
+                                anchor 0.000000 0.010500 0.192500
+                                dampingConstant 10.0
+                                staticFriction 0.1
+                              }
+                              device [
+                                RotationalMotor {
+                                  name "lbr_A4"
+                                  maxVelocity 2.2689280275926285
+                                  minPosition -2.0943951023931953
+                                  maxPosition 2.0943951023931953
+                                  maxTorque 200.0
+                                }
+                                PositionSensor {
+                                  name "lbr_A4_sensor"
+                                }
+                              ]
+                              endPoint Solid {
+                                translation 0.000000 0.010500 0.192500
+                                children [
+                                  Pose {
+                                    translation 0.000000 -0.010500 -0.740000
+                                    children [
+                                      DEF link_4_visual CadShape {
+                                        url "./meshes/LBRiiwa7R800/visual/link_4.dae"
+                                      }
+                                    ]
+                                  }
+                                  HingeJoint {
+                                    jointParameters HingeJointParameters {
+                                      axis 0.000000 0.000000 1.000000
+                                      anchor 0.000000 -0.010500 0.207500
+                                      dampingConstant 10.0
+                                      staticFriction 0.1
+                                    }
+                                    device [
+                                      RotationalMotor {
+                                        name "lbr_A5"
+                                        maxVelocity 2.443460952792061
+                                        minPosition -2.9670597283903604
+                                        maxPosition 2.9670597283903604
+                                        maxTorque 200.0
+                                      }
+                                      PositionSensor {
+                                        name "lbr_A5_sensor"
+                                      }
+                                    ]
+                                    endPoint Solid {
+                                      translation 0.000000 -0.010500 0.207500
+                                      children [
+                                        Pose {
+                                          translation 0.000000 0.000000 -0.947500
+                                          children [
+                                            DEF link_5_visual CadShape {
+                                              url "./meshes/LBRiiwa7R800/visual/link_5.dae"
+                                            }
+                                          ]
+                                        }
+                                        HingeJoint {
+                                          jointParameters HingeJointParameters {
+                                            axis 0.000000 1.000000 0.000000
+                                            anchor 0.000000 -0.070700 0.192500
+                                            dampingConstant 10.0
+                                            staticFriction 0.1
+                                          }
+                                          device [
+                                            RotationalMotor {
+                                              name "lbr_A6"
+                                              maxVelocity 3.141592653589793
+                                              minPosition -2.0943951023931953
+                                              maxPosition 2.0943951023931953
+                                              maxTorque 200.0
+                                            }
+                                            PositionSensor {
+                                              name "lbr_A6_sensor"
+                                            }
+                                          ]
+                                          endPoint Solid {
+                                            translation 0.000000 -0.070700 0.192500
+                                            children [
+                                              Pose {
+                                                translation 0.000000 0.070700 -1.140000
+                                                children [
+                                                  DEF link_6_visual CadShape {
+                                                    url "./meshes/LBRiiwa7R800/visual/link_6.dae"
+                                                  }
+                                                ]
+                                              }
+                                              HingeJoint {
+                                                jointParameters HingeJointParameters {
+                                                  axis 0.000000 0.000000 1.000000
+                                                  anchor 0.000000 0.070700 0.091000
+                                                  dampingConstant 10.0
+                                                  staticFriction 0.1
+                                                }
+                                                device [
+                                                  RotationalMotor {
+                                                    name "lbr_A7"
+                                                    maxVelocity 3.141592653589793
+                                                    minPosition -3.0543261909900763
+                                                    maxPosition 3.0543261909900763
+                                                    maxTorque 200.0
+                                                  }
+                                                  PositionSensor {
+                                                    name "lbr_A7_sensor"
+                                                  }
+                                                ]
+                                                endPoint Solid {
+                                                  translation 0.000000 0.070700 0.091000
+                                                  children [
+                                                    Pose {
+                                                      translation 0.000000 0.000000 -1.231000
+                                                      children [
+                                                        DEF link_7_visual CadShape {
+                                                          url "./meshes/LBRiiwa7R800/visual/link_7.dae"
+                                                        }
+                                                      ]
+                                                    }
+                                                  ]
+                                                  name "lbr_link_7"
+                                                  boundingObject Pose {
+                                                    translation 0.000000 0.000000 -1.231000
+                                                    children [
+                                                      DEF link_7 Mesh {
+                                                        url "./meshes/LBRiiwa7R800/collision/link_7.stl"
+                                                      }
+                                                    ]
+                                                  }
+                                                  physics Physics {
+                                                    density -1
+                                                    mass 0.259474
+                                                    centerOfMass [ 0.000003 -0.000002 0.013782 ]
+                                                    inertiaMatrix [
+                                                      1.710000e-04 1.710000e-04 2.990000e-04
+                                                      0.000000e+00 0.000000e+00 0.000000e+00
+                                                    ]
+                                                  }
+                                                }
+                                              }
+                                            ]
+                                            name "lbr_link_6"
+                                            boundingObject Pose {
+                                              translation 0.000000 0.070700 -1.140000
+                                              children [
+                                                DEF link_6 Mesh {
+                                                  url "./meshes/LBRiiwa7R800/collision/link_6.stl"
+                                                }
+                                              ]
+                                            }
+                                            physics Physics {
+                                              density -1
+                                              mass 2.403626
+                                              centerOfMass [ 0.000000 0.071020 0.004950 ]
+                                              inertiaMatrix [
+                                                7.067000e-03 6.804000e-03 4.629000e-03
+                                                0.000000e+00 0.000000e+00 3.110000e-04
+                                              ]
+                                            }
+                                          }
+                                        }
+                                      ]
+                                      name "lbr_link_5"
+                                      boundingObject Pose {
+                                        translation 0.000000 0.000000 -0.947500
+                                        children [
+                                          DEF link_5 Mesh {
+                                            url "./meshes/LBRiiwa7R800/collision/link_5.stl"
+                                          }
+                                        ]
+                                      }
+                                      physics Physics {
+                                        density -1
+                                        mass 1.529239
+                                        centerOfMass [ 0.000000 -0.029824 0.076267 ]
+                                        inertiaMatrix [
+                                          8.485000e-03 7.136000e-03 3.848000e-03
+                                          0.000000e+00 0.000000e+00 2.806000e-03
+                                        ]
+                                      }
+                                    }
+                                  }
+                                ]
+                                name "lbr_link_4"
+                                boundingObject Pose {
+                                  translation 0.000000 -0.010500 -0.740000
+                                  children [
+                                    DEF link_4 Mesh {
+                                      url "./meshes/LBRiiwa7R800/collision/link_4.stl"
+                                    }
+                                  ]
+                                }
+                                physics Physics {
+                                  density -1
+                                  mass 4.031989
+                                  centerOfMass [ 0.000000 -0.039793 0.086944 ]
+                                  inertiaMatrix [
+                                    3.169500e-02 3.007900e-02 9.665000e-03
+                                    0.000000e+00 0.000000e+00 -5.889000e-03
+                                  ]
+                                }
+                              }
+                            }
+                          ]
+                          name "lbr_link_3"
+                          boundingObject Pose {
+                            translation 0.000000 0.000000 -0.547500
+                            children [
+                              DEF link_3 Mesh {
+                                url "./meshes/LBRiiwa7R800/collision/link_3.stl"
+                              }
+                            ]
+                          }
+                          physics Physics {
+                            density -1
+                            mass 3.394011
+                            centerOfMass [ 0.000000 0.034819 0.123299 ]
+                            inertiaMatrix [
+                              2.138300e-02 2.040300e-02 7.563000e-03
+                              0.000000e+00 0.000000e+00 -3.797000e-03
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                    name "lbr_link_2"
+                    boundingObject Pose {
+                      translation 0.000000 0.010500 -0.340000
+                      children [
+                        DEF link_2 Mesh {
+                          url "./meshes/LBRiiwa7R800/collision/link_2.stl"
+                        }
+                      ]
+                    }
+                    physics Physics {
+                      density -1
+                      mass 4.031991
+                      centerOfMass [ 0.000000 0.039793 0.086944 ]
+                      inertiaMatrix [
+                        3.169700e-02 3.008000e-02 9.666000e-03
+                        0.000000e+00 0.000000e+00 5.889000e-03
+                      ]
+                    }
+                  }
+                }
+              ]
+              name "lbr_link_1"
+              boundingObject Pose {
+                translation 0.000000 0.000000 -0.147500
+                children [
+                  DEF link_1 Mesh {
+                    url "./meshes/LBRiiwa7R800/collision/link_1.stl"
+                  }
+                ]
+              }
+              physics Physics {
+                density -1
+                mass 3.394011
+                centerOfMass [ 0.000000 -0.034819 0.123299 ]
+                inertiaMatrix [
+                  2.138300e-02 2.040300e-02 7.563000e-03
+                  0.000000e+00 0.000000e+00 3.797000e-03
+                ]
+              }
+            }
+          }
+        ]
+        name "lbr_link_0"
+        boundingObject DEF link_0 Mesh {
+          url "./meshes/LBRiiwa7R800/collision/link_0.stl"
+        }
+        physics Physics {
+          density -1
+          mass 4.855658
+          centerOfMass [ -0.012857 0.000000 0.069964 ]
+          inertiaMatrix [
+            1.783900e-02 2.229400e-02 2.133400e-02
+            0.000000e+00 7.810000e-04 0.000000e+00
+          ]
+        }
+      }
+    ]
+    name IS name
+  }
+}
