@@ -3,13 +3,13 @@
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/backgrounds/protos/TexturedBackground.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/floors/protos/Floor.proto"
-EXTERNPROTO "../protos/Iiwa7.proto"
+EXTERNPROTO "../protos/LBRiiwa7R800.proto"
 
 WorldInfo {
 }
 Viewpoint {
-  orientation 0.2402136738015843 -0.13435195666487235 -0.9613776275007997 4.339451003512694
-  position 1.8065305622232388 -4.116082656884764 2.8267105397540493
+  orientation -0.18632678189334254 0.030001117116323382 0.9820296651940019 2.7331689662292473
+  position 4.922834360225356 -2.0827440120127427 2.6152201880662913
 }
 TexturedBackground {
 }
@@ -17,5 +17,5 @@ TexturedBackgroundLight {
 }
 Floor {
 }
-Iiwa7 {
+LBRiiwa7R800 {
 }
