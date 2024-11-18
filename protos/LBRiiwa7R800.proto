@@ -1,9 +1,9 @@
 #VRML_SIM R2023b utf8
 # license: Apache License 2.0
 # license url: https://www.apache.org/licenses/LICENSE-2.0
-# documentation url: 
+# documentation url: https://github.com/Daniel-Robotic/webots_robots/tree/main/doc
 # keywords: robot/arm
-# An Universal Robots UR10e robotic arm.
+# An KUKA iiwa 7 R800 robotic arm.
 
 PROTO LBRiiwa7R800 [
   
