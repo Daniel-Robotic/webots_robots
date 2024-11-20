@@ -1,21 +1,20 @@
-#VRML_SIM R2023b utf8
+#VRML_SIM R2024a utf8
 
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/backgrounds/protos/TexturedBackground.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/floors/protos/Floor.proto"
-EXTERNPROTO "../protos/LBRiiwa7R800.proto"
+EXTERNPROTO "../protos/ManufactoringFloor.proto"
 
 WorldInfo {
 }
 Viewpoint {
-  orientation -0.18632678189334254 0.030001117116323382 0.9820296651940019 2.7331689662292473
-  position 4.922834360225356 -2.0827440120127427 2.6152201880662913
+  orientation 0.16006357030661053 -0.2243961255606253 -0.9612627280270887 5.006393853410578
+  position -2.468121819722126 -7.312403889729682 3.0676379504186615
 }
 TexturedBackground {
+  texture "factory"
 }
 TexturedBackgroundLight {
+  texture "factory"
 }
-Floor {
-}
-LBRiiwa7R800 {
+ManufactoringFloor {
 }

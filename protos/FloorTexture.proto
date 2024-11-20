@@ -1,0 +1,55 @@
+#VRML_SIM R2024a utf8
+# license: Apache License 2.0
+# license url: https://www.apache.org/licenses/LICENSE-2.0
+# documentation url: 
+# keywords: appearance/other
+# A floor material
+# template language: javascript
+
+
+PROTO FloorTexture [
+  field SFString{"brick", "square", "chess", "granite", "bicolour gravel", "laminate"}
+                type "square"
+  field SFColor  colorOverride    1 1 1     # Defines the color to be multiplied with the texture color.
+  field SFNode   textureTransform NULL      # Defines an optional 2d texture transform.
+  field SFFloat  IBLStrength      1         # Defines the strength of ambient lighting from the Background node.
+]
+{
+
+  %<
+    const textureName = (fields.type.value).replace(/\s+/g, '_');
+  >%
+
+  PBRAppearance {
+    baseColorMap ImageTexture {
+      url [
+         %<= '"./textures/floor/'+ textureName + '/' + textureName + '_diff.png"' >%
+      ]
+    }
+    roughness 1
+    roughnessMap ImageTexture {
+      url [
+        %<= '"./textures/floor/'+ textureName + '/' + textureName + '_rough.png"' >%
+      ]
+    }
+    metalness 0
+    metalnessMap ImageTexture {
+      url [
+        %<= '"./textures/floor/'+ textureName + '/' + textureName + '_arm.png"' >%
+      ]
+    }
+    normalMap ImageTexture {
+      url [
+        %<= '"./textures/floor/'+ textureName + '/' + textureName + '_nor_gl.png"' >%
+      ]
+    }
+    occlusionMap ImageTexture {
+      url [
+        %<= '"./textures/floor/'+ textureName + '/' + textureName + '_ao.png"' >%
+      ]
+    }
+    textureTransform TextureTransform {
+    }
+    name IS type
+  }
+}
