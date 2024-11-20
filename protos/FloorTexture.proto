@@ -1,7 +1,7 @@
 #VRML_SIM R2023b utf8
 # license: Apache License 2.0
 # license url: https://www.apache.org/licenses/LICENSE-2.0
-# documentation url: 
+# documentation url: https://webots.cloud/run?version=R2023b&url=https%3A%2F%2Fgithub.com%2FDaniel-Robotic%2Fwebots_robots%2Fblob%2Fmain%2Fprotos%2FFloorTexture.proto
 # keywords: appearance/other
 # A floor material
 # template language: javascript
