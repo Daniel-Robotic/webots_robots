@@ -13,7 +13,7 @@ The following type of sensors is presented:
 Facilities:
 
 1. Floor with different textures
-2. Table for a collaborative robot :gear:
+2. Table for a collaborative robot
 
 ---
 All models are also located on the website [Webots Cloud](https://webots.cloud/proto)
