@@ -2,14 +2,16 @@
 
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/backgrounds/protos/TexturedBackground.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
-EXTERNPROTO "../protos/CollaborativeRobotTable.proto"
 EXTERNPROTO "../protos/ManufactoringFloor.proto"
+EXTERNPROTO "../protos/LBRiiwa7R800.proto"
+EXTERNPROTO "../protos/CollaborativeRobotTable.proto"
+EXTERNPROTO "../protos/WorkspaceLimiter.proto"
 
 WorldInfo {
 }
 Viewpoint {
-  orientation 0.2440392297509862 -0.16436339110157208 -0.9557350731286034 4.285458808302285
-  position 1.2297254983092052 -2.8985710245286325 1.991500479792466
+  orientation 0.17340966950828812 -0.12240536914780485 -0.9772133912942536 4.3492733449956225
+  position 1.196311068263305 -7.428640330021785 4.216118793544398
 }
 TexturedBackground {
   texture "factory"
@@ -17,8 +19,18 @@ TexturedBackground {
 TexturedBackgroundLight {
   texture "factory"
 }
+ManufactoringFloor {
+  size 13.75 8
+}
 CollaborativeRobotTable {
+  name "CollaborativeRobotTable(1)"
   showCabinet TRUE
 }
-ManufactoringFloor {
+LBRiiwa7R800 {
+  translation -0.267 0 0.79
+}
+WorkspaceLimiter {
+  translation -3.1 0 1.63
+  countLimiter 2 2
+  spacing 0.01
 }

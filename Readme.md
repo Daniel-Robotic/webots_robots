@@ -14,6 +14,7 @@ Facilities:
 
 1. Floor with different textures
 2. Table for a collaborative robot
+3. Workspace Limiter
 
 ---
 All models are also located on the website [Webots Cloud](https://webots.cloud/proto)
