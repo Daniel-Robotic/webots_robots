@@ -1,4 +1,4 @@
-#VRML_SIM R2023b utf8
+#VRML_SIM R2024a utf8
 
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/backgrounds/protos/TexturedBackground.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
@@ -10,8 +10,8 @@ EXTERNPROTO "../protos/WorkspaceLimiter.proto"
 WorldInfo {
 }
 Viewpoint {
-  orientation 0.17340966950828812 -0.12240536914780485 -0.9772133912942536 4.3492733449956225
-  position 1.196311068263305 -7.428640330021785 4.216118793544398
+  orientation -0.23162005577767367 0.2247736368984153 0.9464824150067485 1.6557015189914004
+  position 1.328628093110977 -4.067908676168733 3.298402500301227
 }
 TexturedBackground {
   texture "factory"
@@ -30,7 +30,27 @@ LBRiiwa7R800 {
   translation -0.267 0 0.79
 }
 WorkspaceLimiter {
-  translation -3.1 0 1.63
+  translation -1.33 6.50129e-06 1
+  rotation 0 0 1 1.5708
+  name "WorkspaceLimiterFront"
+  locked TRUE
   countLimiter 2 2
   spacing 0.01
+}
+WorkspaceLimiter {
+  translation 0.15 1.26001 1
+  rotation 0 0 -1 -5.307179586466759e-06
+  name "WorkspaceLimiterRight"
+  countLimiter 2 2
+  scale 1.2 1 1
+  spacing 0.01
+}
+Robot {
+  children [
+    Skin {
+      translation 1.46 0 0
+      rotation 1 0 0 1.5708
+      modelUrl "C:/Users/smoot/OneDrive/Desktop/sandra.fbx"
+    }
+  ]
 }
