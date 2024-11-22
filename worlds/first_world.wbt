@@ -6,15 +6,19 @@ EXTERNPROTO "../protos/ManufactoringFloor.proto"
 EXTERNPROTO "../protos/LBRiiwa7R800.proto"
 EXTERNPROTO "../protos/CollaborativeRobotTable.proto"
 EXTERNPROTO "../protos/WorkspaceLimiter.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/apartment_structure/protos/Wall.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/apartment_structure/protos/Door.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/apartment_structure/protos/Window.proto"
 
 WorldInfo {
+  title "kuka_world"
 }
 Viewpoint {
-  orientation -0.23162005577767367 0.2247736368984153 0.9464824150067485 1.6557015189914004
-  position 1.328628093110977 -4.067908676168733 3.298402500301227
+  orientation -0.1839434448896043 0.08171748020926381 0.9795341048224885 2.3207011781002764
+  position 5.025001288862026 -5.481809249128222 4.051582674799622
 }
 TexturedBackground {
-  texture "factory"
+  texture "empty_office"
 }
 TexturedBackgroundLight {
   texture "factory"
@@ -23,34 +27,89 @@ ManufactoringFloor {
   size 13.75 8
 }
 CollaborativeRobotTable {
-  name "CollaborativeRobotTable(1)"
+  locked TRUE
   showCabinet TRUE
 }
 LBRiiwa7R800 {
   translation -0.267 0 0.79
 }
 WorkspaceLimiter {
-  translation -1.33 6.50129e-06 1
-  rotation 0 0 1 1.5708
-  name "WorkspaceLimiterFront"
+  translation -1.34097 0.0511973 1
+  rotation 0 0 1 1.57
   locked TRUE
   countLimiter 2 2
-  spacing 0.01
+}
+DEF Walls Group {
+  children [
+    Wall {
+      translation 3.91998 4.1 0
+      rotation 0 0 1 1.5708
+      name "wall(2)"
+      size 0.2 1.9 2.4
+    }
+    Wall {
+      translation -3.96001 4.1 0
+      rotation 0 0 1 1.5708
+      name "wall(1)"
+      size 0.2 1.9 2.4
+    }
+    Wall {
+      translation -0.0100149 4.1 0
+      rotation 0 0 1 1.5708
+      size 0.2 2 2.4
+    }
+    Window {
+      translation 1.99 4.1 0
+      rotation 0 0 1 -1.5707953071795862
+      name "window(3)"
+      size 0.2 2 2.4
+    }
+    Window {
+      translation -2.01 4.1 0
+      rotation 0 0 1 -1.5707953071795862
+      name "window(2)"
+      size 0.2 2 2.4
+    }
+    Window {
+      translation 5.86 4.1 0
+      rotation 0 0 1 -1.5707953071795862
+      name "window(1)"
+      size 0.2 2 2.4
+    }
+    Window {
+      translation -5.89 4.1 0
+      rotation 0 0 1 -1.5707953071795862
+      size 0.2 2 2.4
+    }
+    Door {
+      translation 6.36 -3.89 0
+      rotation 0 0 1 -1.5707953071795862
+      size 0.1 1 2.4
+    }
+    Wall {
+      translation 1.50601e-05 -4.1 0
+      rotation 0 0 1 1.5708
+      name "wall_left"
+      size 0.2 14 2.4
+    }
+    Wall {
+      translation 6.97 0 0
+      name "wall_front"
+      size 0.2 8 2.4
+    }
+    Wall {
+      translation -6.97 0 0
+      name "wall_back"
+      size 0.2 8 2.4
+    }
+  ]
 }
 WorkspaceLimiter {
   translation 0.15 1.26001 1
   rotation 0 0 -1 -5.307179586466759e-06
   name "WorkspaceLimiterRight"
+  locked TRUE
   countLimiter 2 2
   scale 1.2 1 1
   spacing 0.01
-}
-Robot {
-  children [
-    Skin {
-      translation 1.46 0 0
-      rotation 1 0 0 1.5708
-      modelUrl "C:/Users/smoot/OneDrive/Desktop/sandra.fbx"
-    }
-  ]
 }
