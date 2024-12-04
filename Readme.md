@@ -1,16 +1,22 @@
 # A set of robots for the Webots simulator
 
-The following works are currently available in the set:
+### The following works are currently available in the set:
 
 1. LBR KUKA iiwa 7 R800
 2. LBR KUKA iiwa 14 R820 :gear:
+3. LBR KUKA iiwa 7 med :gear:
 
-The following type of sensors is presented:
+### The following type of sensors is presented:
 
 1. Intel Realsense D455 :gear:
 2. Intel Realsense L515 :gear:
 
-Facilities:
+### EndEffectors:
+
+1. Two-finger grip with a special frame for mounting the camera [IntelRealsense](https://www.intelrealsense.com/) :computer:
+2. Calibration template :gear:
+
+### Facilities:
 
 1. Floor with different textures
 2. Table for a collaborative robot
