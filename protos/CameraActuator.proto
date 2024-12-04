@@ -1,0 +1,189 @@
+#VRML_SIM R2023b utf8
+# license: Apache License 2.0
+# license url: http://www.apache.org/licenses/LICENSE-2.0
+# Capture with a place under the camera for a collaborative robot
+# keywords: robot/extension, actuator/gripper
+# An KUKA iiwa 7 R800 robotic arm.
+# template language: javascript
+
+
+PROTO CameraActuator [
+  field  SFVec3f     translation     0 0 0
+  field  SFRotation  rotation        0 0 1 0
+  field  SFString    name            "CameraActuator"  # Is `Actuator.name`.
+]
+
+
+{
+  Solid {
+    translation IS translation
+    rotation IS rotation
+    children [
+      Pose {
+        translation 0.000000 0.016800 0.000000
+        rotation 0.000563 0.707388 -0.706825 3.140466
+        children [
+          DEF base_actuator_visual CadShape {
+            url "./meshes/actuator/base_actuator.dae"
+          }
+        ]
+      }
+      Solid {
+        translation 0.000000 0.039000 0.000000
+        children [
+          Pose {
+            translation 0.002000 0.000000 0.019500
+            children [
+              DEF main_visual CadShape {
+                url "./meshes/actuator/camera_actuator/visible/main.dae"
+              }
+            ]
+          }
+          HingeJoint {
+            jointParameters HingeJointParameters {
+              anchor 0.000000 0.044500 0.036500
+            }
+            device [
+              RotationalMotor {
+                name "joint_main_camera_frame"
+                maxVelocity 50.0
+                maxPosition 1.57
+                maxTorque 1000.0
+              }
+              PositionSensor {
+                name "joint_main_camera_frame_sensor"
+              }
+            ]
+            endPoint Solid {
+              translation 0.000000 0.044500 0.036500
+              children [
+                Pose {
+                  translation 0.000000 -0.044500 -0.016000
+                  children [
+                    DEF camera_frame_visual CadShape {
+                      url "./meshes/actuator/camera_actuator/visible/camera_frame.dae"
+                    }
+                  ]
+                }
+              ]
+              name "link_camera_frame"
+              boundingObject Pose {
+                translation 0.000000 -0.044500 -0.016000
+                children [
+                  DEF camera_frame Mesh {
+                    url "./meshes/actuator/camera_actuator/collision/camera_frame.stl"
+                  }
+                ]
+              }
+              physics Physics {
+              }
+            }
+          }
+          SliderJoint {
+            jointParameters JointParameters {
+              axis 1 0 0
+            }
+            device [
+              LinearMotor {
+                name "joint_main_fingerR"
+                maxVelocity 0.5
+                minPosition -0.01
+                maxForce 1000.0
+              }
+              PositionSensor {
+                name "joint_main_fingerR_sensor"
+              }
+            ]
+            endPoint Solid {
+              translation -0.020000 0.106000 0.000000
+              children [
+                Pose {
+                  translation 0.021000 0.000000 -0.020000
+                  rotation 0.000000 0.000000 1.000000 1.570000
+                  children [
+                    DEF finger_visual CadShape {
+                      url "./meshes/actuator/camera_actuator/visible/finger.dae"
+                    }
+                  ]
+                }
+              ]
+              name "link_finger_right"
+              boundingObject Pose {
+                translation 0.021000 0.000000 -0.020000
+                rotation 0.000000 0.000000 1.000000 1.570000
+                children [
+                  DEF finger Mesh {
+                    url "./meshes/actuator/camera_actuator/collision/finger.stl"
+                  }
+                ]
+              }
+              physics Physics {
+              }
+            }
+          }
+          SliderJoint {
+            jointParameters JointParameters {
+              axis 1 0 0
+            }
+            device [
+              LinearMotor {
+                name "joint_main_fingerL"
+                maxVelocity 0.5
+                maxPosition 0.01
+                maxForce 1000.0
+              }
+              PositionSensor {
+                name "joint_main_fingerL_sensor"
+              }
+            ]
+            endPoint Solid {
+              translation 0.020000 0.106000 0.000000
+              children [
+                Pose {
+                  translation -0.021000 0.000000 0.020000
+                  rotation 0.707388 0.706825 0.000563 3.140466
+                  children [
+                    USE finger_visual
+                  ]
+                }
+              ]
+              name "link_finger_left"
+              boundingObject Pose {
+                translation -0.021000 0.000000 0.020000
+                rotation 0.707388 0.706825 0.000563 3.140466
+                children [
+                  USE finger
+                ]
+              }
+              physics Physics {
+              }
+            }
+          }
+        ]
+        name "link_main"
+        boundingObject Pose {
+          translation 0.002000 0.000000 0.019500
+          children [
+            DEF main Mesh {
+              url "./meshes/actuator/camera_actuator/collision/main.stl"
+            }
+          ]
+        }
+        physics Physics {
+        }
+      }
+    ]
+    name IS name
+    boundingObject Pose {
+      translation 0.000000 0.016800 0.000000
+      rotation 0.000563 0.707388 -0.706825 3.140466
+      children [
+        DEF base_actuator Mesh {
+          url "./meshes/actuator/base_actuator.stl"
+        }
+      ]
+    }
+    physics Physics {
+    }
+  }
+}

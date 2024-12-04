@@ -6,6 +6,7 @@
 # An KUKA iiwa 7 R800 robotic arm.
 # template language: javascript
 
+EXTERNPROTO "./CameraActuator.proto"
 
 PROTO LBRiiwa7R800 [
   
@@ -18,6 +19,7 @@ PROTO LBRiiwa7R800 [
   field  SFBool      supervisor      FALSE    				  # Is `Robot.supervisor`.
   field  SFBool      synchronization TRUE     				  # Is `Robot.synchronization`.
   field  SFBool      selfCollision   FALSE    				  # Is `Robot.selfCollision`.
+  field  MFNode      endEffectorSlot CameraActuator {}
 ]
 {
   Robot {
@@ -243,6 +245,13 @@ PROTO LBRiiwa7R800 [
                                                         DEF link_7_visual CadShape {
                                                           url "./meshes/LBRiiwa7R800/visual/link_7.dae"
                                                         }
+                                                        %< if (fields.endEffectorSlot.value.length > 0) { >%
+                                                          Transform {
+                                                            translation 0 0 1.262
+                                                            rotation -0.5773509358554485 0.5773489358556708 0.5773509358554485 -2.094395307179586
+                                                            children IS endEffectorSlot
+                                                          }
+                                                        %< } >%
                                                       ]
                                                     }
                                                   ]
