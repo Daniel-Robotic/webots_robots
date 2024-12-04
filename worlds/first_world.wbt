@@ -1,4 +1,4 @@
-#VRML_SIM R2023b utf8
+#VRML_SIM R2024a utf8
 
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/backgrounds/protos/TexturedBackground.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
@@ -11,10 +11,11 @@ EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/project
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/apartment_structure/protos/Window.proto"
 
 WorldInfo {
+  title "kuka_world"
 }
 Viewpoint {
-  orientation -0.225893465250956 0.13491855441786405 0.9647637669557813 2.0960896769505704
-  position 2.0493252695028734 -3.9480081182117766 3.572071439569531
+  orientation -0.1839434448896043 0.08171748020926381 0.9795341048224885 2.3207011781002764
+  position 5.025001288862026 -5.481809249128222 4.051582674799622
 }
 TexturedBackground {
   texture "empty_office"
@@ -26,7 +27,6 @@ ManufactoringFloor {
   size 13.75 8
 }
 CollaborativeRobotTable {
-  name "CollaborativeRobotTable(1)"
   locked TRUE
   showCabinet TRUE
 }
@@ -34,16 +34,8 @@ LBRiiwa7R800 {
   translation -0.267 0 0.79
 }
 WorkspaceLimiter {
-  translation -1.39 0.170011 1.03
-  rotation 0 0 1 1.5708
-  name "WorkspaceLimiterFront"
-  locked TRUE
-  countLimiter 2 2
-}
-WorkspaceLimiter {
-  translation -0.18 1.44002 1.03
-  rotation 0 0 -1 -5.307179586466759e-06
-  name "WorkspaceLimiterRight"
+  translation -1.34097 0.0511973 1
+  rotation 0 0 1 1.57
   locked TRUE
   countLimiter 2 2
 }
@@ -111,4 +103,13 @@ DEF Walls Group {
       size 0.2 8 2.4
     }
   ]
+}
+WorkspaceLimiter {
+  translation 0.15 1.26001 1
+  rotation 0 0 -1 -5.307179586466759e-06
+  name "WorkspaceLimiterRight"
+  locked TRUE
+  countLimiter 2 2
+  scale 1.2 1 1
+  spacing 0.01
 }
