@@ -7,7 +7,8 @@
 
 
 EXTERNPROTO "https://raw.githubusercontent.com/Daniel-Robotic/webots_robots/refs/heads/main/protos/CameraActuator.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/Daniel-Robotic/webots_robots/refs/heads/main/protos/CalibrationTemplate.proto"
+# EXTERNPROTO "https://raw.githubusercontent.com/Daniel-Robotic/webots_robots/refs/heads/main/protos/CalibrationTemplate.proto"
+EXTERNPROTO "./CalibrationTemplate.proto"
 
 PROTO LBRiiwa7R800 [
   
