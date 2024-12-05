@@ -8,16 +8,15 @@ EXTERNPROTO "../protos/LBRiiwa7R800.proto"
 WorldInfo {
 }
 Viewpoint {
-  orientation 0.28520449447134916 -0.26519814140784465 -0.9210474157865963 4.510620652663975
-  position 0.7096422966180913 -1.997860729930172 2.352330759283821
+  orientation 0.31391043285648373 -0.5368754318044328 -0.7830868475901372 5.000466464862059
+  position -0.6181678031705915 -2.7831708679483884 3.057544296835992
 }
 TexturedBackground {
 }
 TexturedBackgroundLight {
 }
 RectangleArena {
-  floorSize 5 5
 }
 LBRiiwa7R800 {
-  controller "iiwa_controller"
+  gripperType "calibration template"
 }

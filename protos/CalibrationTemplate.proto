@@ -1,0 +1,158 @@
+#VRML_SIM R2023b utf8
+# license: Apache License 2.0
+# license url: http://www.apache.org/licenses/LICENSE-2.0
+# Equipment for calibrating the camera using a robot
+# keywords: robot/extension, actuator/other
+
+
+PROTO CalibrationTemplate [
+  field  SFVec3f     translation     0 0 0
+  field  SFRotation  rotation        0 0 1 0
+  field  SFString    name            "CalibrationTemplate"  # Is `Robot.name`.
+]
+{
+  Solid {
+    translation IS translation
+    rotation IS rotation
+    children [
+      Pose {
+        translation 0.000000 0.000000 0.016800
+        rotation 0.000000 1.000000 0.000000 3.140000
+        children [
+          DEF base_actuator_visual CadShape {
+            url "./meshes/actuator/base_actuator.dae"
+          }
+        ]
+      }
+      Solid {
+        translation 0.000000 0.000000 0.016800
+        children [
+          Pose {
+            translation 0.000000 0.000000 0.014000
+            rotation 0.000000 1.000000 0.000000 3.140000
+            children [
+              DEF frame_visual CadShape {
+                url "./meshes/actuator/calibration/visible/frame.dae"
+              }
+            ]
+          }
+          Solid {
+            translation 0.000000 -0.046000 0.007000
+            children [
+              Pose {
+                translation 0.000000 0.000000 0.010000
+                children [
+                  Shape {
+                    appearance DEF link_railL_material PBRAppearance {
+                      baseColor 0.670000 0.700000 0.750000
+                      roughness 1.000000
+                      metalness 0
+                    }
+                    geometry Box {
+                       size 0.600000 0.020000 0.020000
+                    }
+                  }
+                ]
+              }
+              Solid {
+                translation 0.000000 0.046000 0.025000
+                children [
+                  Shape {
+                    appearance DEF link_calibration_material PBRAppearance {
+                      baseColor 0.905 0.921 0.725
+                      baseColorMap ImageTexture {
+                        url [
+                          "./textures/calibration_template.png"
+                        ]
+                      }
+                      roughness 1
+                      metalness 0
+                      textureTransform TextureTransform {
+                        scale 2 0.8
+                      }
+                    }
+                    geometry Box {
+                       size 0.860000 0.610000 0.010000
+                    }
+                  }
+                ]
+                name "link_calibration"
+                boundingObject Box {
+                   size 0.860000 0.610000 0.010000
+                }
+                physics Physics {
+                }
+              }
+            ]
+            name "link_railL"
+            boundingObject Pose {
+              translation 0.000000 0.000000 0.010000
+              children [
+                Box {
+                   size 0.600000 0.020000 0.020000
+                }
+              ]
+            }
+            physics Physics {
+            }
+          }
+          Solid {
+            translation 0.000000 0.046000 0.007000
+            children [
+              Pose {
+                translation 0.000000 0.000000 0.010000
+                children [
+                  Shape {
+                    appearance DEF link_railR_material PBRAppearance {
+                      baseColor 0.670000 0.700000 0.750000
+                      roughness 1.000000
+                      metalness 0
+                    }
+                    geometry Box {
+                       size 0.600000 0.020000 0.020000
+                    }
+                  }
+                ]
+              }
+            ]
+            name "link_railR"
+            boundingObject Pose {
+              translation 0.000000 0.000000 0.010000
+              children [
+                Box {
+                   size 0.600000 0.020000 0.020000
+                }
+              ]
+            }
+            physics Physics {
+            }
+          }
+        ]
+        name "link_frame"
+        boundingObject Pose {
+          translation 0.000000 0.000000 0.014000
+          rotation 0.000000 1.000000 0.000000 3.140000
+          children [
+            DEF frame Mesh {
+              url "./meshes/actuator/calibration/collision/frame.stl"
+            }
+          ]
+        }
+        physics Physics {
+        }
+      }
+    ]
+    name IS name
+    boundingObject Pose {
+      translation 0.000000 0.000000 0.016800
+      rotation 0.000000 1.000000 0.000000 3.140000
+      children [
+        DEF base_actuator Mesh {
+          url "./meshes/actuator/base_actuator.stl"
+        }
+      ]
+    }
+    physics Physics {
+    }
+  }
+}
