@@ -5,7 +5,7 @@
 # template language: javascript
 
 
-EXTERNPROTO "./IntelRealsenseD455.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/Daniel-Robotic/webots_robots/refs/heads/main/protos/IntelRealsenseD455.proto"
 
 PROTO LBRiiwaGripper [
   field  SFVec3f     translation     0 0 0
