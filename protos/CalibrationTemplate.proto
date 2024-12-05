@@ -3,17 +3,21 @@
 # license url: http://www.apache.org/licenses/LICENSE-2.0
 # Equipment for calibrating the camera using a robot
 # keywords: robot/extension, actuator/other
+# template language: javascript
 
 
 PROTO CalibrationTemplate [
   field  SFVec3f     translation     0 0 0
   field  SFRotation  rotation        0 0 1 0
   field  SFString    name            "CalibrationTemplate"  # Is `Robot.name`.
+  field  SFBool      locked          FALSE
 ]
 {
   Solid {
     translation IS translation
     rotation IS rotation
+    locked IS locked
+
     children [
       Pose {
         translation 0.000000 0.000000 0.016800

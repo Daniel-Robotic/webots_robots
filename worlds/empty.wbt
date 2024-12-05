@@ -1,16 +1,17 @@
-#VRML_SIM R2023b utf8
+#VRML_SIM R2024a utf8
 
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/backgrounds/protos/TexturedBackground.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/floors/protos/RectangleArena.proto"
 EXTERNPROTO "../protos/LBRiiwa7R800.proto"
+EXTERNPROTO "../protos/LBRiiwaGripper.proto"
 EXTERNPROTO "../protos/IntelRealsenseD455.proto"
 
 WorldInfo {
 }
 Viewpoint {
-  orientation -0.26145864873603336 0.17437115010460166 0.9493334909357859 2.0127492805514566
-  position 0.6207633267582254 -1.4064658122440845 1.3125482934537567
+  orientation 0.25144025915564355 -0.11708448643784944 -0.9607648094676073 3.982947337713604
+  position 2.853681339336439 -3.2456039992023684 3.423203849252423
 }
 TexturedBackground {
 }
@@ -20,8 +21,14 @@ RectangleArena {
   floorSize 2 2
 }
 LBRiiwa7R800 {
-}
-IntelRealsenseD455 {
-  translation -0.7 0 0.11
-  controller "camera_controller"
+  controller "iiwa_controller"
+  endEffectorSlot [
+    LBRiiwaGripper {
+      camera [
+        IntelRealsenseD455 {
+          controller "camera_controller"
+        }
+      ]
+    }
+  ]
 }

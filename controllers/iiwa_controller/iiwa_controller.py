@@ -49,6 +49,8 @@ joints_sensor: List[PositionSensor] = [robot.getDevice(f"{i}_sensor") for i in l
 for sensor in joints_sensor:
     sensor.enable(10)
 
+gripper(1)
+
 joints[3].setVelocity(0.7)
 joints[3].setPosition(deg2rad(-90))
 

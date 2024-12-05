@@ -1,20 +1,27 @@
 #VRML_SIM R2023b utf8
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0
-# This is a proto file for Webots for the Calibration template
-# keywords: robot/extension, actuator/gripper
+# This is a proto file for Webots for the LBRiiwaGripper
+# template language: javascript
 
 
-PROTO CameraActuator [
+EXTERNPROTO "./IntelRealsenseD455.proto"
+
+PROTO LBRiiwaGripper [
   field  SFVec3f     translation     0 0 0
-  field  SFRotation  rotation        0 0 1 0
-  field  SFString    name            "CameraActuator"  # Is `Robot.name`.
+  field  SFRotation  rotation        -0.5773509358554485 0.5773489358556708 0.5773509358554485 -2.094395307179586
+  field  SFString    name            "LBRiiwaGripper"  # Is `Robot.name`.
+  field  SFBool      locked          FALSE
+  
+  field MFNode       camera         IntelRealsenseD455{}
 ]
 
 {
   Solid {
     translation IS translation
     rotation IS rotation
+    locked IS locked
+
     children [
       Pose {
         translation 0.000000 0.016800 0.000000
@@ -62,6 +69,12 @@ PROTO CameraActuator [
                     }
                   ]
                 }
+
+                Pose {
+                  translation -0.002 0.0492 0.004
+                  rotation 0 0 1 1.5708
+                  children IS camera
+                }
               ]
               name "link_camera_frame"
               boundingObject Pose {
@@ -78,7 +91,6 @@ PROTO CameraActuator [
           }
           SliderJoint {
             jointParameters JointParameters {
-              axis 1 0 0
             }
             device [
               LinearMotor {
@@ -120,7 +132,6 @@ PROTO CameraActuator [
           }
           SliderJoint {
             jointParameters JointParameters {
-              axis 1 0 0
             }
             device [
               LinearMotor {

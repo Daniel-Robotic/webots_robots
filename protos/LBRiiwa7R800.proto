@@ -4,12 +4,12 @@
 # documentation url: https://webots.cloud/run?version=R2023b&url=https%3A%2F%2Fgithub.com%2FDaniel-Robotic%2Fwebots_robots%2Fblob%2Fmain%2Fprotos%2FLBRiiwa7R800.proto
 # keywords: robot/arm
 # An KUKA iiwa 7 R800 robotic arm.
+# template language: javascript
 
 
 # EXTERNPROTO "https://raw.githubusercontent.com/Daniel-Robotic/webots_robots/refs/heads/main/protos/CameraActuator.proto"
-# EXTERNPROTO "https://raw.githubusercontent.com/Daniel-Robotic/webots_robots/refs/heads/main/protos/CalibrationTemplate.proto"
-EXTERNPROTO "./CameraActuator.proto"
-EXTERNPROTO "./CalibrationTemplate.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/Daniel-Robotic/webots_robots/refs/heads/main/protos/CalibrationTemplate.proto"
+EXTERNPROTO "./LBRiiwaGripper.proto"
 
 PROTO LBRiiwa7R800 [
   
@@ -22,18 +22,10 @@ PROTO LBRiiwa7R800 [
   field  SFBool      supervisor      FALSE    				  # Is `Robot.supervisor`.
   field  SFBool      synchronization TRUE     				  # Is `Robot.synchronization`.
   field  SFBool      selfCollision   FALSE    				  # Is `Robot.selfCollision`.
-  field  SFString{"none", "gripper", "calibration template"} gripperType "gripper"
-
-  hiddenField MFNode endEffectorSlot CameraActuator{}
-  hiddenField MFNode endEffectorCalibration CalibrationTemplate{}
+  field  MFNode      endEffectorSlot LBRiiwaGripper{}
 ]
 
 {
-
-  %{
-    gripperType = fields.gripperType.value
-  }%
-
   Robot {
     translation IS translation
     rotation IS rotation
@@ -258,21 +250,13 @@ PROTO LBRiiwa7R800 [
                                                           url "./meshes/LBRiiwa7R800/visual/link_7.dae"
                                                         }
 
-                                                        %{if (gripperType ~= "none") then}%
+                                                        %<if (fields.endEffectorSlot.value.length > 0) {>%
                                                             Transform {
                                                               translation 0 0 1.262
-                                                              
-                                                            %{if (gripperType == "gripper") then}%
-                                                                rotation -0.5773509358554485 0.5773489358556708 0.5773509358554485 -2.094395307179586
-                                                                children IS endEffectorSlot
-                                                            %{elseif (gripperType == "calibration template") then}%
-                                                                rotation 0 0 1 1.5707953071795862
-                                                                children IS endEffectorCalibration
-                                                            %{end}%
-
+                                                              children IS endEffectorSlot
                                                             }
 
-                                                        %{end}%
+                                                        %<}>%
 
                                                       ]
                                                     }
