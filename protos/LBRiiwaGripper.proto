@@ -29,7 +29,7 @@ PROTO LBRiiwaGripper [
         rotation 0.000563 0.707388 -0.706825 3.140466
         children [
           DEF base_actuator_visual CadShape {
-            url "./meshes/actuator/base_actuator.dae"
+            url "https://raw.githubusercontent.com/Daniel-Robotic/webots_robots/refs/heads/main/protos/./meshes/actuator/base_actuator.dae"
           }
         ]
       }
@@ -40,7 +40,7 @@ PROTO LBRiiwaGripper [
             translation 0.002000 0.000000 0.019500
             children [
               DEF main_visual CadShape {
-                url "./meshes/actuator/camera_actuator/visible/main.dae"
+                url "https://raw.githubusercontent.com/Daniel-Robotic/webots_robots/refs/heads/main/protos/./meshes/actuator/camera_actuator/visible/main.dae"
               }
             ]
           }
@@ -66,7 +66,7 @@ PROTO LBRiiwaGripper [
                   translation 0.000000 -0.044500 -0.016000
                   children [
                     DEF camera_frame_visual CadShape {
-                      url "./meshes/actuator/camera_actuator/visible/camera_frame.dae"
+                      url "https://raw.githubusercontent.com/Daniel-Robotic/webots_robots/refs/heads/main/protos/./meshes/actuator/camera_actuator/visible/camera_frame.dae"
                     }
                   ]
                 }
@@ -82,7 +82,7 @@ PROTO LBRiiwaGripper [
                 translation 0.000000 -0.044500 -0.016000
                 children [
                   DEF camera_frame Mesh {
-                    url "./meshes/actuator/camera_actuator/collision/camera_frame.stl"
+                    url "https://raw.githubusercontent.com/Daniel-Robotic/webots_robots/refs/heads/main/protos/./meshes/actuator/camera_actuator/collision/camera_frame.stl"
                   }
                 ]
               }
@@ -92,6 +92,7 @@ PROTO LBRiiwaGripper [
           }
           SliderJoint {
             jointParameters JointParameters {
+              axis 1 0 0
             }
             device [
               LinearMotor {
@@ -112,7 +113,7 @@ PROTO LBRiiwaGripper [
                   rotation 0.000000 0.000000 1.000000 1.570000
                   children [
                     DEF finger_visual CadShape {
-                      url "./meshes/actuator/camera_actuator/visible/finger.dae"
+                      url "https://raw.githubusercontent.com/Daniel-Robotic/webots_robots/refs/heads/main/protos/./meshes/actuator/camera_actuator/visible/finger.dae"
                     }
                   ]
                 }
@@ -123,7 +124,7 @@ PROTO LBRiiwaGripper [
                 rotation 0.000000 0.000000 1.000000 1.570000
                 children [
                   DEF finger Mesh {
-                    url "./meshes/actuator/camera_actuator/collision/finger.stl"
+                    url "https://raw.githubusercontent.com/Daniel-Robotic/webots_robots/refs/heads/main/protos/./meshes/actuator/camera_actuator/collision/finger.stl"
                   }
                 ]
               }
@@ -133,6 +134,7 @@ PROTO LBRiiwaGripper [
           }
           SliderJoint {
             jointParameters JointParameters {
+              axis 1 0 0
             }
             device [
               LinearMotor {
@@ -174,7 +176,7 @@ PROTO LBRiiwaGripper [
           translation 0.002000 0.000000 0.019500
           children [
             DEF main Mesh {
-              url "./meshes/actuator/camera_actuator/collision/main.stl"
+              url "https://raw.githubusercontent.com/Daniel-Robotic/webots_robots/refs/heads/main/protos/./meshes/actuator/camera_actuator/collision/main.stl"
             }
           ]
         }
@@ -188,7 +190,7 @@ PROTO LBRiiwaGripper [
       rotation 0.000563 0.707388 -0.706825 3.140466
       children [
         DEF base_actuator Mesh {
-          url "./meshes/actuator/base_actuator.stl"
+          url "https://raw.githubusercontent.com/Daniel-Robotic/webots_robots/refs/heads/main/protos/./meshes/actuator/base_actuator.stl"
         }
       ]
     }

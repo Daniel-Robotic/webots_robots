@@ -1,4 +1,4 @@
-#VRML_SIM R2023b utf8
+#VRML_SIM R2024a utf8
 
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/backgrounds/protos/TexturedBackground.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
@@ -9,13 +9,15 @@ EXTERNPROTO "../protos/WorkspaceLimiter.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/apartment_structure/protos/Wall.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/apartment_structure/protos/Door.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/apartment_structure/protos/Window.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/Daniel-Robotic/webots_robots/refs/heads/main/protos/LBRiiwaGripper.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/Daniel-Robotic/webots_robots/refs/heads/main/protos/IntelRealsenseD455.proto"
 
 WorldInfo {
   title "kuka_world"
 }
 Viewpoint {
-  orientation -0.1839434448896043 0.08171748020926381 0.9795341048224885 2.3207011781002764
-  position 5.025001288862026 -5.481809249128222 4.051582674799622
+  orientation -0.38750751107874126 0.18865434907298656 0.9023566176592306 2.3137458530634265
+  position 2.6489285915933327 -2.9882272040924693 5.5927084739423005
 }
 TexturedBackground {
   texture "empty_office"
@@ -32,6 +34,16 @@ CollaborativeRobotTable {
 }
 LBRiiwa7R800 {
   translation -0.267 0 0.79
+  controller "iiwa_controller"
+  endEffectorSlot [
+    LBRiiwaGripper {
+      camera [
+        IntelRealsenseD455 {
+          controller "camera_controller"
+        }
+      ]
+    }
+  ]
 }
 WorkspaceLimiter {
   translation -1.34097 0.0511973 1
