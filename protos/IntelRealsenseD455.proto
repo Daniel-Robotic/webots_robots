@@ -1,0 +1,100 @@
+#VRML_SIM R2023b utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# keywords: sensor/range-finder, sensor/camera
+# Model of the Intel Realsense D455 RGBD camera.
+
+
+PROTO IntelRealsenseD455 [
+  field SFVec3f translation 0 0 0
+  field SFRotation rotation 0 0 1 0
+  field SFString name "IntelRealsenseD455"
+  field SFBool locked FALSE
+  field SFString controller "<generic>"
+  field MFString controllerArgs [ ]
+  field SFBool supervisor FALSE
+  field SFInt32 width 640  # Defines `width` RangeFinder and Camera
+  field SFInt32 height 480 # Defines `height` RangeFinder and Camera
+]
+{
+
+  %{ 
+    camera_name = fields.name.value 
+    width = fields.width.value
+    height = fields.height.value
+    
+   }%
+
+  Robot {
+    translation IS translation
+    rotation IS rotation
+    name IS name
+    locked IS locked
+    controller IS controller
+    controllerArgs IS controllerArgs
+    supervisor IS supervisor
+    
+    children [
+      RangeFinder {
+        translation 0.013 0 0
+        name %{= '"' .. camera_name .. '_depth"'}%
+        radarCrossSection 0.01
+        fieldOfView 1.66
+        width %{=width}%
+        height %{=height}%
+        near 0.2
+        minRange 0.4
+        maxRange 6
+        noise 0.01
+        resolution 0.001
+      }
+      
+      Camera {
+        translation 0.013 -0.02 0
+        name %{= '"' .. camera_name .. '_rgb"'}%
+        locked TRUE
+        fieldOfView 1.71
+        width %{=width}%
+        height %{=height}%
+        near 0.1
+        far 10
+        exposure 0.5
+        antiAliasing TRUE
+        noise 0.01
+        focus Focus {
+          focalLength 1.93
+          maxFocalDistance 6
+          minFocalDistance 0.2
+        }
+      }
+      
+      Solid {
+        translation 0.013 0 0
+        rotation 0.5773489358556708 0.5773509358554485 0.5773509358554485 2.0944
+        children [
+          CadShape {
+            url [
+              "./meshes/cameras/visual/IntelRealsenseD455.dae"
+            ]
+          }
+        ]
+        locked TRUE
+      }
+    ]
+    
+    boundingObject Pose {
+      children [
+        Box {
+          size 0.027 0.123 0.025
+        }
+      ]
+    }
+    
+    physics Physics {
+      density -1
+      mass 0.35
+      centerOfMass [0 0 0]
+    }
+    
+  }
+}

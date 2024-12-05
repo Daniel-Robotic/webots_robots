@@ -8,7 +8,7 @@
 
 ### The following type of sensors is presented:
 
-1. Intel Realsense D455 :gear:
+1. Intel Realsense D455 
 2. Intel Realsense L515 :gear:
 
 ### EndEffectors:
