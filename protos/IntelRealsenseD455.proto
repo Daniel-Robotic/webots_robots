@@ -1,8 +1,9 @@
 #VRML_SIM R2023b utf8
 # license: Apache License 2.0
 # license url: https://www.apache.org/licenses/LICENSE-2.0
-# keywords: sensor/range-finder, sensor/camera
 # Model of the Intel Realsense D455 RGBD camera.
+# keywords: sensor/range-finder, sensor/camera
+# template language: javascript
 
 
 PROTO IntelRealsenseD455 [
@@ -17,13 +18,12 @@ PROTO IntelRealsenseD455 [
   field SFInt32 height 480 # Defines `height` RangeFinder and Camera
 ]
 {
-
-  %{ 
-    camera_name = fields.name.value 
-    width = fields.width.value
-    height = fields.height.value
-    
-   }%
+ 
+   %<
+     let camera = fields.name.value;
+     let width = fields.width.value;
+     let height = fields.width.value;
+   >%
 
   Robot {
     translation IS translation
@@ -37,11 +37,11 @@ PROTO IntelRealsenseD455 [
     children [
       RangeFinder {
         translation 0.013 0 0
-        name %{= '"' .. camera_name .. '_depth"'}%
+        name %<='"' + camera + '_depth"'>%
         radarCrossSection 0.01
         fieldOfView 1.66
-        width %{=width}%
-        height %{=height}%
+        width %<= width>%
+        height %<= height>%
         near 0.2
         minRange 0.4
         maxRange 6
@@ -51,11 +51,11 @@ PROTO IntelRealsenseD455 [
       
       Camera {
         translation 0.013 -0.02 0
-        name %{= '"' .. camera_name .. '_rgb"'}%
+        name %<='"' + camera + '_rgb"'>%
         locked TRUE
         fieldOfView 1.71
-        width %{=width}%
-        height %{=height}%
+        width %<= width>%
+        height %<= height>%
         near 0.1
         far 10
         exposure 0.5

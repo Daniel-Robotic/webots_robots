@@ -4,12 +4,13 @@ EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/project
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/floors/protos/RectangleArena.proto"
 EXTERNPROTO "../protos/LBRiiwa7R800.proto"
+EXTERNPROTO "../protos/IntelRealsenseD455.proto"
 
 WorldInfo {
 }
 Viewpoint {
-  orientation -0.2625351313529969 0.1496823092522864 0.9532421051875373 2.1459400903664587
-  position 1.50305774713284 -2.3213648549818244 1.8004704414844805
+  orientation -0.26145864873603336 0.17437115010460166 0.9493334909357859 2.0127492805514566
+  position 0.6207633267582254 -1.4064658122440845 1.3125482934537567
 }
 TexturedBackground {
 }
@@ -19,4 +20,8 @@ RectangleArena {
   floorSize 2 2
 }
 LBRiiwa7R800 {
+}
+IntelRealsenseD455 {
+  translation -0.7 0 0.11
+  controller "camera_controller"
 }

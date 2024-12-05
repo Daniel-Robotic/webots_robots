@@ -10,10 +10,10 @@ robot = Robot()
 # get the time step of the current world.
 timestep = int(robot.getBasicTimeStep())
 
-rgb_camera: Camera = robot.getDevice("rgb")
+rgb_camera: Camera = robot.getDevice("IntelRealsenseD455_rgb")
 rgb_camera.enable(timestep)
 
-depth_camera: RangeFinder = robot.getDevice("depth")
+depth_camera: RangeFinder = robot.getDevice("IntelRealsenseD455_depth")
 depth_camera.enable(timestep)
 
 
