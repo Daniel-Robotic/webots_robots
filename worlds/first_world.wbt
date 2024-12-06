@@ -1,23 +1,24 @@
-#VRML_SIM R2024a utf8
+#VRML_SIM R2023b utf8
 
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/backgrounds/protos/TexturedBackground.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/apartment_structure/protos/Wall.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/apartment_structure/protos/Door.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/apartment_structure/protos/Window.proto"
 EXTERNPROTO "../protos/ManufactoringFloor.proto"
 EXTERNPROTO "../protos/LBRiiwa7R800.proto"
 EXTERNPROTO "../protos/CollaborativeRobotTable.proto"
 EXTERNPROTO "../protos/WorkspaceLimiter.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/apartment_structure/protos/Wall.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/apartment_structure/protos/Door.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/apartment_structure/protos/Window.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/Daniel-Robotic/webots_robots/refs/heads/main/protos/LBRiiwaGripper.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/Daniel-Robotic/webots_robots/refs/heads/main/protos/IntelRealsenseD455.proto"
+EXTERNPROTO "../protos/LBRiiwaGripper.proto"
+EXTERNPROTO "../protos/IntelRealsenseD455.proto"
+EXTERNPROTO "../protos/FloorTexture.proto"
 
 WorldInfo {
   title "kuka_world"
 }
 Viewpoint {
-  orientation -0.38750751107874126 0.18865434907298656 0.9023566176592306 2.3137458530634265
-  position 2.6489285915933327 -2.9882272040924693 5.5927084739423005
+  orientation 0.3826513659818573 -0.49372919838874346 -0.7809029458073695 4.719947384857576
+  position 0.7027515680550804 -2.181884281483248 4.041770005649078
 }
 TexturedBackground {
   texture "empty_office"
@@ -27,6 +28,8 @@ TexturedBackgroundLight {
 }
 ManufactoringFloor {
   size 13.75 8
+  appearance FloorTexture {
+  }
 }
 CollaborativeRobotTable {
   locked TRUE
