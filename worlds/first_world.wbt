@@ -5,13 +5,15 @@ EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/project
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/apartment_structure/protos/Wall.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/apartment_structure/protos/Door.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/apartment_structure/protos/Window.proto"
-EXTERNPROTO "../protos/ManufactoringFloor.proto"
-EXTERNPROTO "../protos/LBRiiwa7R800.proto"
-EXTERNPROTO "../protos/CollaborativeRobotTable.proto"
-EXTERNPROTO "../protos/WorkspaceLimiter.proto"
-EXTERNPROTO "../protos/LBRiiwaGripper.proto"
-EXTERNPROTO "../protos/IntelRealsenseD455.proto"
-EXTERNPROTO "../protos/FloorTexture.proto"
+
+EXTERNPROTO "https://raw.githubusercontent.com/Daniel-Robotic/webots_robots/main/protos/FloorTexture.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/Daniel-Robotic/webots_robots/main/protos/ManufactoringFloor.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/Daniel-Robotic/webots_robots/main/protos/CollaborativeRobotTable.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/Daniel-Robotic/webots_robots/main/protos/WorkspaceLimiter.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/Daniel-Robotic/webots_robots/main/protos/IntelRealsenseD455.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/Daniel-Robotic/webots_robots/main/protos/CalibrationTemplate.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/Daniel-Robotic/webots_robots/main/protos/LBRiiwaGripper.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/Daniel-Robotic/webots_robots/main/protos/LBRiiwa7R800.proto"
 
 WorldInfo {
   title "kuka_world"

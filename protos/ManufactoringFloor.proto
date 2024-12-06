@@ -6,7 +6,7 @@
 # A manufactoring floor
 # template language: javascript
 
-EXTERNPROTO "https://raw.githubusercontent.com/Daniel-Robotic/webots_robots/refs/heads/main/protos/FloorTexture.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/Daniel-Robotic/webots_robots/main/protos/FloorTexture.proto"
 
 PROTO ManufactoringFloor [
   field SFVec3f translation 0 0 0
