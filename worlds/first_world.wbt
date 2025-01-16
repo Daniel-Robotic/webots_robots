@@ -5,22 +5,18 @@ EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/project
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/apartment_structure/protos/Wall.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/apartment_structure/protos/Door.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/apartment_structure/protos/Window.proto"
-
 EXTERNPROTO "https://raw.githubusercontent.com/Daniel-Robotic/webots_robots/main/protos/FloorTexture.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/Daniel-Robotic/webots_robots/main/protos/ManufactoringFloor.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/Daniel-Robotic/webots_robots/main/protos/CollaborativeRobotTable.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/Daniel-Robotic/webots_robots/main/protos/WorkspaceLimiter.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/Daniel-Robotic/webots_robots/main/protos/IntelRealsenseD455.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/Daniel-Robotic/webots_robots/main/protos/CalibrationTemplate.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/Daniel-Robotic/webots_robots/main/protos/LBRiiwaGripper.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/Daniel-Robotic/webots_robots/main/protos/LBRiiwa7R800.proto"
 
 WorldInfo {
   title "kuka_world"
 }
 Viewpoint {
-  orientation 0.3826513659818573 -0.49372919838874346 -0.7809029458073695 4.719947384857576
-  position 0.7027515680550804 -2.181884281483248 4.041770005649078
+  orientation -0.4662556224972261 0.19706342903097657 0.8624219961412612 2.4425192314187196
+  position 2.9914290278675018 -2.8187287540601624 8.229691204935857
 }
 TexturedBackground {
   texture "empty_office"
@@ -39,16 +35,7 @@ CollaborativeRobotTable {
 }
 LBRiiwa7R800 {
   translation -0.267 0 0.79
-  controller "iiwa_controller"
-  endEffectorSlot [
-    LBRiiwaGripper {
-      camera [
-        IntelRealsenseD455 {
-          controller "camera_controller"
-        }
-      ]
-    }
-  ]
+  controller "energy_controller"
 }
 WorkspaceLimiter {
   translation -1.34097 0.0511973 1
