@@ -1,4 +1,4 @@
 .vscode
 
-/worlds/.empty.jpg
-/worlds/.empty.wbproj
+**/*.wbproj
+**/*.jpg

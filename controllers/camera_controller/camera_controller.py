@@ -24,4 +24,5 @@ while robot.step(timestep) != -1:
 
 # Enter here exit cleanup code.
 
-camera.disable()
+rgb_camera.disable()
+depth_camera.disable()
