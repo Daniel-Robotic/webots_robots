@@ -14,7 +14,7 @@
 ### EndEffectors:
 
 1. Two-finger grip with a special frame for mounting the camera [IntelRealsense](https://www.intelrealsense.com/) :computer:
-2. Calibration template :gear:
+2. Calibration template
 
 ### Facilities:
 

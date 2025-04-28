@@ -16,6 +16,7 @@ PROTO IntelRealsenseD455 [
   field SFBool supervisor FALSE
   field SFInt32 width 640  # Defines `width` RangeFinder and Camera
   field SFInt32 height 480 # Defines `height` RangeFinder and Camera
+  field SFNode recognition Recognition{}
 ]
 {
  
@@ -66,6 +67,7 @@ PROTO IntelRealsenseD455 [
           maxFocalDistance 6
           minFocalDistance 0.2
         }
+        recognition IS recognition
       }
       
       Solid {

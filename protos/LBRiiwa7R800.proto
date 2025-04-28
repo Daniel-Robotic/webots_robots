@@ -247,14 +247,10 @@ PROTO LBRiiwa7R800 [
                                                         DEF link_7_visual CadShape {
                                                           url "./meshes/LBRiiwa7R800/visual/link_7.dae"
                                                         }
-
-                                                        %<if (fields.endEffectorSlot.value.length > 0) {>%
-                                                            Transform {
-                                                              translation 0 0 1.262
-                                                              children IS endEffectorSlot
-                                                            }
-
-                                                        %<}>%
+                                                          Transform {
+                                                            translation 0 0 1.262
+                                                            children IS endEffectorSlot
+                                                          }
 
                                                       ]
                                                     }

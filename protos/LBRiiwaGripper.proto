@@ -14,7 +14,7 @@ PROTO LBRiiwaGripper [
   field  SFRotation  rotation        -0.5773509358554485 0.5773489358556708 0.5773509358554485 -2.094395307179586
   field  SFString    name            "LBRiiwaGripper"  # Is `Robot.name`.
   field  SFBool      locked          FALSE
-  field MFNode       camera          IntelRealsenseD455{}
+  field  SFNode      camera          IntelRealsenseD455{}
 ]
 
 {
