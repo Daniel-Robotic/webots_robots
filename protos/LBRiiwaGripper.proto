@@ -6,7 +6,7 @@
 # template language: javascript
 
 
-EXTERNPROTO "https://raw.githubusercontent.com/Daniel-Robotic/webots_robots/main/protos/IntelRealsenseD455.proto"
+EXTERNPROTO "./IntelRealsenseD455.proto"
 
 
 PROTO LBRiiwaGripper [
@@ -14,7 +14,7 @@ PROTO LBRiiwaGripper [
   field  SFRotation  rotation        -0.5773509358554485 0.5773489358556708 0.5773509358554485 -2.094395307179586
   field  SFString    name            "LBRiiwaGripper"  # Is `Robot.name`.
   field  SFBool      locked          FALSE
-  field  SFNode      camera          IntelRealsenseD455{}
+  field  MFNode      camera          IntelRealsenseD455{}
 ]
 
 {
@@ -29,7 +29,7 @@ PROTO LBRiiwaGripper [
         rotation 0.000563 0.707388 -0.706825 3.140466
         children [
           DEF base_actuator_visual CadShape {
-            url "https://raw.githubusercontent.com/Daniel-Robotic/webots_robots/refs/heads/main/protos/meshes/actuator/base_actuator.dae"
+            url "./meshes/actuator/base_actuator.dae"
           }
         ]
       }
@@ -40,7 +40,7 @@ PROTO LBRiiwaGripper [
             translation 0.002000 0.000000 0.019500
             children [
               DEF main_visual CadShape {
-                url "https://raw.githubusercontent.com/Daniel-Robotic/webots_robots/refs/heads/main/protos/meshes/actuator/camera_actuator/visible/main.dae"
+                url "./meshes/actuator/camera_actuator/visible/main.dae"
               }
             ]
           }
@@ -66,7 +66,7 @@ PROTO LBRiiwaGripper [
                   translation 0.000000 -0.044500 -0.016000
                   children [
                     DEF camera_frame_visual CadShape {
-                      url "https://raw.githubusercontent.com/Daniel-Robotic/webots_robots/refs/heads/main/protos/meshes/actuator/camera_actuator/visible/camera_frame.dae"
+                      url "./meshes/actuator/camera_actuator/visible/camera_frame.dae"
                     }
                   ]
                 }
@@ -81,7 +81,7 @@ PROTO LBRiiwaGripper [
                 translation 0.000000 -0.044500 -0.016000
                 children [
                   DEF camera_frame Mesh {
-                    url "https://raw.githubusercontent.com/Daniel-Robotic/webots_robots/refs/heads/main/protos/meshes/actuator/camera_actuator/collision/camera_frame.stl"
+                    url "./meshes/actuator/camera_actuator/collision/camera_frame.stl"
                   }
                 ]
               }
@@ -112,7 +112,7 @@ PROTO LBRiiwaGripper [
                   rotation 0.000000 0.000000 1.000000 1.570000
                   children [
                     DEF finger_visual CadShape {
-                      url "https://raw.githubusercontent.com/Daniel-Robotic/webots_robots/refs/heads/main/protos/meshes/actuator/camera_actuator/visible/finger.dae"
+                      url "./meshes/actuator/camera_actuator/visible/finger.dae"
                     }
                   ]
                 }
@@ -123,7 +123,7 @@ PROTO LBRiiwaGripper [
                 rotation 0.000000 0.000000 1.000000 1.570000
                 children [
                   DEF finger Mesh {
-                    url "https://raw.githubusercontent.com/Daniel-Robotic/webots_robots/refs/heads/main/protos/meshes/actuator/camera_actuator/collision/finger.stl"
+                    url "./meshes/actuator/camera_actuator/collision/finger.stl"
                   }
                 ]
               }
@@ -175,7 +175,7 @@ PROTO LBRiiwaGripper [
           translation 0.002000 0.000000 0.019500
           children [
             DEF main Mesh {
-              url "https://raw.githubusercontent.com/Daniel-Robotic/webots_robots/refs/heads/main/protos/meshes/actuator/camera_actuator/collision/main.stl"
+              url "./meshes/actuator/camera_actuator/collision/main.stl"
             }
           ]
         }
@@ -189,7 +189,7 @@ PROTO LBRiiwaGripper [
       rotation 0.000563 0.707388 -0.706825 3.140466
       children [
         DEF base_actuator Mesh {
-          url "https://raw.githubusercontent.com/Daniel-Robotic/webots_robots/refs/heads/main/protos/meshes/actuator/base_actuator.stl"
+          url "./meshes/actuator/base_actuator.stl"
         }
       ]
     }

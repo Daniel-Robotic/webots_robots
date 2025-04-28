@@ -6,8 +6,10 @@
 # An KUKA iiwa 7 R800 robotic arm.
 # template language: javascript
 
-EXTERNPROTO "https://raw.githubusercontent.com/Daniel-Robotic/webots_robots/main/protos/CalibrationTemplate.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/Daniel-Robotic/webots_robots/main/protos/LBRiiwaGripper.proto"
+EXTERNPROTO "./CalibrationTemplate.proto"
+EXTERNPROTO "./LBRiiwaGripper.proto"
+EXTERNPROTO "./IntelRealsenseD455.proto"
+
 
 PROTO LBRiiwa7R800 [
   

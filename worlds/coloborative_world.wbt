@@ -1,0 +1,22 @@
+#VRML_SIM R2023b utf8
+
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "../protos/IntelRealsenseD455.proto"
+EXTERNPROTO "../protos/CalibrationTemplate.proto"
+EXTERNPROTO "../protos/LBRiiwaGripper.proto"
+EXTERNPROTO "../protos/LBRiiwa7R800.proto"
+
+WorldInfo {
+}
+
+Viewpoint {
+  orientation -0.28666556214989053 0.21391609216826507 0.9338430066069701 1.9243697735988743
+  position 1.4171617328672164 -3.650603860311805 3.2109985220266166
+}
+
+TexturedBackground {
+}
+
+TexturedBackgroundLight {
+}
