@@ -1,22 +1,72 @@
-#VRML_SIM R2023b utf8
+#VRML_SIM R2025a utf8
 
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/backgrounds/protos/TexturedBackground.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
-EXTERNPROTO "../protos/IntelRealsenseD455.proto"
-EXTERNPROTO "../protos/CalibrationTemplate.proto"
-EXTERNPROTO "../protos/LBRiiwaGripper.proto"
+EXTERNPROTO "../protos/ManufactoringFloor.proto"
+EXTERNPROTO "../protos/CollaborativeRobotTable.proto"
 EXTERNPROTO "../protos/LBRiiwa7R800.proto"
+EXTERNPROTO "../protos/WorkspaceLimiter.proto"
+EXTERNPROTO "../protos/IntelRealsenseD455.proto"
+EXTERNPROTO "../protos/LBRiiwaGripper.proto"
 
 WorldInfo {
 }
-
 Viewpoint {
-  orientation -0.28666556214989053 0.21391609216826507 0.9338430066069701 1.9243697735988743
-  position 1.4171617328672164 -3.650603860311805 3.2109985220266166
+  orientation 0.2614727370790546 -0.2418158038699236 -0.9344287692291642 4.566931038589555
+  position 1.1445132547955907 -6.411912422948551 6.045577761558418
 }
-
 TexturedBackground {
 }
-
 TexturedBackgroundLight {
+}
+ManufactoringFloor {
+  tileSize 3 3
+}
+Group {
+  children [
+    WorkspaceLimiter {
+      translation -0.19 1.44 1.22
+      name "WorkspaceLimiterRight"
+      locked TRUE
+      countLimiter 2 2
+      scale 1 1.2 1.2
+      spacing 0.01
+    }
+    WorkspaceLimiter {
+      translation -1.48 -0.260005 1.21
+      rotation 0 0 1 1.5708
+      name "WorkspaceLimiterFront"
+      locked TRUE
+      countLimiter 2 2
+      scale 1.4 1.2 1.2
+      spacing 0.01
+    }
+  ]
+}
+IntelRealsenseD455 {
+  translation 0.130006 0.05 2.52
+  rotation 0 1 0 1.5708
+  name "IntelRealsenseD455Ceiling"
+  controller "camera_controller"
+  fieldOfView 1.25
+  physics NULL
+}
+LBRiiwa7R800 {
+  translation -0.267 0 0.79
+  endEffectorSlot [
+    LBRiiwaGripper {
+      camera [
+        IntelRealsenseD455 {
+          name "CameraOnGripper"
+          controller "camera_controller"
+        }
+      ]
+    }
+  ]
+}
+CollaborativeRobotTable {
+  translation 2.1493484796702862e-05 6.700625955223224e-06 -0.01139200000000026
+  rotation 2.9938605177191585e-07 -6.277532245781529e-07 -0.9999999999997581 3.234232733054395e-08
+  locked TRUE
+  showCabinet TRUE
 }

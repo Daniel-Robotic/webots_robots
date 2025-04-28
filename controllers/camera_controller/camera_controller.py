@@ -2,27 +2,42 @@
 
 # You may need to import some classes of the controller module. Ex:
 #  from controller import Robot, Motor, DistanceSensor
+from typing import List
+from utils import find_devices
 from controller import Robot, Camera, RangeFinder
 
-# create the Robot instance.
+# Создание робота.
 robot = Robot()
 
-# get the time step of the current world.
+# Получение шага симуляции
 timestep = int(robot.getBasicTimeStep())
 
-rgb_camera: Camera = robot.getDevice("IntelRealsenseD455_rgb")
-rgb_camera.enable(timestep)
+# Список всех устройств камеры
+cameras: List[Camera] = find_devices(robot=robot,
+                                     device_type=Camera)
+range_finders: List[RangeFinder] = find_devices(robot=robot,
+                                                device_type=RangeFinder)
 
-depth_camera: RangeFinder = robot.getDevice("IntelRealsenseD455_depth")
-depth_camera.enable(timestep)
+# Включение всех устройств
+for camera in cameras:
+    camera.enable(timestep)
+    camera.recognitionEnable(timestep)
 
+for range_finder in range_finders:
+    range_finder.enable(timestep)
+
+print(f"Найдено камер для робота {robot.getName()}: {len(cameras)}")
+print(f"Найдено дальномеров для робота {robot.getName()}: {len(range_finders)}")
 
 # Main loop:
 # - perform simulation steps until Webots is stopping the controller
 while robot.step(timestep) != -1:
     pass
 
-# Enter here exit cleanup code.
+# Отключение всех устройств
+for camera in cameras:
+    camera.recognitionDisable()
+    camera.disable()
 
-rgb_camera.disable()
-depth_camera.disable()
+for range_finder in range_finders:
+    range_finder.disable()

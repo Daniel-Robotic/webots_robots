@@ -1,10 +1,9 @@
 #VRML_SIM R2023b utf8
 # license: Apache License 2.0
-# license url: https://www.apache.org/licenses/LICENSE-2.0
+# license url: http://www.apache.org/licenses/LICENSE-2.0
 # Model of the Intel Realsense D455 RGBD camera.
 # keywords: sensor/range-finder, sensor/camera
 # template language: javascript
-
 
 PROTO IntelRealsenseD455 [
   field SFVec3f translation 0 0 0
@@ -14,16 +13,26 @@ PROTO IntelRealsenseD455 [
   field SFString controller "<generic>"
   field MFString controllerArgs [ ]
   field SFBool supervisor FALSE
-  field SFInt32 width 640  # Defines `width` RangeFinder and Camera
-  field SFInt32 height 480 # Defines `height` RangeFinder and Camera
+  field SFString{"HD", "VGA"} resolution "VGA" # "HD" for 1280x720 or "VGA" for 640x480
+  field SFFloat fieldOfView 0.68
   field SFNode recognition Recognition{}
+  field SFNode physics Physics {
+      density -1
+      mass 0.35
+      centerOfMass [0 0 0]
+    }
 ]
 {
- 
    %<
-     let camera = fields.name.value;
-     let width = fields.width.value;
-     let height = fields.width.value;
+     const cameraName = fields.name.value;
+     const resMode = fields.resolution.value.toUpperCase();
+     let width = 1280;
+     let height = 720;
+     
+     if (resMode === "VGA") {
+       width = 640;
+       height = 480;
+     }
    >%
 
   Robot {
@@ -38,26 +47,26 @@ PROTO IntelRealsenseD455 [
     children [
       RangeFinder {
         translation 0.013 0 0
-        name %<='"' + camera + '_depth"'>%
+        name %<='"' + cameraName + '_depth"'>%
         radarCrossSection 0.01
-        fieldOfView 1.66
-        width %<= width>%
-        height %<= height>%
-        near 0.2
+        fieldOfView 1.658  # ~95 degrees
+        width %<= width >%
+        height %<= height >%
+        near 0.4
         minRange 0.4
-        maxRange 6
+        maxRange 6.0
         noise 0.01
         resolution 0.001
       }
       
       Camera {
         translation 0.013 -0.02 0
-        name %<='"' + camera + '_rgb"'>%
+        name %<='"' + cameraName + '_rgb"'>%
         locked TRUE
-        fieldOfView 1.71
-        width %<= width>%
-        height %<= height>%
-        near 0.1
+        fieldOfView IS fieldOfView
+        width %<= width >%
+        height %<= height >%
+        near 0.3
         far 10
         exposure 0.5
         antiAliasing TRUE
@@ -65,7 +74,7 @@ PROTO IntelRealsenseD455 [
         focus Focus {
           focalLength 1.93
           maxFocalDistance 6
-          minFocalDistance 0.2
+          minFocalDistance 0.4
         }
         recognition IS recognition
       }
@@ -92,11 +101,6 @@ PROTO IntelRealsenseD455 [
       ]
     }
     
-    physics Physics {
-      density -1
-      mass 0.35
-      centerOfMass [0 0 0]
-    }
-    
+    physics IS physics
   }
 }
