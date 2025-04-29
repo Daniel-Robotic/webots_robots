@@ -8,13 +8,13 @@ EXTERNPROTO "../protos/LBRiiwa7R800.proto"
 EXTERNPROTO "../protos/WorkspaceLimiter.proto"
 EXTERNPROTO "../protos/IntelRealsenseD455.proto"
 EXTERNPROTO "../protos/LBRiiwaGripper.proto"
+EXTERNPROTO "../protos/TargetWithGripper.proto"
 
 WorldInfo {
-  basicTimeStep 64
 }
 Viewpoint {
-  orientation -0.31216960885224493 0.09882167790645179 0.9448726958086946 2.56030747275362
-  position 6.904803037952616 -4.322113082963809 7.117656258529677
+  orientation -0.2774299663666324 0.1702470811873081 0.9455414031701687 2.0900777383305957
+  position 2.141067231094566 -4.652447196684133 4.617466129682002
 }
 TexturedBackground {
 }
@@ -26,6 +26,12 @@ ManufactoringFloor {
 }
 Robot {
   children [
+    Emitter {
+      name "supervisor_emitter"
+      channel 2
+      byteSize 5000000
+      bufferSize 5000000
+    }
     Receiver {
       name "supervisor_receiver"
       channel 1
@@ -140,7 +146,7 @@ IntelRealsenseD455 {
   }
   physics NULL
 }
-LBRiiwa7R800 {
+DEF KUKA LBRiiwa7R800 {
   translation -0.267 0 0.79
   controller "iiwa_controller"
   controllerArgs [
@@ -255,7 +261,7 @@ Solid {
   }
   physics Physics {
     density -1
-    mass 2
+    mass 0.1
     centerOfMass [
       0 0 0
     ]
@@ -267,4 +273,9 @@ Solid {
   recognitionColors [
     1 0.666667 0
   ]
+}
+DEF TARGET TargetWithGripper {
+  translation 0.389904 -0.3 1.03024
+  rotation 0 1 0 3.14
+  gripper_open FALSE
 }

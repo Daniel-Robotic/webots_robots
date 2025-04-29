@@ -22,6 +22,35 @@
 2. Table for a collaborative robot
 3. Workspace Limiter
 
+### Configuration Webots
+Git cloning:
+```bash
+https://github.com/Daniel-Robotic/webots_robots.git
+```
+
+VS code create folder `.vscode` and file `settings.json`
+```json
+{
+	"python.analysis.extraPaths": [
+        "<webots_path>"
+    ],
+
+    "python.autoComplete.extraPaths": [
+		"<webots_path>"
+	],
+}
+```
+
+
+Install libs
+```bash
+python3 -m venv venv
+pip3 install -r requirements.py
+```
+
+Activation venv core
+`Tools -> Preferences -> Python Commands`: `/home/user/webots_robots/venv/bin/python`
+
 ---
 All models are also located on the website [Webots Cloud](https://webots.cloud/proto)
 
