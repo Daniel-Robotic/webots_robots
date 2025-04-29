@@ -2,12 +2,19 @@
 
 # You may need to import some classes of the controller module. Ex:
 #  from controller import Robot, Motor, DistanceSensor
+import sys
 from typing import List
 from utils import find_devices
 from controller import Robot, Camera, RangeFinder
 
 # Создание робота.
 robot = Robot()
+
+verbose = False
+
+for arg in sys.argv[1:]:
+    if arg == "--verbose" or arg == "verbose=True" or arg == "verbose=1":
+        verbose = True
 
 # Получение шага симуляции
 timestep = int(robot.getBasicTimeStep())
@@ -26,8 +33,9 @@ for camera in cameras:
 for range_finder in range_finders:
     range_finder.enable(timestep)
 
-print(f"Найдено камер для робота {robot.getName()}: {len(cameras)}")
-print(f"Найдено дальномеров для робота {robot.getName()}: {len(range_finders)}")
+if verbose:
+    print(f"Найдено камер для робота {robot.getName()}: {len(cameras)}")
+    print(f"Найдено дальномеров для робота {robot.getName()}: {len(range_finders)}")
 
 # Main loop:
 # - perform simulation steps until Webots is stopping the controller

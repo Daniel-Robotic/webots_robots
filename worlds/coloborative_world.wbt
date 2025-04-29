@@ -12,8 +12,8 @@ EXTERNPROTO "../protos/LBRiiwaGripper.proto"
 WorldInfo {
 }
 Viewpoint {
-  orientation -0.26643008693553444 0.17637805642352128 0.9475789096364401 2.021086706148063
-  position 6.369707499864218 -12.210519786037146 9.207849539061195
+  orientation -0.20149575853358287 0.10788552608595796 0.9735297491880422 2.180586372800792
+  position 5.749643911945148 -7.804588839224416 5.322869928706178
 }
 TexturedBackground {
 }
@@ -22,6 +22,12 @@ TexturedBackgroundLight {
 ManufactoringFloor {
   size 14 11
   tileSize 3 3
+}
+Robot {
+  name "supervisor"
+  locked TRUE
+  controller "supervisor_controller"
+  supervisor TRUE
 }
 Group {
   children [
@@ -127,6 +133,10 @@ IntelRealsenseD455 {
 }
 LBRiiwa7R800 {
   translation -0.267 0 0.79
+  controller "iiwa_controller"
+  controllerArgs [
+    ""
+  ]
   endEffectorSlot [
     LBRiiwaGripper {
       camera [
@@ -149,4 +159,100 @@ CollaborativeRobotTable {
   rotation 2.9938605177191585e-07 -6.277532245781529e-07 -0.9999999999997581 3.234232733054395e-08
   locked TRUE
   showCabinet TRUE
+}
+Solid {
+  translation 0.38 -0.3 0.81
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.521569 0.713726 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.05 0.05 0.05
+      }
+    }
+  ]
+  name "movedObject1"
+  boundingObject Box {
+    size 0.05 0.05 0.05
+  }
+  physics Physics {
+    density -1
+    mass 2
+    centerOfMass [
+      0 0 0
+    ]
+    inertiaMatrix [
+      1 1 1
+      0 0 0
+    ]
+  }
+  recognitionColors [
+    1 0.666667 0
+  ]
+}
+Solid {
+  translation 0.38 -0.3 0.86
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 1 0.239216 0.960784
+        metalness 0
+      }
+      geometry Box {
+        size 0.05 0.05 0.05
+      }
+    }
+  ]
+  name "movedObject2"
+  boundingObject Box {
+    size 0.05 0.05 0.05
+  }
+  physics Physics {
+    density -1
+    mass 2
+    centerOfMass [
+      0 0 0
+    ]
+    inertiaMatrix [
+      1 1 1
+      0 0 0
+    ]
+  }
+  recognitionColors [
+    1 0.666667 0
+  ]
+}
+Solid {
+  translation 0.38 -0.3 0.91
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 1 0.658824 0.415686
+        metalness 0
+      }
+      geometry Box {
+        size 0.05 0.05 0.05
+      }
+    }
+  ]
+  name "movedObject3"
+  boundingObject Box {
+    size 0.05 0.05 0.05
+  }
+  physics Physics {
+    density -1
+    mass 2
+    centerOfMass [
+      0 0 0
+    ]
+    inertiaMatrix [
+      1 1 1
+      0 0 0
+    ]
+  }
+  recognitionColors [
+    1 0.666667 0
+  ]
 }

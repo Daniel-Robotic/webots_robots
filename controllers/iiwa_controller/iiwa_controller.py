@@ -1,69 +1,77 @@
-import math
-from typing import List
-from controller import (Robot, Motor, 
-                        PositionSensor, Supervisor)
-
-
-def rad2deg(rad: float):
-    return rad * (180 / math.pi)
-
-
-def deg2rad(deg: float):
-    return deg * (math.pi / 180)
+import sys
+from typing import Dict
+from controller import Robot, Motor, PositionSensor
+from utils import (deg2rad, 
+                   rad2deg, 
+                   is_gripper_motor,
+                   set_joint_positions,
+                   control_gripper)
 
 
 
 # create the Robot instance.
 robot = Robot()
+verbose = False
 
+for arg in sys.argv[1:]:
+    if arg == "--verbose" or arg == "verbose=True" or arg == "verbose=1":
+        verbose = True
 
-def gripper(mode: float):
-    gripR: Motor = robot.getDevice("joint_main_fingerR")
-    gripL: Motor = robot.getDevice("joint_main_fingerL")
-
-    gripR.setVelocity(0.5)
-    gripL.setVelocity(0.5)
-
-    gripR.setPosition(0)
-    gripL.setPosition(0)
-
-    if mode:
-        gripR.setPosition(-0.01)
-        gripL.setPosition(0.01)
-
-
-# get the time step of the current world.
 timestep = int(robot.getBasicTimeStep())
 
-link_name = ["lbr_A1", "lbr_A2", "lbr_A3",
-            "lbr_A4", "lbr_A5", "lbr_A6",
-            "lbr_A7"]
+arm_motors: Dict[str, Motor] = {}
+arm_sensors: Dict[str, PositionSensor] = {}
 
+gripper_motors: Dict[str, Motor] = {}
+gripper_sensors: Dict[str, PositionSensor] = {}
 
-joints: List[Motor] = [robot.getDevice(i) for i in link_name]
-camera_frame: Motor = robot.getDevice("joint_main_camera_frame")
+for i in range(robot.getNumberOfDevices()):
+    device = robot.getDeviceByIndex(i)
+    if isinstance(device, Motor):
+        name = device.getName()
 
+        if is_gripper_motor(name):
+            gripper_motors[name] = device
+            # Пробуем найти связанный сенсор
+            sensor_name = name + "_sensor"
+            try:
+                sensor = robot.getDevice(sensor_name)
+                if isinstance(sensor, PositionSensor):
+                    gripper_sensors[name] = sensor
+                    sensor.enable(timestep)
+            except Exception:
+                print(f"[WARN] No sensor found for gripper motor '{name}'")
+        else:
+            arm_motors[name] = device
+            sensor_name = name + "_sensor"
+            try:
+                sensor = robot.getDevice(sensor_name)
+                if isinstance(sensor, PositionSensor):
+                    arm_sensors[name] = sensor
+                    sensor.enable(timestep)
+            except Exception:
+                print(f"[WARN] No sensor found for arm motor '{name}'")
 
-joints_sensor: List[PositionSensor] = [robot.getDevice(f"{i}_sensor") for i in link_name]
-
-for sensor in joints_sensor:
-    sensor.enable(10)
-
-gripper(1)
-
-joints[3].setVelocity(0.7)
-joints[3].setPosition(deg2rad(-90))
-
-joints[5].setVelocity(0.7)
-joints[5].setPosition(deg2rad(90))
-
-camera_frame.setVelocity(0.5)
-camera_frame.setPosition(deg2rad(89))
-
-gripper(1)
+num_joints = len(arm_motors)
 
 while robot.step(timestep) != -1:
+    # TODO: Поменяется после получения данных с эмитера
+    target_positions = [0.0 for _ in range(num_joints)]
+    set_joint_positions(motors=arm_motors,
+                        positions=target_positions)
     
-    pass
+    control_gripper(gripper_motors=gripper_motors,
+                    open=False)
+    
+    if verbose:
+        # Чтение текущих углов суставов
+        for name, sensor in arm_sensors.items():
+            position = sensor.getValue()
+            print(f"Joint {name}: {rad2deg(position):.2f} deg")
+        
+        # Чтение текущих позиций пальцев захвата
+        for name, sensor in gripper_sensors.items():
+            position = sensor.getValue()
+            print(f"Gripper {name}: {position:.3f} rad")
 
-# Enter here exit cleanup code.
+    break
