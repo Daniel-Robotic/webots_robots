@@ -12,18 +12,87 @@ EXTERNPROTO "../protos/LBRiiwaGripper.proto"
 WorldInfo {
 }
 Viewpoint {
-  orientation 0.2614727370790546 -0.2418158038699236 -0.9344287692291642 4.566931038589555
-  position 1.1445132547955907 -6.411912422948551 6.045577761558418
+  orientation -0.26643008693553444 0.17637805642352128 0.9475789096364401 2.021086706148063
+  position 6.369707499864218 -12.210519786037146 9.207849539061195
 }
 TexturedBackground {
 }
 TexturedBackgroundLight {
 }
 ManufactoringFloor {
+  size 14 11
   tileSize 3 3
 }
 Group {
   children [
+    Solid {
+      translation 2.8 -2.7 1
+      rotation 0 0 1 2.35619
+      children [
+        IntelRealsenseD455 {
+          translation 0.055 0 0.2
+          locked TRUE
+          controller "camera_controller"
+          fieldOfView 0.6
+          physics NULL
+        }
+        Shape {
+          appearance PBRAppearance {
+            metalness 0
+          }
+          geometry Box {
+            size 0.1 0.1 2
+          }
+        }
+      ]
+      name "LidarFrame"
+    }
+    Solid {
+      translation 0 -4.1 1.7
+      children [
+        IntelRealsenseD455 {
+          translation 0 0.055 0
+          rotation 0 0 -1 -1.5708053071795867
+          name "LeftCamera"
+          locked TRUE
+          controller "camera_controller"
+          physics NULL
+        }
+        Shape {
+          appearance PBRAppearance {
+            metalness 0
+          }
+          geometry Box {
+            size 1.4 0.1 1.1
+          }
+        }
+      ]
+      name "LeftCameraFrame"
+      locked TRUE
+    }
+    Solid {
+      translation 3.76 0 1.5
+      children [
+        IntelRealsenseD455 {
+          translation -0.065 0 -0.15
+          rotation 0 0 1 3.14159
+          name "FrontCamera"
+          locked TRUE
+          controller "camera_controller"
+          physics NULL
+        }
+        Shape {
+          appearance PBRAppearance {
+            metalness 0
+          }
+          geometry Box {
+            size 0.1 0.1 3
+          }
+        }
+      ]
+      name "FrontCameraFrame"
+      locked TRUE
+    }
     WorkspaceLimiter {
       translation -0.19 1.44 1.22
       name "WorkspaceLimiterRight"
@@ -46,9 +115,14 @@ Group {
 IntelRealsenseD455 {
   translation 0.130006 0.05 2.52
   rotation 0 1 0 1.5708
-  name "IntelRealsenseD455Ceiling"
+  name "CameraOnCeiling"
+  locked TRUE
   controller "camera_controller"
-  fieldOfView 1.25
+  focus Focus {
+    focalLength 1.93
+    maxFocalDistance 6
+    minFocalDistance 0.1
+  }
   physics NULL
 }
 LBRiiwa7R800 {
@@ -59,6 +133,12 @@ LBRiiwa7R800 {
         IntelRealsenseD455 {
           name "CameraOnGripper"
           controller "camera_controller"
+          focus Focus {
+            focalDistance 1
+            focalLength 1.93
+            maxFocalDistance 6
+            minFocalDistance 0.4
+          }
         }
       ]
     }
