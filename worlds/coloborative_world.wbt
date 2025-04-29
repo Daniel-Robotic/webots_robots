@@ -13,8 +13,8 @@ WorldInfo {
   basicTimeStep 64
 }
 Viewpoint {
-  orientation -0.31471714651233956 0.15264065314442762 0.9368318678924054 2.2886253567539434
-  position 5.550999497042993 -6.476610633807127 7.210802435440799
+  orientation -0.31216960885224493 0.09882167790645179 0.9448726958086946 2.56030747275362
+  position 6.904803037952616 -4.322113082963809 7.117656258529677
 }
 TexturedBackground {
 }
@@ -29,7 +29,8 @@ Robot {
     Receiver {
       name "supervisor_receiver"
       channel 1
-      byteSize 32768
+      byteSize 50000000
+      bufferSize 50000000
     }
   ]
   name "supervisor"

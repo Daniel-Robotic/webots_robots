@@ -3,6 +3,7 @@ import sys
 # Добавить родительскую папку (controllers/)
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
+import numpy as np
 from typing import List
 from core import find_devices, send_message
 from controller import Robot, Camera, RangeFinder, Emitter, Receiver
@@ -43,20 +44,29 @@ if verbose:
 while robot.step(timestep) != -1:
 
     for camera in cameras:
+        width = camera.getWidth()
+        height = camera.getHeight()
+
         recognized_objects = camera.getRecognitionObjects()
         if verbose:
             print(f"[{camera.getName()}] Найдено объектов: {len(recognized_objects)}")
         
+        # TODO: Формирование изображения (для каждой из камер)
+        # Можно подключать тут LLM
+        image_array = np.frombuffer(camera.getImage(), dtype=np.uint8).reshape((height, width, 4))
+        image_rgb = image_array[:, :, :3]
+        
+
         obj_info = []
         for obj in recognized_objects:
+            # TODO: Здесь добавляешь поле, которое необходимо отправить
             obj_info.append({
                 "position": list(obj.getPosition()),
                 "orientation": list(obj.getOrientation()),
                 "size": list(obj.getSize()),
                 "model": str(obj.getModel()),
-                "position_on_image": list(obj.getPositionOnImage())
+                "position_on_image": list(obj.getPositionOnImage()),
             })
-
 
             if verbose:
                 print(f"  Объект: модель={obj_info[-1]['model']}, позиция={obj_info[-1]['position']}")

@@ -423,13 +423,13 @@ PROTO LBRiiwa7R800 [
         name %<='"' + fields.name.value + '_emitter"' >%
         channel 1
         range -1
-        bufferSize 32768
+        bufferSize 5000000
       }
 
       Receiver {
         name %<='"' + fields.name.value + '_receiver"' >%
         channel 1
-        bufferSize 32768
+        bufferSize 5000000
       }
 
     ]
