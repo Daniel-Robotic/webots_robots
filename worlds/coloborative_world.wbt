@@ -10,10 +10,11 @@ EXTERNPROTO "../protos/IntelRealsenseD455.proto"
 EXTERNPROTO "../protos/LBRiiwaGripper.proto"
 
 WorldInfo {
+  basicTimeStep 64
 }
 Viewpoint {
-  orientation -0.20149575853358287 0.10788552608595796 0.9735297491880422 2.180586372800792
-  position 5.749643911945148 -7.804588839224416 5.322869928706178
+  orientation -0.31471714651233956 0.15264065314442762 0.9368318678924054 2.2886253567539434
+  position 5.550999497042993 -6.476610633807127 7.210802435440799
 }
 TexturedBackground {
 }
@@ -24,6 +25,13 @@ ManufactoringFloor {
   tileSize 3 3
 }
 Robot {
+  children [
+    Receiver {
+      name "supervisor_receiver"
+      channel 1
+      byteSize 32768
+    }
+  ]
   name "supervisor"
   locked TRUE
   controller "supervisor_controller"
@@ -174,6 +182,7 @@ Solid {
     }
   ]
   name "movedObject1"
+  model "Object1"
   boundingObject Box {
     size 0.05 0.05 0.05
   }
@@ -206,6 +215,7 @@ Solid {
     }
   ]
   name "movedObject2"
+  model "Object2"
   boundingObject Box {
     size 0.05 0.05 0.05
   }
@@ -238,6 +248,7 @@ Solid {
     }
   ]
   name "movedObject3"
+  model "Object3"
   boundingObject Box {
     size 0.05 0.05 0.05
   }

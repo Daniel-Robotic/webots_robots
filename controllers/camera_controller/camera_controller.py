@@ -1,14 +1,16 @@
-"""camera_controller controller."""
-
-# You may need to import some classes of the controller module. Ex:
-#  from controller import Robot, Motor, DistanceSensor
+import os
 import sys
+# Добавить родительскую папку (controllers/)
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+
 from typing import List
-from utils import find_devices
-from controller import Robot, Camera, RangeFinder
+from core import find_devices, send_message
+from controller import Robot, Camera, RangeFinder, Emitter, Receiver
 
 # Создание робота.
 robot = Robot()
+emitter: Emitter = robot.getDevice(robot.getName() + "_emitter")
+receiver: Receiver = robot.getDevice(robot.getName() + "_receiver")
 
 verbose = False
 
@@ -37,10 +39,33 @@ if verbose:
     print(f"Найдено камер для робота {robot.getName()}: {len(cameras)}")
     print(f"Найдено дальномеров для робота {robot.getName()}: {len(range_finders)}")
 
-# Main loop:
-# - perform simulation steps until Webots is stopping the controller
+
 while robot.step(timestep) != -1:
-    pass
+
+    for camera in cameras:
+        recognized_objects = camera.getRecognitionObjects()
+        if verbose:
+            print(f"[{camera.getName()}] Найдено объектов: {len(recognized_objects)}")
+        
+        obj_info = []
+        for obj in recognized_objects:
+            obj_info.append({
+                "position": list(obj.getPosition()),
+                "orientation": list(obj.getOrientation()),
+                "size": list(obj.getSize()),
+                "model": str(obj.getModel()),
+                "position_on_image": list(obj.getPositionOnImage())
+            })
+
+
+            if verbose:
+                print(f"  Объект: модель={obj_info[-1]['model']}, позиция={obj_info[-1]['position']}")
+
+        send_message(emitter=emitter,
+                     source_name=robot.getName(),
+                     message_type="recognized_objects",
+                     data={"objects": obj_info})
+            
 
 # Отключение всех устройств
 for camera in cameras:

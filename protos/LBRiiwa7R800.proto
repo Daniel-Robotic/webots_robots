@@ -418,6 +418,20 @@ PROTO LBRiiwa7R800 [
           ]
         }
       }
+
+      Emitter {
+        name %<='"' + fields.name.value + '_emitter"' >%
+        channel 1
+        range -1
+        bufferSize 32768
+      }
+
+      Receiver {
+        name %<='"' + fields.name.value + '_receiver"' >%
+        channel 1
+        bufferSize 32768
+      }
+
     ]
     name IS name
   }

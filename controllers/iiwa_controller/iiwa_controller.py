@@ -1,11 +1,15 @@
+import os
 import sys
+# Добавить родительскую папку (controllers/)
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+
 from typing import Dict
 from controller import Robot, Motor, PositionSensor
-from utils import (deg2rad, 
-                   rad2deg, 
-                   is_gripper_motor,
-                   set_joint_positions,
-                   control_gripper)
+from core import (deg2rad, 
+                 rad2deg, 
+                 is_gripper_motor,
+                 set_joint_positions,
+                 control_gripper)
 
 
 
