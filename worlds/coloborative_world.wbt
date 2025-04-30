@@ -4,17 +4,24 @@ EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/project
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
 EXTERNPROTO "../protos/ManufactoringFloor.proto"
 EXTERNPROTO "../protos/CollaborativeRobotTable.proto"
-EXTERNPROTO "../protos/LBRiiwa7R800.proto"
 EXTERNPROTO "../protos/WorkspaceLimiter.proto"
 EXTERNPROTO "../protos/IntelRealsenseD455.proto"
-EXTERNPROTO "../protos/LBRiiwaGripper.proto"
 EXTERNPROTO "../protos/TargetWithGripper.proto"
+EXTERNPROTO "../protos/LBRiiwa7R800.proto"
+EXTERNPROTO "../protos/LBRiiwaGripper.proto"
 
 WorldInfo {
+  contactProperties [
+    ContactProperties {
+      coulombFriction [
+        3
+      ]
+    }
+  ]
 }
 Viewpoint {
-  orientation -0.2774299663666324 0.1702470811873081 0.9455414031701687 2.0900777383305957
-  position 2.141067231094566 -4.652447196684133 4.617466129682002
+  orientation -0.31233949877093625 0.15441808716370972 0.9373361680124274 2.2737004313334754
+  position 2.226758156432695 -3.2036435466841047 4.309544944851016
 }
 TexturedBackground {
 }
@@ -52,6 +59,7 @@ Group {
       children [
         IntelRealsenseD455 {
           translation 0.055 0 0.2
+          name "Lidar"
           locked TRUE
           controller "camera_controller"
           fieldOfView 0.6
@@ -145,29 +153,6 @@ IntelRealsenseD455 {
     minFocalDistance 0.1
   }
   physics NULL
-}
-DEF KUKA LBRiiwa7R800 {
-  translation -0.267 0 0.79
-  controller "iiwa_controller"
-  controllerArgs [
-    ""
-  ]
-  endEffectorSlot [
-    LBRiiwaGripper {
-      camera [
-        IntelRealsenseD455 {
-          name "CameraOnGripper"
-          controller "camera_controller"
-          focus Focus {
-            focalDistance 1
-            focalLength 1.93
-            maxFocalDistance 6
-            minFocalDistance 0.4
-          }
-        }
-      ]
-    }
-  ]
 }
 CollaborativeRobotTable {
   translation 2.1493484796702862e-05 6.700625955223224e-06 -0.01139200000000026
@@ -278,4 +263,18 @@ DEF TARGET TargetWithGripper {
   translation 0.389904 -0.3 1.03024
   rotation 0 1 0 3.14
   gripper_open FALSE
+}
+DEF KUKA LBRiiwa7R800 {
+  translation -0.267 0 0.79
+  controller "iiwa_controller"
+  endEffectorSlot [
+    LBRiiwaGripper {
+      camera [
+        IntelRealsenseD455 {
+          name "CameraOnRobot"
+          controller "camera_controller"
+        }
+      ]
+    }
+  ]
 }

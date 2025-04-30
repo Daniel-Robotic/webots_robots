@@ -5,68 +5,69 @@
 # keywords: robot/extension, actuator/gripper
 # template language: javascript
 
-
 EXTERNPROTO "./IntelRealsenseD455.proto"
-
 
 PROTO LBRiiwaGripper [
   field  SFVec3f     translation     0 0 0
   field  SFRotation  rotation        -0.5773509358554485 0.5773489358556708 0.5773509358554485 -2.094395307179586
-  field  SFString    name            "LBRiiwaGripper"  # Is `Robot.name`.
+  field  SFString    name            "LBRiiwaGripper"
   field  SFBool      locked          FALSE
   field  MFNode      camera          IntelRealsenseD455{}
-]
-
-{
+] {
   Solid {
     translation IS translation
     rotation IS rotation
     locked IS locked
-
     children [
       Pose {
-        translation 0.000000 0.016800 0.000000
+        translation 0 0.0168 0
         rotation 0.000563 0.707388 -0.706825 3.140466
         children [
           DEF base_actuator_visual CadShape {
-            url "./meshes/actuator/base_actuator.dae"
+            url [
+              "P:/RobotProject/webots/webots_robots/protos/meshes/actuator/base_actuator.dae"
+            ]
           }
         ]
       }
       Solid {
-        translation 0.000000 0.039000 0.000000
+        translation 0 0.039 0
         children [
           Pose {
-            translation 0.002000 0.000000 0.019500
+            translation 0.002 0 0.0195
             children [
               DEF main_visual CadShape {
-                url "./meshes/actuator/camera_actuator/visible/main.dae"
+                url [
+                  "P:/RobotProject/webots/webots_robots/protos/meshes/actuator/camera_actuator/visible/main.dae"
+                ]
               }
             ]
           }
           HingeJoint {
             jointParameters HingeJointParameters {
-              anchor 0.000000 0.044500 0.036500
+              anchor 0 0.0445 0.0365
             }
             device [
               RotationalMotor {
                 name "joint_main_camera_frame"
-                maxVelocity 50.0
+                maxVelocity 50
                 maxPosition 1.57
-                maxTorque 1000.0
+                maxTorque 1000
               }
               PositionSensor {
                 name "joint_main_camera_frame_sensor"
               }
             ]
             endPoint Solid {
-              translation 0.000000 0.044500 0.036500
+              translation 0 0.0445 0.0365
               children [
                 Pose {
-                  translation 0.000000 -0.044500 -0.016000
+                  translation 0 -0.0445 -0.016
                   children [
                     DEF camera_frame_visual CadShape {
-                      url "./meshes/actuator/camera_actuator/visible/camera_frame.dae"
+                      url [
+                        "P:/RobotProject/webots/webots_robots/protos/meshes/actuator/camera_actuator/visible/camera_frame.dae"
+                      ]
                     }
                   ]
                 }
@@ -78,80 +79,98 @@ PROTO LBRiiwaGripper [
               ]
               name "link_camera_frame"
               boundingObject Pose {
-                translation 0.000000 -0.044500 -0.016000
+                translation -0.002 0.012 0
                 children [
-                  DEF camera_frame Mesh {
-                    url "./meshes/actuator/camera_actuator/collision/camera_frame.stl"
+                  Box {
+                    size 0.125 0.05 0.03
                   }
                 ]
               }
               physics Physics {
+                density -1
+                mass 0.3
+                centerOfMass [ -0.002 0.012 0 ]
+                inertiaMatrix [
+                  0.0001282 0.000414325 0.000497525
+                  7.2e-06 0 0
+                ]
               }
             }
           }
           SliderJoint {
             jointParameters JointParameters {
               axis 1 0 0
+              staticFriction 5.0
             }
             device [
               LinearMotor {
                 name "joint_main_fingerR"
                 maxVelocity 0.5
                 minPosition -0.01
-                maxForce 1000.0
+                maxForce 1000
               }
               PositionSensor {
                 name "joint_main_fingerR_sensor"
               }
             ]
             endPoint Solid {
-              translation -0.020000 0.106000 0.000000
+              translation -0.02 0.106 0
               children [
                 Pose {
-                  translation 0.021000 0.000000 -0.020000
-                  rotation 0.000000 0.000000 1.000000 1.570000
+                  translation 0.021 0 -0.02
+                  rotation 0 0 1 1.57
                   children [
                     DEF finger_visual CadShape {
-                      url "./meshes/actuator/camera_actuator/visible/finger.dae"
+                      url [
+                        "P:/RobotProject/webots/webots_robots/protos/meshes/actuator/camera_actuator/visible/finger.dae"
+                      ]
                     }
                   ]
                 }
               ]
               name "link_finger_right"
               boundingObject Pose {
-                translation 0.021000 0.000000 -0.020000
-                rotation 0.000000 0.000000 1.000000 1.570000
+                translation -0.0117 0.044 4.77e-05
+                rotation 0 0 1 1.57
                 children [
-                  DEF finger Mesh {
-                    url "./meshes/actuator/camera_actuator/collision/finger.stl"
+                  Box {
+                    size 0.087 0.02 0.04
                   }
                 ]
               }
               physics Physics {
-              }
+        density -1
+        mass 0.2
+        centerOfMass [0 0 0]
+        inertiaMatrix [
+          0.0001 0.0001 0.0001
+          0 0 0
+        ]
+      }
             }
           }
           SliderJoint {
             jointParameters JointParameters {
               axis 1 0 0
+              staticFriction 5.0
             }
             device [
               LinearMotor {
                 name "joint_main_fingerL"
                 maxVelocity 0.5
                 maxPosition 0.01
-                maxForce 1000.0
+                maxForce 1000
               }
               PositionSensor {
                 name "joint_main_fingerL_sensor"
               }
             ]
             endPoint Solid {
-              translation 0.020000 0.106000 0.000000
+              translation 0.02 0.106 0
               children [
                 Pose {
-                  translation -0.021000 0.000000 0.020000
-                  rotation 0.707388 0.706825 0.000563 3.140466
+                  translation -0.021 0 0.02
+                  rotation 0.7073881131332974 0.7068251130432562 0.0005630000900411746 3.140466
                   children [
                     USE finger_visual
                   ]
@@ -159,41 +178,67 @@ PROTO LBRiiwaGripper [
               ]
               name "link_finger_left"
               boundingObject Pose {
-                translation -0.021000 0.000000 0.020000
-                rotation 0.707388 0.706825 0.000563 3.140466
+                translation 0.0117 0.044 4.77e-05
+                rotation 0.7073881131332974 0.7068251130432562 0.0005630000900411746 3.140466
                 children [
-                  USE finger
+                  Box {
+                    size 0.087 0.02 0.04
+                  }
                 ]
               }
               physics Physics {
-              }
+        density -1
+        mass 0.2
+        centerOfMass [0 0 0]
+        inertiaMatrix [
+          0.0001 0.0001 0.0001
+          0 0 0
+        ]
+      }
             }
           }
         ]
         name "link_main"
-        boundingObject Pose {
-          translation 0.002000 0.000000 0.019500
+        boundingObject Group {
           children [
-            DEF main Mesh {
-              url "./meshes/actuator/camera_actuator/collision/main.stl"
+            Pose {
+              translation 0 0.07 -0.014
+              children [
+                Box {
+                  size 0.08 0.073 0.065
+                }
+              ]
+            }
+            Pose {
+              translation 0 0 -0.0005
+              children [
+                Box {
+                  size 0.07 0.065 0.13
+                }
+              ]
             }
           ]
         }
         physics Physics {
-        }
+        density -1
+        mass 0.2
+        centerOfMass [0 0 0]
+        inertiaMatrix [
+          0.0001 0.0001 0.0001
+          0 0 0
+        ]
+      }
       }
     ]
     name IS name
-    boundingObject Pose {
-      translation 0.000000 0.016800 0.000000
-      rotation 0.000563 0.707388 -0.706825 3.140466
-      children [
-        DEF base_actuator Mesh {
-          url "./meshes/actuator/base_actuator.stl"
-        }
-      ]
-    }
     physics Physics {
-    }
+        density -1
+        mass 0.2
+        centerOfMass [0 0 0]
+        inertiaMatrix [
+          0.0001 0.0001 0.0001
+          0 0 0
+        ]
+      }
   }
 }
