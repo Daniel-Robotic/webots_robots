@@ -25,7 +25,7 @@ PROTO LBRiiwaGripper [
         children [
           DEF base_actuator_visual CadShape {
             url [
-              "P:/RobotProject/webots/webots_robots/protos/meshes/actuator/base_actuator.dae"
+              "./meshes/actuator/base_actuator.dae"
             ]
           }
         ]
@@ -38,7 +38,7 @@ PROTO LBRiiwaGripper [
             children [
               DEF main_visual CadShape {
                 url [
-                  "P:/RobotProject/webots/webots_robots/protos/meshes/actuator/camera_actuator/visible/main.dae"
+                  "./meshes/actuator/camera_actuator/visible/main.dae"
                 ]
               }
             ]
@@ -66,7 +66,7 @@ PROTO LBRiiwaGripper [
                   children [
                     DEF camera_frame_visual CadShape {
                       url [
-                        "P:/RobotProject/webots/webots_robots/protos/meshes/actuator/camera_actuator/visible/camera_frame.dae"
+                        "./meshes/actuator/camera_actuator/visible/camera_frame.dae"
                       ]
                     }
                   ]
@@ -122,7 +122,7 @@ PROTO LBRiiwaGripper [
                   children [
                     DEF finger_visual CadShape {
                       url [
-                        "P:/RobotProject/webots/webots_robots/protos/meshes/actuator/camera_actuator/visible/finger.dae"
+                        "./meshes/actuator/camera_actuator/visible/finger.dae"
                       ]
                     }
                   ]
