@@ -20,8 +20,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation -0.24533397216178293 0.14045525126859154 0.9592098646773803 2.1372176975618693
-  position 2.605004211901754 -3.9310502695849263 4.147713185293398
+  orientation -0.25489752630721335 0.1408965690518106 0.9566480062760241 2.168769723888266
+  position 2.6853211356290956 -3.7429591828525712 4.258585601897464
 }
 TexturedBackground {
   texture "music_hall"
@@ -70,7 +70,7 @@ Robot {
   ]
   name "supervisor"
   locked TRUE
-  controller "supervisor_controller"
+  controller "llma_controller"
   supervisor TRUE
 }
 Group {
@@ -266,7 +266,7 @@ DEF OBJ3 Solid {
   }
   physics Physics {
     density -1
-    mass 0.1
+    mass 2
     centerOfMass [
       0 0 0
     ]
