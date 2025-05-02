@@ -50,10 +50,28 @@ gripper_open_field = target_node.getField("gripper_open")
 target_translation_field = target_node.getField("translation")
 target_rotation_field = target_node.getField("rotation")
 
+
+obj1 = robot.getFromDef("OBJ1")
+obj2 = robot.getFromDef("OBJ2")
+obj3 = robot.getFromDef("OBJ3")
+pos_obj1 = obj1.getField("translation").getSFVec3f()
+pos_obj2 = obj2.getField("translation").getSFVec3f()
+pos_obj3 = obj3.getField("translation").getSFVec3f()
+
+obj1_position_world = transform_world_to_local(robot_node, pos_obj1)
+obj2_position_world = transform_world_to_local(robot_node, pos_obj2)
+obj3_position_world = transform_world_to_local(robot_node, pos_obj3)
+
+print(obj1_position_world)
+print(obj2_position_world)
+print(obj3_position_world)
+
+
 while robot.step(timestep) != -1:
 
     # TODO: Получаем все данные с каждой камеры, потом можно отправлять данные на робота
     messages = receive_all_messages(receiver=receiver)
+    # print(messages)
     
     for msg in messages:
         if msg['type'] == "LBRiiwa7R800_data":
@@ -89,6 +107,8 @@ while robot.step(timestep) != -1:
             # target_orientation_rpy=[-3.14, 0, -3.14]
         )
 
+        print(target_position_world, target_orientation_rpy)
+        
         if q is not None:
             target_q = q
             ik_computed = True

@@ -14,22 +14,44 @@ WorldInfo {
   contactProperties [
     ContactProperties {
       coulombFriction [
-        3
+        10
       ]
     }
   ]
 }
 Viewpoint {
-  orientation -0.31233949877093625 0.15441808716370972 0.9373361680124274 2.2737004313334754
-  position 2.226758156432695 -3.2036435466841047 4.309544944851016
+  orientation -0.24533397216178293 0.14045525126859154 0.9592098646773803 2.1372176975618693
+  position 2.605004211901754 -3.9310502695849263 4.147713185293398
 }
 TexturedBackground {
+  texture "music_hall"
+  luminosity 1.3
 }
 TexturedBackgroundLight {
 }
 ManufactoringFloor {
   size 14 11
   tileSize 3 3
+}
+DEF TARGET_POSE Pose {
+  translation 0.09 0.41 0.79
+  rotation 0 1 0 0
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+        }
+        texture ImageTexture {
+          url [
+            "target.png"
+          ]
+        }
+      }
+      geometry Plane {
+        size 0.25 0.25
+      }
+    }
+  ]
 }
 Robot {
   children [
@@ -85,6 +107,8 @@ Group {
           name "LeftCamera"
           locked TRUE
           controller "camera_controller"
+          fieldOfView 0.86
+          minRange 0.02
           physics NULL
         }
         Shape {
@@ -160,12 +184,12 @@ CollaborativeRobotTable {
   locked TRUE
   showCabinet TRUE
 }
-Solid {
+DEF OBJ1 Solid {
   translation 0.38 -0.3 0.81
   children [
     Shape {
       appearance PBRAppearance {
-        baseColor 0.521569 0.713726 1
+        baseColor 0 0 1
         metalness 0
       }
       geometry Box {
@@ -189,11 +213,8 @@ Solid {
       0 0 0
     ]
   }
-  recognitionColors [
-    1 0.666667 0
-  ]
 }
-Solid {
+DEF OBJ2 Solid {
   translation 0.38 -0.3 0.86
   children [
     Shape {
@@ -222,16 +243,15 @@ Solid {
       0 0 0
     ]
   }
-  recognitionColors [
-    1 0.666667 0
-  ]
 }
-Solid {
+DEF OBJ3 Solid {
   translation 0.38 -0.3 0.91
+  rotation 0 0 1 4.692820414042842e-06
   children [
     Shape {
       appearance PBRAppearance {
-        baseColor 1 0.658824 0.415686
+        baseColor 0 1 0
+        roughness 0.3
         metalness 0
       }
       geometry Box {
@@ -256,7 +276,7 @@ Solid {
     ]
   }
   recognitionColors [
-    1 0.666667 0
+    0 0 0
   ]
 }
 DEF TARGET TargetWithGripper {
