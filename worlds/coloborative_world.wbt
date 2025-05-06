@@ -20,8 +20,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation -0.23668358534587722 0.10853616242632305 0.9655054540879547 2.3079833824013365
-  position 3.2542967316735285 -3.3772605225602774 4.078221385538734
+  orientation -0.1885231736762369 0.08759503434519034 0.9781544473880925 2.288448320906557
+  position 3.044621406758921 -3.41345401465288 3.3186303207468826
 }
 TexturedBackground {
   texture "music_hall"
@@ -280,7 +280,7 @@ DEF OBJ3 Solid {
   ]
 }
 DEF KUKA LBRiiwa7R800 {
-  translation -0.267 0 0.75
+  translation -0.267 0 0.79
   controller "iiwa_controller"
   endEffectorSlot [
     LBRiiwaGripper {

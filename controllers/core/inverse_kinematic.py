@@ -167,7 +167,7 @@ def calculate_trajectory(robot: rtb.DHRobot,
         if com["command"] == "grab":
             traj = np.tile(last_q, (int(gripper_time / dt), 1)) 
             s = np.vstack([s, traj])
-            last_gripper_pose = int(com["args"])
+            last_gripper_pose = int(not com["args"])
             gripper_pos.extend([last_gripper_pose] * traj.shape[0])
     
     return s[1:], gripper_pos
