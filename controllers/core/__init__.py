@@ -10,4 +10,5 @@ from core.inverse_kinematic import (solve_ik,
                                     solve_pzk, 
                                     LBRiiwaR800Model, 
                                     transform_world_to_local, 
-                                    calculate_trajectory)
+                                    calculate_trajectory,
+                                    axis_angle_to_rpy)

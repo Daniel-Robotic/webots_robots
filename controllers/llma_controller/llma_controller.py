@@ -11,7 +11,9 @@ from core import (
     send_message,
     deg2rad,
     LBRiiwaR800Model,
-    calculate_trajectory
+    calculate_trajectory,
+    axis_angle_to_rpy,
+    transform_world_to_local
 )
 from spatialmath.base import rpy2r, tr2angvec
 
@@ -63,11 +65,21 @@ current_index = 0
 
 traj, gripper_pos = calculate_trajectory(robot=robot_model,
                                          commands=commands,
-                                         move_time=3,
-                                         gripper_time=1,
+                                         move_time=2,
+                                         gripper_time=0.5,
                                          dt=timestep/1000)
 
-# robot_node = robot.getFromDef("KUKA")
+robot_node = robot.getFromDef("KUKA")
+
+obj3 = robot.getFromDef("OBJ3")
+translation_field = obj3.getField("translation")
+rotation_field = obj3.getField("rotation")
+
+
+# print(transform_world_to_local(robot_node=robot_node,
+#                                global_pos=translation_field.getSFVec3f(),
+#                                global_rot=rotation_field.getSFVec3f()))
+
 # target_translation_field.setSFVec3f(target_xyz)
 #             target_rotation_field.setSFRotation(
 #                 rpy_to_axis_angle(current_target_rpy)

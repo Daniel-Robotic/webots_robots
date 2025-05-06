@@ -4,7 +4,7 @@ import roboticstoolbox as rtb
 
 from typing import List
 from spatialmath import SE3
-from spatialmath.base import transl, rodrigues, r2t, trotz
+from spatialmath.base import transl, rodrigues, r2t, trotz, angvec2r, tr2rpy, t2r
 
 class LBRiiwaR800Model(rtb.DHRobot):
      def __init__(self):
@@ -110,30 +110,49 @@ def solve_pzk(robot: rtb.DHRobot,
     return positions, orientation_rpy
 
 
-def transform_world_to_local(robot_node, global_pos):
+def axis_angle_to_rpy(axis_angle):
+    axis = axis_angle[:3]
+    angle = axis_angle[3]
+    R = angvec2r(angle, axis)  # Поворачивает на angle вокруг axis → матрица 3x3
+    rpy = tr2rpy(R, order='xyz', unit='rad')  # [roll, pitch, yaw]
+    return rpy
+
+def transform_world_to_local(robot_node, global_pos, global_rot=None):
     """
-    Переводит мировую позицию (например, цели) в систему координат робота.
-    
+    Переводит мировую позу (позицию + ориентацию) в локальные координаты робота.
+
     :param robot_node: Webots Node — DEF KUKA
     :param global_pos: [x, y, z] — позиция цели в мировой системе
-    :return: позиция в локальных координатах робота
+    :param global_rot: [axis_x, axis_y, axis_z, angle] — ориентация цели (необязательно)
+    :return: (позиция_локальная, ориентация_RPY_локальная) или только позиция, если global_rot не передан
     """
+    # Положение и ориентация робота
     translation = robot_node.getField("translation").getSFVec3f()
-    rotation = robot_node.getField("rotation").getSFRotation()  # [axis_x, axis_y, axis_z, angle]
+    rotation = robot_node.getField("rotation").getSFRotation()
+    R_world_robot = rodrigues(np.array(rotation[:3]) * rotation[3])
+    T_world_robot = r2t(R_world_robot)
+    T_world_robot[:3, 3] = translation
 
-    # Преобразуем rotation в матрицу поворота
-    R = rodrigues(np.array(rotation[:3]) * rotation[3])
-    T = r2t(R)
-    T[:3, 3] = translation
+    # Инверсия: T_robot_world
+    T_robot_world = np.linalg.inv(T_world_robot)
 
-    # Инвертируем трансформацию
-    T_inv = np.linalg.inv(T)
-
-    # Переводим мировую позицию в локальную
+    # Позиция
     p_world = np.append(global_pos, 1.0)
-    p_local = T_inv @ p_world
+    p_local = T_robot_world @ p_world
+    local_pos = p_local[:3]
 
-    return p_local[:3]
+    if global_rot is not None:
+        # Ориентация
+        R_world_obj = rodrigues(np.array(global_rot[:3]) * global_rot[3])
+        T_world_obj = r2t(R_world_obj)
+        T_robot_obj = T_robot_world @ T_world_obj
+
+        # Извлекаем ориентацию как RPY
+        R_local = t2r(T_robot_obj)
+        local_rpy = tr2rpy(R_local, order="xyz", unit="rad")
+        return local_pos, local_rpy
+
+    return local_pos
 
 def calculate_trajectory(robot: rtb.DHRobot,
                         commands: dict,

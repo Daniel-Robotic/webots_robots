@@ -43,7 +43,7 @@ def set_joint_positions(motors: Dict[str, Motor], positions: List[float]):
     """
     for motor, position in zip(motors.values(), positions):
         motor.setPosition(position)
-        
+
 def control_gripper(gripper_motors: Dict[str, Motor], open: bool):
     
     if not gripper_motors:
