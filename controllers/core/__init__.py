@@ -6,4 +6,8 @@ from core.utils import (find_devices,
 				   control_gripper)
 
 from core.communication import send_message, receive_all_messages
-from core.inverse_kinematic import solve_ik, solve_pzk, LBRiiwaR800Model, transform_world_to_local
+from core.inverse_kinematic import (solve_ik, 
+                                    solve_pzk, 
+                                    LBRiiwaR800Model, 
+                                    transform_world_to_local, 
+                                    calculate_trajectory)

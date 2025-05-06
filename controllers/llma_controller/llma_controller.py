@@ -11,9 +11,7 @@ from core import (
     send_message,
     deg2rad,
     LBRiiwaR800Model,
-    solve_ik,
-    solve_pzk,
-    transform_world_to_local,
+    calculate_trajectory
 )
 from spatialmath.base import rpy2r, tr2angvec
 
@@ -36,11 +34,6 @@ with open(cmd_file, encoding="utf-8") as f:
 if commands and isinstance(commands[0], list):
     commands = commands[0]
 
-cmd_index = 0
-cmd_in_progress = False
-current_target_rpy = [0.0, 0.0, 0.0]
-gripper_state = True  # захват по умолчанию закрыт
-
 # ────────────────────────────────────────────────────────────────
 robot = Supervisor()
 timestep = int(robot.getBasicTimeStep())
@@ -61,20 +54,24 @@ position_robot = {
         "A7": deg2rad(0),
         "camera_motor": deg2rad(0),
     },
-    "gripper": gripper_state,
+    "gripper": True,
 }
 
 joint_names = list(position_robot["joints"].keys())[:-1]
 current_position = [0] * 7
-position_tolerance = 0.01
-ik_computed = False
-target_q = None
+current_index = 0
 
-robot_node = robot.getFromDef("KUKA")
-target_node = robot.getFromDef("TARGET")
-gripper_open_field = target_node.getField("gripper_open")
-target_translation_field = target_node.getField("translation")
-target_rotation_field = target_node.getField("rotation")
+traj, gripper_pos = calculate_trajectory(robot=robot_model,
+                                         commands=commands,
+                                         move_time=3,
+                                         gripper_time=1,
+                                         dt=timestep/1000)
+
+# robot_node = robot.getFromDef("KUKA")
+# target_translation_field.setSFVec3f(target_xyz)
+#             target_rotation_field.setSFRotation(
+#                 rpy_to_axis_angle(current_target_rpy)
+# )
 
 # ────────────────────────────────────────────────────────────────
 # Основной цикл
@@ -83,63 +80,15 @@ while robot.step(timestep) != -1:
         if msg["type"] == "LBRiiwa7R800_data":
             current_position = list(msg["data"]["joints"].values())[:-1]
 
-    if cmd_index >= len(commands):
-        continue
 
-    current_cmd = commands[cmd_index]
-
-    # ───────────── Команда MOVE ─────────────
-    if current_cmd["command"] == "move":
-        target_xyz = current_cmd["args"][:3]
-        current_target_rpy = current_cmd["args"][3:]
-
-        if not cmd_in_progress:
-            target_translation_field.setSFVec3f(target_xyz)
-            target_rotation_field.setSFRotation(
-                rpy_to_axis_angle(current_target_rpy)
-            )
-            ik_computed = False
-            cmd_in_progress = True
-
-        if ik_computed and target_q is not None:
-            err = np.linalg.norm(np.array(current_position) - np.array(target_q))
-            if err < position_tolerance:
-                print(f"[LLMA] ✔ Команда #{cmd_index} выполнена")
-                cmd_index += 1
-                cmd_in_progress = False
-
-    # ───────────── Команда GRAB ─────────────
-    elif current_cmd["command"] == "grab":
-        want_open = bool(current_cmd["args"])      # true = открыть
-        gripper_state = not want_open              # True = захват закрыт
-        gripper_open_field.setSFBool(want_open)    # Webots поле (для визуализации)
-        print(f"[LLMA] ✔ Команда #{cmd_index} выполнена")
-        cmd_index += 1
-
-    # ───────────── Решение ОЗК ─────────────
-    if not ik_computed:
-        target_position_world = target_translation_field.getSFVec3f()
-        print(f"[LLMA] → Решение ОЗК для #{cmd_index}: {target_position_world}  {current_target_rpy}")
-        q = solve_ik(
-            robot=robot_model,
-            q_current=current_position,
-            target_position=target_position_world,
-            target_orientation_rpy=current_target_rpy,
-        )
-        if q is not None:
-            target_q = q
-            ik_computed = True
-
-    if ik_computed and target_q is not None:
-        error = np.linalg.norm(np.array(current_position) - np.array(target_q))
-        if error < position_tolerance:
-            ik_computed = False
-        else:
-            for i, name in enumerate(joint_names):
-                position_robot["joints"][name] = target_q[i]
-
-    # ───────────── Отправка на робота ─────────────
-    position_robot["gripper"] = gripper_state
+    if current_index < traj.shape[0]:
+        
+        for i, pos in enumerate(traj[current_index]):
+            joint_name = joint_names[i]
+            position_robot["joints"][joint_name] = pos
+            position_robot["gripper"] = gripper_pos[current_index]
+            # print(position_robot["gripper"])
+        current_index += 1
 
     send_message(
         emitter=emitter,

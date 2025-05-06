@@ -6,7 +6,6 @@ EXTERNPROTO "../protos/ManufactoringFloor.proto"
 EXTERNPROTO "../protos/CollaborativeRobotTable.proto"
 EXTERNPROTO "../protos/WorkspaceLimiter.proto"
 EXTERNPROTO "../protos/IntelRealsenseD455.proto"
-EXTERNPROTO "../protos/TargetWithGripper.proto"
 EXTERNPROTO "../protos/LBRiiwa7R800.proto"
 EXTERNPROTO "../protos/LBRiiwaGripper.proto"
 
@@ -14,14 +13,15 @@ WorldInfo {
   contactProperties [
     ContactProperties {
       coulombFriction [
-        10
+        100
       ]
+      bounceVelocity 0
     }
   ]
 }
 Viewpoint {
-  orientation -0.25489752630721335 0.1408965690518106 0.9566480062760241 2.168769723888266
-  position 2.6853211356290956 -3.7429591828525712 4.258585601897464
+  orientation -0.23668358534587722 0.10853616242632305 0.9655054540879547 2.3079833824013365
+  position 3.2542967316735285 -3.3772605225602774 4.078221385538734
 }
 TexturedBackground {
   texture "music_hall"
@@ -279,13 +279,8 @@ DEF OBJ3 Solid {
     0 0 0
   ]
 }
-DEF TARGET TargetWithGripper {
-  translation 0.389904 -0.3 1.03024
-  rotation 0 1 0 3.14
-  gripper_open FALSE
-}
 DEF KUKA LBRiiwa7R800 {
-  translation -0.267 0 0.79
+  translation -0.267 0 0.75
   controller "iiwa_controller"
   endEffectorSlot [
     LBRiiwaGripper {
