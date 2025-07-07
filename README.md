@@ -3,8 +3,6 @@
 ### The following works are currently available in the set:
 
 1. LBR KUKA iiwa 7 R800
-2. LBR KUKA iiwa 14 R820 :gear:
-3. LBR KUKA iiwa 7 med :gear:
 
 ### The following type of sensors is presented:
 
@@ -14,7 +12,7 @@
 ### EndEffectors:
 
 1. Two-finger grip with a special frame for mounting the camera [IntelRealsense](https://www.intelrealsense.com/) :computer:
-2. Calibration template
+2. Calibration template :gear:
 
 ### Facilities:
 
@@ -32,10 +30,10 @@ VS code create folder `.vscode` and file `settings.json`
 ```json
 {
 	"python.analysis.extraPaths": [
-        "<webots_path>"
-    ],
+    "<webots_path>"
+  ],
 
-    "python.autoComplete.extraPaths": [
+  "python.autoComplete.extraPaths": [
 		"<webots_path>"
 	],
 }
