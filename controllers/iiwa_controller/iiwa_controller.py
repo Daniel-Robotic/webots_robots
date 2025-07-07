@@ -1,18 +1,14 @@
-import os
 import sys
-# Добавить родительскую папку (controllers/)
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+from pathlib import Path
+
+sys.path.append(str(Path(__file__).resolve().parent.parent))
+sys.path.append(str(Path(__file__).resolve().parents[2]))
+
 
 from typing import Dict
 from controller import Robot, Motor, PositionSensor, Emitter, Receiver
-from core import (deg2rad, 
-                 rad2deg, 
-                 is_gripper_motor,
-                 set_joint_positions,
-                 control_gripper,
-                 receive_all_messages,
-                 send_message)
-
+from extensions.communication import send_message, receive_all_messages
+from extensions.utils import rad2deg, is_gripper_motor, control_gripper, set_joint_positions
 
 
 # create the Robot instance.

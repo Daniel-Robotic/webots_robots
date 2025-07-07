@@ -1,18 +1,19 @@
-import os
 import sys
-# Добавить родительскую папку (controllers/)
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+from pathlib import Path
+
+sys.path.append(str(Path(__file__).resolve().parent.parent))
+sys.path.append(str(Path(__file__).resolve().parents[2]))
+
 
 import numpy as np
-from controller import Supervisor, Receiver, Emitter
-from core import (receive_all_messages, 
-                  send_message, 
-                  deg2rad, 
-                  LBRiiwaR800Model, 
-                  solve_ik, 
-                  solve_pzk,
-                  transform_world_to_local)
 from spatialmath.base import rodrigues, tr2rpy, r2t
+from controller import Supervisor, Receiver, Emitter
+
+from extensions.utils import deg2rad
+from extensions.kinematics.robot_models import LBRiiwaR800Model
+from extensions.kinematics.kinematics import solve_ik, solve_pzk
+from extensions.communication import send_message, receive_all_messages
+from extensions.kinematics.transformations import transform_world_to_local
 
 
 robot = Supervisor()
@@ -43,28 +44,28 @@ position_tolerance = 0.01
 ik_computed = False
 target_q = None
 
-# Получаем нужные узлы один раз (а не каждый шаг)
+
 robot_node = robot.getFromDef("KUKA")
-target_node = robot.getFromDef("TARGET")
+target_node = robot.getFromDef("TARGET_GRIPPER")
 gripper_open_field = target_node.getField("gripper_open")
 target_translation_field = target_node.getField("translation")
 target_rotation_field = target_node.getField("rotation")
 
 
-obj1 = robot.getFromDef("OBJ1")
-obj2 = robot.getFromDef("OBJ2")
-obj3 = robot.getFromDef("OBJ3")
-pos_obj1 = obj1.getField("translation").getSFVec3f()
-pos_obj2 = obj2.getField("translation").getSFVec3f()
-pos_obj3 = obj3.getField("translation").getSFVec3f()
+# obj1 = robot.getFromDef("OBJ1")
+# obj2 = robot.getFromDef("OBJ2")
+# obj3 = robot.getFromDef("OBJ3")
+# pos_obj1 = obj1.getField("translation").getSFVec3f()
+# pos_obj2 = obj2.getField("translation").getSFVec3f()
+# pos_obj3 = obj3.getField("translation").getSFVec3f()
 
-obj1_position_world = transform_world_to_local(robot_node, pos_obj1)
-obj2_position_world = transform_world_to_local(robot_node, pos_obj2)
-obj3_position_world = transform_world_to_local(robot_node, pos_obj3)
+# obj1_position_world = transform_world_to_local(robot_node, pos_obj1)
+# obj2_position_world = transform_world_to_local(robot_node, pos_obj2)
+# obj3_position_world = transform_world_to_local(robot_node, pos_obj3)
 
-print(obj1_position_world)
-print(obj2_position_world)
-print(obj3_position_world)
+# print(obj1_position_world)
+# print(obj2_position_world)
+# print(obj3_position_world)
 
 
 while robot.step(timestep) != -1:

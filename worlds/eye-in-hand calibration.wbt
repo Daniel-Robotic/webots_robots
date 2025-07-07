@@ -1,0 +1,70 @@
+#VRML_SIM R2025a utf8
+
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/floors/protos/RectangleArena.proto"
+EXTERNPROTO "../protos/CollaborativeRobotTable.proto"
+EXTERNPROTO "../protos/LBRiiwa7R800.proto"
+EXTERNPROTO "../protos/CalibrationPattern.proto"
+EXTERNPROTO "../protos/LBRiiwaGripper.proto"
+EXTERNPROTO "../protos/IntelRealsenseD455.proto"
+EXTERNPROTO "../protos/TargetWithGripper.proto"
+
+WorldInfo {
+}
+Viewpoint {
+  orientation -0.06429151476833386 0.034829466859074336 0.997323171979427 2.150872987600291
+  position 3.7704687310408236 -4.930860231773373 2.1150646498407313
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+RectangleArena {
+  floorSize 2 2
+}
+CollaborativeRobotTable {
+  translation 0 0 -0.0114
+  showCabinet TRUE
+}
+DEF KUKA LBRiiwa7R800 {
+  translation -0.267 0 0.79
+  controller "iiwa_controller"
+  endEffectorSlot [
+    LBRiiwaGripper {
+      camera [
+        IntelRealsenseD455 {
+          controller "camera_controller"
+        }
+      ]
+    }
+  ]
+}
+CalibrationPattern {
+  translation 0.32 0 0.79
+}
+DEF TARGET_GRIPPER TargetWithGripper {
+  translation 0.24 -7.03921e-07 1.3
+  rotation 1.125079999996903e-14 0.9999999999972473 2.346409999993541e-06 3.14159
+  gripper_open FALSE
+}
+Robot {
+  children [
+    Emitter {
+      name "supervisor_emitter"
+      channel 2
+      byteSize 5000000
+      bufferSize 5000000
+    }
+    Receiver {
+      name "supervisor_receiver"
+      channel 1
+      byteSize 50000000
+      bufferSize 50000000
+    }
+  ]
+  name "supervisor"
+  locked TRUE
+  controller "supervisor_controller"
+  supervisor TRUE
+}

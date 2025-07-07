@@ -1,0 +1,54 @@
+#VRML_SIM R2023b utf8
+# keywords: calibration, pattern, texture
+# template language: javascript
+
+PROTO CalibrationPattern [
+  field SFVec3f    translation      0 0 0
+  field SFRotation rotation         0 0 1 0
+  field SFString   name             "CalibrationPattern"
+  field SFBool     locked           FALSE
+  field SFString   textureUrl       "textures/handeye_pattern.png"
+  field SFVec2f    textureScale     1 1
+  field SFVec3f    size             0.297000 0.420000 0.005000
+]
+{
+
+  %<
+    let texture_url = fields.textureUrl.value;
+  >%
+
+  Solid {
+    translation IS translation
+    rotation IS rotation
+    name IS name
+    locked IS locked
+
+    children [
+      Shape {
+        appearance PBRAppearance {
+          baseColor 1 1 1
+          baseColorMap ImageTexture {
+            url [
+              "%<= texture_url >%"
+            ]
+          }
+          roughness 1
+          metalness 0
+          textureTransform TextureTransform {
+            scale IS textureScale
+          }
+        }
+        geometry Box {
+          size IS size
+        }
+      }
+    ]
+
+    boundingObject Box {
+      size IS size
+    }
+
+    physics Physics {
+    }
+  }
+}

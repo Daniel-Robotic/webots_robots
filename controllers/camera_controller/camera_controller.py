@@ -1,12 +1,13 @@
-import os
 import sys
+from pathlib import Path
 
-# Добавить родительскую папку (controllers/)
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+sys.path.append(str(Path(__file__).resolve().parent.parent))
+sys.path.append(str(Path(__file__).resolve().parents[2]))
 
 import numpy as np
 from typing import List
-from core import find_devices, send_message
+from extensions.communication import send_message
+from extensions.utils import find_devices
 from controller import Robot, Camera, RangeFinder, Emitter, Receiver
 
 # Создание робота.
@@ -52,8 +53,6 @@ while robot.step(timestep) != -1:
         if verbose:
             print(f"[{camera.getName()}] Найдено объектов: {len(recognized_objects)}")
         
-        # TODO: Формирование изображения (для каждой из камер)
-        # Можно подключать тут LLM
         image_array = np.frombuffer(camera.getImage(), dtype=np.uint8).reshape((height, width, 4))
         image_rgb = image_array[:, :, :3]
         

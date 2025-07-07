@@ -1,21 +1,22 @@
-import os
 import sys
-# Добавить родительскую папку (controllers/)
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+from pathlib import Path
 
+sys.path.append(str(Path(__file__).resolve().parent.parent))
+sys.path.append(str(Path(__file__).resolve().parents[2]))
+
+import os
 import json
 import numpy as np
-from controller import Supervisor, Receiver, Emitter
-from core import (
-    receive_all_messages,
-    send_message,
-    deg2rad,
-    LBRiiwaR800Model,
-    calculate_trajectory,
-    axis_angle_to_rpy,
-    transform_world_to_local
-)
+
 from spatialmath.base import rpy2r, tr2angvec
+from controller import Supervisor, Receiver, Emitter
+
+from extensions.utils import deg2rad
+from extensions.kinematics.robot_models import LBRiiwaR800Model
+from extensions.communication import send_message, receive_all_messages
+from extensions.kinematics.transformations import transform_world_to_local
+from extensions.kinematics.kinematics import calculate_trajectory, axis_angle_to_rpy
+
 
 # ────────────────────────────────────────────────────────────────
 # RPY → Axis-Angle безопасно (даже если угол ≈ 0)

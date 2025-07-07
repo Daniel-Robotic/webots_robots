@@ -10,3 +10,4 @@ venv/
 .python-version
 pyproject.toml
 main.py
+uv.lock
