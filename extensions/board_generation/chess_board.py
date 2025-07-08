@@ -1,7 +1,7 @@
 import cv2
 import numpy as np
 
-from ..board.base import BoardCalibrator
+from .base import BoardCalibrator
 
 
 class ChessBoard(BoardCalibrator):

@@ -2,7 +2,7 @@ import numpy as np
 from cv2 import aruco
 from typing import Tuple, Union
 
-from ..board.marker_board import MarkersBoard
+from .marker_board import MarkersBoard
 
 
 class CharucoBoard(MarkersBoard):

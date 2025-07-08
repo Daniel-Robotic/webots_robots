@@ -2,12 +2,10 @@ import re
 import argparse
 
 from pathlib import Path
-from extensions.calibration import (
-    CharucoBoard,
-    ArucoBoard,
-    ChessBoard,
-    CircleGridBoard
-)
+from extensions.board_generation.aruco_board import ArucoBoard
+from extensions.board_generation.chess_board import ChessBoard
+from extensions.board_generation.charuco_board import CharucoBoard
+from extensions.board_generation.circlegrid_board import CircleGridBoard    
 
 
 def update_proto_file(proto_path: str, texture_path: str, size_mm: tuple[float, float], depth_m: float = 0.005):

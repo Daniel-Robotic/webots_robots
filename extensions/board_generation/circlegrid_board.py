@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 from typing import Tuple, Union
 
-from ..board.base import BoardCalibrator
+from .base import BoardCalibrator
 
 
 class CircleGridBoard(BoardCalibrator):

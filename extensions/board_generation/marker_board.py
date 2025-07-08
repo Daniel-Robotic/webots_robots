@@ -1,7 +1,7 @@
 from cv2 import aruco
 from typing import Tuple, Union, Dict
 
-from ..board.base import BoardCalibrator
+from .base import BoardCalibrator
 
 class MarkersBoard(BoardCalibrator):
     """
