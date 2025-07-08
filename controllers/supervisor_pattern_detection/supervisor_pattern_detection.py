@@ -42,6 +42,7 @@ while robot.step(timestep) != -1:
                    "type": "robot_position", 
                    "data": cmd_builder.command})
     
+    # Charuco
     comm.send({
         "source": robot.getName(),
         "type": "pattern_detection",
@@ -55,6 +56,57 @@ while robot.step(timestep) != -1:
             }
         }
     })
-    
+
+    # Aruco
+    # comm.send({
+    #     "source": robot.getName(),
+    #     "type": "pattern_detection",
+    #     "data": {
+    #         "pattern_type": "aruco",
+    #         "params": {
+    #             "aruco_dict_name": "4x4_50"
+    #         }
+    #     }
+    # })
+
+    # Chessboard если сгенерирован размер 5х7, то делаем -1 по каждой оси -> 4х6
+    # comm.send({
+    #     "source": robot.getName(),
+    #     "type": "pattern_detection",
+    #     "data": {
+    #         "pattern_type": "chessboard",
+    #         "params": {
+    #             "grid_cells": [4, 6]
+    #         }
+    #     }
+    # })
+
+    # CircleGrid sym
+    # comm.send({
+    #     "source": robot.getName(),
+    #     "type": "pattern_detection",
+    #     "data": {
+    #         "pattern_type": "circlegrid",
+    #         "params": {
+    #             "grid_cells": [5, 7],
+    #             "asymmetric": False
+    #         }
+    #     }
+    # })
+
+
+    # CircleGrid asym указываем размер, сколько в первом и втором ряду кругляшков -> 5x4
+    # comm.send({
+    #     "source": robot.getName(),
+    #     "type": "pattern_detection",
+    #     "data": {
+    #         "pattern_type": "circlegrid",
+    #         "params": {
+    #             "grid_cells": [5, 4],
+    #             "asymmetric": True
+    #         }
+    #     }
+    # })
+
 
 comm.disable()

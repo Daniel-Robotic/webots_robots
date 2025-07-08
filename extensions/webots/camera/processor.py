@@ -145,9 +145,9 @@ class PatternDetectorComponent:
 
     def _detect_circlegrid(self, image: np.ndarray, grid_cells: Tuple[int, int], asymmetric: bool = False) -> np.ndarray:
         try:
-            pattern = cv2.CALIB_CB_ASYMMETRIC_GRID if asymmetric else cv2.CALIB_CB_SYMMETRIC_GRID
+            flags = cv2.CALIB_CB_ASYMMETRIC_GRID if asymmetric else cv2.CALIB_CB_SYMMETRIC_GRID
             gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-            ret, centers = cv2.findCirclesGrid(gray, grid_cells, flags=pattern)
+            ret, centers = cv2.findCirclesGrid(gray, grid_cells, None, flags)
             if ret:
                 image = cv2.drawChessboardCorners(image.copy(), grid_cells, centers, ret)
         except Exception as e:
