@@ -181,10 +181,6 @@ if __name__ == "__main__":
 
 
 # python generate_calibration_pattern.py \
-#   --type circlegrid \
-#   --output ./textures/circlegrid_asymmetric.png \
-#   --grid_cells 4 11 \
-#   --cell_size 20 \
-#   --dpi 600 \
-#   --paper_format A4 \
-#   --asymmetric
+# --type charuco \ 
+# -oi protos/textures/handeye_pattern.png \
+# -gc 5 7 -cs 55 -ml 40 --dpi 50 -pf A3 -ad 4x4_50
