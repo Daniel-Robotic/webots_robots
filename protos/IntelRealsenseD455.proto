@@ -92,7 +92,7 @@ PROTO IntelRealsenseD455 [
 
       Receiver {
         name %<='"' + cameraName + '_receiver"'>%
-        channel 1
+        channel 2
         bufferSize 5000000
       }
       

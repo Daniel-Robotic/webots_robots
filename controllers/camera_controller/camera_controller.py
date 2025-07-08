@@ -4,83 +4,39 @@ from pathlib import Path
 sys.path.append(str(Path(__file__).resolve().parent.parent))
 sys.path.append(str(Path(__file__).resolve().parents[2]))
 
-import numpy as np
-from typing import List
-from extensions.utils import find_devices
-from extensions.components.communication import CommunicationComponent
-from controller import Robot, Camera, RangeFinder, Emitter, Receiver
+from controller import Robot
+from extensions.webots.communication import WebotsJsonComm
+from extensions.webots.camera.sensors import CameraSensorComponent
+from extensions.webots.camera.publisher import CameraPublisherComponent
+from extensions.webots.camera.processor import (CameraRecognitionProcessor,
+                                                CameraImageSaverComponent)
 
-# Создание робота.
 robot = Robot()
-emitter: Emitter = robot.getDevice(robot.getName() + "_emitter")
-receiver: Receiver = robot.getDevice(robot.getName() + "_receiver")
-comm = CommunicationComponent(receiver=receiver,
-                              emitter=emitter,
-                              robot_name=robot.getName())
-
-verbose = False
-
-for arg in sys.argv[1:]:
-    if arg == "--verbose" or arg == "verbose=True" or arg == "verbose=1":
-        verbose = True
-
-# Получение шага симуляции
-timestep = int(robot.getBasicTimeStep())
-
-# Список всех устройств камеры
-cameras: List[Camera] = find_devices(robot=robot,
-                                     device_type=Camera)
-range_finders: List[RangeFinder] = find_devices(robot=robot,
-                                                device_type=RangeFinder)
-
-# Включение всех устройств
-for camera in cameras:
-    camera.enable(timestep)
-    camera.recognitionEnable(timestep)
-
-for range_finder in range_finders:
-    range_finder.enable(timestep)
-
-if verbose:
-    print(f"Найдено камер для робота {robot.getName()}: {len(cameras)}")
-    print(f"Найдено дальномеров для робота {robot.getName()}: {len(range_finders)}")
+ts = int(robot.getBasicTimeStep())
+comm = WebotsJsonComm(robot.getDevice(f"{robot.getName()}_receiver"),
+                      robot.getDevice(f"{robot.getName()}_emitter"))
+comm.enable(ts)
 
 
-while robot.step(timestep) != -1:
+sensors = CameraSensorComponent(robot, ts, verbose=False)
+proc = CameraRecognitionProcessor()
+pub = CameraPublisherComponent(comm)
+saver = CameraImageSaverComponent()
 
-    for camera in cameras:
-        width = camera.getWidth()
-        height = camera.getHeight()
+while robot.step(ts) != -1:
+    comm.receive()
+    for msg in comm.messages:
+        if msg.get("type") == "save_image":
+            folder = msg.get("data", {}).get("folder", "./images")
+            sensor_type = msg.get("data", {}).get("type", "rgb")
 
-        recognized_objects = camera.getRecognitionObjects()
-        if verbose:
-            print(f"[{camera.getName()}] Найдено объектов: {len(recognized_objects)}")
-        
-        image_array = np.frombuffer(camera.getImage(), dtype=np.uint8).reshape((height, width, 4))
-        image_rgb = image_array[:, :, :3]
+            for sensor in sensors.cameras + sensors.range_finders:
+                saver.save(sensor, sensor_type, folder)
 
-        obj_info = []
-        for obj in recognized_objects:
-            
-            obj_info.append({
-                "position": list(obj.getPosition()),
-                "orientation": list(obj.getOrientation()),
-                "size": list(obj.getSize()),
-                "model": str(obj.getModel()),
-                "position_on_image": list(obj.getPositionOnImage()),
-            })
+    results = [proc.process(c) for c in sensors.cameras]
+    pub.publish(results)
 
-            if verbose:
-                print(f"  Объект: модель={obj_info[-1]['model']}, позиция={obj_info[-1]['position']}")
 
-        comm.send(msg_type="recognized_objects",
-                  data={"objects": obj_info})
-            
+sensors.disable_all()
+comm.disable()
 
-# Отключение всех устройств
-for camera in cameras:
-    camera.recognitionDisable()
-    camera.disable()
-
-for range_finder in range_finders:
-    range_finder.disable()

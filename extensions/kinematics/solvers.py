@@ -1,15 +1,15 @@
 import numpy as np
 import roboticstoolbox as rtb
 
-from typing import List
+from typing import Sequence
 from spatialmath import SE3
-from spatialmath.base import angvec2r, tr2rpy
+from numpy.typing import ArrayLike
 
 
 def solve_ik(robot: rtb.DHRobot,
-             q_current: List,
-             target_position: List,
-             target_orientation_rpy: List
+             q_current: Sequence,
+             target_position: ArrayLike,
+             target_orientation_rpy: ArrayLike
             ):
     
     T_target = SE3(target_position) * SE3.RPY(target_orientation_rpy, order='xyz')
@@ -22,22 +22,11 @@ def solve_ik(robot: rtb.DHRobot,
     return None
 
 
-def solve_pzk(robot: rtb.DHRobot,
-              q: List):
-    T = robot.fkine(q)
+def solve_pzk(model: rtb.DHRobot,
+              q: ArrayLike):
     
-    positions = T.t
-    orientation_rpy = T.rpy()
-    
-    return positions, orientation_rpy
-
-
-def axis_angle_to_rpy(axis_angle):
-    axis = axis_angle[:3]
-    angle = axis_angle[3]
-    R = angvec2r(angle, axis)  # Поворачивает на angle вокруг axis → матрица 3x3
-    rpy = tr2rpy(R, order='xyz', unit='rad')  # [roll, pitch, yaw]
-    return rpy
+    T = model.fkine(q)
+    return T.t, T.rpy()
 
 
 def calculate_trajectory(robot: rtb.DHRobot,

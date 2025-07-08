@@ -11,11 +11,10 @@ EXTERNPROTO "../protos/IntelRealsenseD455.proto"
 EXTERNPROTO "../protos/TargetWithGripper.proto"
 
 WorldInfo {
-  basicTimeStep 64
 }
 Viewpoint {
-  orientation -0.05432293846539942 0.030491766383696335 0.9980577491003647 2.1202881696227283
-  position 3.6621065091357625 -5.0109812385478865 2.101130190814021
+  orientation -0.23137804392051958 0.0858339936732392 0.9690700316910108 2.4513765153759017
+  position 4.455951125078921 -3.1709115021796475 3.970120338776087
 }
 TexturedBackground {
 }
@@ -66,6 +65,6 @@ Robot {
   ]
   name "supervisor"
   locked TRUE
-  controller "supervisor_gizmo_move"
+  controller "supervisor_camera_saver"
   supervisor TRUE
 }

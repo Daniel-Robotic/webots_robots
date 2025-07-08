@@ -15,7 +15,7 @@ from extensions.utils import deg2rad
 from extensions.kinematics.robot_models import LBRiiwaR800Model
 from extensions.communication import send_message, receive_all_messages
 from extensions.kinematics.transformations import transform_world_to_local
-from extensions.kinematics.kinematics import calculate_trajectory, axis_angle_to_rpy
+from extensions.kinematics._kinematics import calculate_trajectory, axis_angle_to_rpy
 
 
 # ────────────────────────────────────────────────────────────────

@@ -4,15 +4,21 @@ from pathlib import Path
 sys.path.append(str(Path(__file__).resolve().parent.parent))
 sys.path.append(str(Path(__file__).resolve().parents[2]))
 
+import os
 from controller import Supervisor
 from extensions.kinematics.robot_models import LBRiiwaR800Model
-from extensions.kinematics.solvers import solve_ik
 from extensions.webots.communication import WebotsJsonComm
-from extensions.webots.target import WebotsTargetGizmo
 from extensions.core.motion import MotionTracker
 from extensions.core.commands import CommandBuilder
 
+# ================ Меням путь до файла и разделить ==========================
 
+# IMAGE_FOLDER = "/home/user/dev/webots_projects/webots_robots/image_saver_example"
+IMAGE_FOLDER = os.path.expandvars("${HOME}/dev/webots_projects/webots_robots/image_saver_example")
+# ===========================================================================
+
+
+# =============== Автоматически все выполниться =============================
 robot = Supervisor()
 timestep = int(robot.getBasicTimeStep())
 
@@ -21,40 +27,37 @@ comm = WebotsJsonComm(robot.getDevice("supervisor_receiver"),
 comm.enable(timestep)
 
 model = LBRiiwaR800Model()
-state_q = model.qz  # хранит только q, FK считаете при необходимости
+state_q = model.qz
+step_counter = 0
 
-robot_node = robot.getFromDef("KUKA")
-trg_node = robot.getFromDef("TARGET_GRIPPER")
-target = WebotsTargetGizmo(robot_node, trg_node)
-
-ik_solver = lambda qc, xyz, rpy: solve_ik(model, qc, xyz, rpy)
 motion = MotionTracker(0.01)
 cmd_builder = CommandBuilder([f"lbr_A{i+1}" for i in range(7)], ["camera_motor"])
+cmd_builder.set_target(model.qr)
 
 
 while robot.step(timestep) != -1:
+    step_counter += 1
+    
     msgs = comm.receive()
     
-    # обновляем состояние робота
     for m in msgs:
         if m.get("type") == "LBRiiwa7R800_current_pose":
             state_q = list(m["data"]["joints"].values())[:-1]
 
-    # IK — если ещё нет цели
-    if not cmd_builder.has_target:
-        xyz, rpy = target.pose
-        q_star = ik_solver(state_q, xyz, rpy)
-
-        if q_star is not None:
-            cmd_builder.set_target(q_star)
-
-    # Проверяем достижение цели
     if cmd_builder.has_target and motion.target_reached(state_q, cmd_builder.target):
         cmd_builder.clear_target()
 
-    cmd_builder.gripper_open = target.gripper
     comm.send({"source": robot.getName(), 
-               "type": "robot_position", 
-               "data": cmd_builder.command})
+                   "type": "robot_position", 
+                   "data": cmd_builder.command})
+    
+    if step_counter % 100 == 0:
+        step_counter = 0
+        comm.send({"source": robot.getName(), 
+               "type": "save_image", 
+               "data": {"folder": IMAGE_FOLDER,
+                        "type": "rgbd"} 
+               })
+        
 
 comm.disable()

@@ -4,103 +4,65 @@ from pathlib import Path
 sys.path.append(str(Path(__file__).resolve().parent.parent))
 sys.path.append(str(Path(__file__).resolve().parents[2]))
 
+from controller import Robot, Motor, PositionSensor
+from extensions.webots.communication import WebotsJsonComm
+from extensions.utils.device_search import is_gripper_motor
 
-from typing import Dict
-from controller import Robot, Motor, PositionSensor, Emitter, Receiver
-from extensions.utils import rad2deg, is_gripper_motor, control_gripper, set_joint_positions
-from extensions.components.communication import CommunicationComponent
-
-# create the Robot instance.
+# — init —
 robot = Robot()
-emitter: Emitter = robot.getDevice(robot.getName() + "_emitter")
-receiver: Receiver = robot.getDevice(robot.getName() + "_receiver")
-comm = CommunicationComponent(receiver=receiver,
-                              emitter=emitter,
-                              robot_name=robot.getName())
+ts = int(robot.getBasicTimeStep())
+comm = WebotsJsonComm(robot.getDevice(f"{robot.getName()}_receiver"),
+                      robot.getDevice(f"{robot.getName()}_emitter"))
+comm.enable(ts)
 
-verbose = False
-
-for arg in sys.argv[1:]:
-    if arg == "--verbose" or arg == "verbose=True" or arg == "verbose=1":
-        verbose = True
-
-timestep = int(robot.getBasicTimeStep())
-
-arm_motors: Dict[str, Motor] = {}
-arm_sensors: Dict[str, PositionSensor] = {}
-
-gripper_motors: Dict[str, Motor] = {}
-gripper_sensors: Dict[str, PositionSensor] = {}
+arm_motors, grip_motors = {}, {}
+arm_sensors, grip_sensors = {}, {}
 
 for i in range(robot.getNumberOfDevices()):
-    device = robot.getDeviceByIndex(i)
-    if isinstance(device, Motor):
-        name = device.getName()
-
+    dev = robot.getDeviceByIndex(i)
+    if isinstance(dev, Motor):
+        name = dev.getName()
         if is_gripper_motor(name):
-            gripper_motors[name] = device
-            # Пробуем найти связанный сенсор
-            sensor_name = name + "_sensor"
-            try:
-                sensor = robot.getDevice(sensor_name)
-                if isinstance(sensor, PositionSensor):
-                    gripper_sensors[name] = sensor
-                    sensor.enable(timestep)
-            except Exception:
-                print(f"[WARN] No sensor found for gripper motor '{name}'")
+            grip_motors[name] = dev
         else:
-            arm_motors[name] = device
-            sensor_name = name + "_sensor"
-            try:
-                sensor = robot.getDevice(sensor_name)
-                if isinstance(sensor, PositionSensor):
-                    arm_sensors[name] = sensor
-                    sensor.enable(timestep)
-            except Exception:
-                print(f"[WARN] No sensor found for arm motor '{name}'")
+            arm_motors[name] = dev
+        sens_name = name + "_sensor"
+        try:
+            sens = robot.getDevice(sens_name)
+            if isinstance(sens, PositionSensor):
+                sens.enable(ts)
+                (grip_sensors if is_gripper_motor(name) else arm_sensors)[name] = sens
+        except Exception:
+            pass
 
-comm.enable(timestep)
-num_joints = len(arm_motors)
-last_msg = None
+# — helper —
+def apply_cmd(joints: dict, gr_open: bool):
+    for n, v in joints.items():
+        if n in arm_motors:
+            arm_motors[n].setPosition(float(v))
+    for n, m in grip_motors.items():
+        off = 0.01 if (gr_open ^ ("r" in n.lower())) else 0.0
+        m.setVelocity(0.5)
+        m.setPosition(off if "l" in n.lower() else -off)
 
 
-while robot.step(timestep) != -1:
-    emitter_msg = {
-        "joints": {},
-        "gripper": {}
+def build_state():
+    return {
+        "joints": {n: s.getValue() for n, s in arm_sensors.items()},
+        "gripper": {n: s.getValue() for n, s in grip_sensors.items()},
     }
-    
-    comm.receive()
-    
-    for msg in comm.messages:
-        if msg["source"] == "supervisor" and msg["type"] == "robot_position":
-            last_msg = msg["data"]
-            joints = last_msg["joints"]
-            
-            target_positions = list(joints.values())
-            set_joint_positions(motors=arm_motors,
-                                positions=target_positions)
-            control_gripper(gripper_motors=gripper_motors,
-                            open=last_msg["gripper"])
-            
 
-    # Чтение текущих углов суставов
-    for name, sensor in arm_sensors.items():
-        position = sensor.getValue()
-        emitter_msg["joints"][name] = position
-        
-        if verbose:
-            print(f"Joint {name}: {rad2deg(position):.2f} deg")
-    
-    # Чтение текущих позиций пальцев захвата
-    for name, sensor in gripper_sensors.items():
-        position = sensor.getValue()
-        emitter_msg["gripper"][name] = position
-        
-        if verbose:
-            print(f"Gripper {name}: {position:.3f} rad")
-    
-    comm.send(msg_type=f"{robot.getName()}_current_pose",
-              data=emitter_msg)
-                
+
+# — loop —
+while robot.step(ts) != -1:
+
+    # Получаем позиции от supervisor
+    for m in comm.receive():
+        if m.get("source") == "supervisor" and m.get("type") == "robot_position":           
+            apply_cmd(m["data"]["joints"], m["data"]["gripper"])
+
+    comm.send({"source": robot.getName(),
+               "type": f"{robot.getName()}_current_pose",
+               "data": build_state()})
+
 comm.disable()
