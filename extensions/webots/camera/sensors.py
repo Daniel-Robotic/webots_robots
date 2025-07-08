@@ -6,6 +6,7 @@ from ...utils.device_search import find_devices
 
 class CameraSensorComponent:
     def __init__(self, robot: Robot, timestep: int, verbose: bool = False):
+        self.robot = robot
         self._cams: List[Camera] = find_devices(robot, Camera)
         self._rfs: List[RangeFinder] = find_devices(robot, RangeFinder)
         self._verbose = verbose

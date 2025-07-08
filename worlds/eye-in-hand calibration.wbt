@@ -13,8 +13,8 @@ EXTERNPROTO "../protos/TargetWithGripper.proto"
 WorldInfo {
 }
 Viewpoint {
-  orientation -0.23137804392051958 0.0858339936732392 0.9690700316910108 2.4513765153759017
-  position 4.455951125078921 -3.1709115021796475 3.970120338776087
+  orientation -0.2608389711948512 0.05976320363043447 0.9635306900134727 2.707036089266698
+  position 4.593058217785168 -2.315042645583486 4.248680294712511
 }
 TexturedBackground {
 }
@@ -41,7 +41,7 @@ DEF KUKA LBRiiwa7R800 {
   ]
 }
 CalibrationPattern {
-  translation 0.32 0 0.79
+  translation 0.15 0 0.79
 }
 DEF TARGET_GRIPPER TargetWithGripper {
   translation 0.24 -2.81569e-07 1.21
@@ -65,6 +65,6 @@ Robot {
   ]
   name "supervisor"
   locked TRUE
-  controller "supervisor_camera_saver"
+  controller "supervisor_pattern_detection"
   supervisor TRUE
 }

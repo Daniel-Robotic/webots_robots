@@ -95,6 +95,12 @@ PROTO IntelRealsenseD455 [
         channel 2
         bufferSize 5000000
       }
+
+      Display {
+        name %<='"' + cameraName + '_display"'>%
+        width %<= width >%
+        height %<= height >%
+      }
       
       Solid {
         translation 0.013 0 0
