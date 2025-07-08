@@ -6,14 +6,17 @@ sys.path.append(str(Path(__file__).resolve().parents[2]))
 
 import numpy as np
 from typing import List
-from extensions.communication import send_message
 from extensions.utils import find_devices
+from extensions.components.communication import CommunicationComponent
 from controller import Robot, Camera, RangeFinder, Emitter, Receiver
 
 # Создание робота.
 robot = Robot()
 emitter: Emitter = robot.getDevice(robot.getName() + "_emitter")
 receiver: Receiver = robot.getDevice(robot.getName() + "_receiver")
+comm = CommunicationComponent(receiver=receiver,
+                              emitter=emitter,
+                              robot_name=robot.getName())
 
 verbose = False
 
@@ -55,11 +58,10 @@ while robot.step(timestep) != -1:
         
         image_array = np.frombuffer(camera.getImage(), dtype=np.uint8).reshape((height, width, 4))
         image_rgb = image_array[:, :, :3]
-        
 
         obj_info = []
         for obj in recognized_objects:
-            # TODO: Здесь добавляешь поле, которое необходимо отправить
+            
             obj_info.append({
                 "position": list(obj.getPosition()),
                 "orientation": list(obj.getOrientation()),
@@ -71,10 +73,8 @@ while robot.step(timestep) != -1:
             if verbose:
                 print(f"  Объект: модель={obj_info[-1]['model']}, позиция={obj_info[-1]['position']}")
 
-        send_message(emitter=emitter,
-                     source_name=robot.getName(),
-                     message_type="recognized_objects",
-                     data={"objects": obj_info})
+        comm.send(msg_type="recognized_objects",
+                  data={"objects": obj_info})
             
 
 # Отключение всех устройств

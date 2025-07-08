@@ -7,14 +7,16 @@ sys.path.append(str(Path(__file__).resolve().parents[2]))
 
 from typing import Dict
 from controller import Robot, Motor, PositionSensor, Emitter, Receiver
-from extensions.communication import send_message, receive_all_messages
 from extensions.utils import rad2deg, is_gripper_motor, control_gripper, set_joint_positions
-
+from extensions.components.communication import CommunicationComponent
 
 # create the Robot instance.
 robot = Robot()
 emitter: Emitter = robot.getDevice(robot.getName() + "_emitter")
 receiver: Receiver = robot.getDevice(robot.getName() + "_receiver")
+comm = CommunicationComponent(receiver=receiver,
+                              emitter=emitter,
+                              robot_name=robot.getName())
 
 verbose = False
 
@@ -57,8 +59,10 @@ for i in range(robot.getNumberOfDevices()):
             except Exception:
                 print(f"[WARN] No sensor found for arm motor '{name}'")
 
-receiver.enable(timestep)
+comm.enable(timestep)
 num_joints = len(arm_motors)
+last_msg = None
+
 
 while robot.step(timestep) != -1:
     emitter_msg = {
@@ -66,17 +70,18 @@ while robot.step(timestep) != -1:
         "gripper": {}
     }
     
-    msg = receive_all_messages(receiver=receiver)
+    comm.receive()
     
-    if msg:
-        last_raw_msg = msg[-1]["data"]
-        joints = last_raw_msg["joints"]
-        
-        target_positions = list(joints.values())
-        set_joint_positions(motors=arm_motors,
-                            positions=target_positions)
-        control_gripper(gripper_motors=gripper_motors,
-                        open=last_raw_msg["gripper"])
+    for msg in comm.messages:
+        if msg["source"] == "supervisor" and msg["type"] == "robot_position":
+            last_msg = msg["data"]
+            joints = last_msg["joints"]
+            
+            target_positions = list(joints.values())
+            set_joint_positions(motors=arm_motors,
+                                positions=target_positions)
+            control_gripper(gripper_motors=gripper_motors,
+                            open=last_msg["gripper"])
             
 
     # Чтение текущих углов суставов
@@ -95,11 +100,7 @@ while robot.step(timestep) != -1:
         if verbose:
             print(f"Gripper {name}: {position:.3f} rad")
     
-    send_message(emitter=emitter,
-                 source_name=robot.getName(),
-                 message_type=f"{robot.getName()}_data",
-                 data=emitter_msg)
-    
+    comm.send(msg_type=f"{robot.getName()}_current_pose",
+              data=emitter_msg)
                 
-                
-receiver.disable()
+comm.disable()
