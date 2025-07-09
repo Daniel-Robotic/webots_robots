@@ -40,4 +40,4 @@ class CommandBuilder:
 
     @gripper_open.setter
     def gripper_open(self, val: bool):
-        self._cmd["gripper"] = bool(val)
+        self._cmd["gripper"] = not bool(val)
