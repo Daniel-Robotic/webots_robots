@@ -48,9 +48,7 @@ comm.enable(timestep)
 trajectory = []
 current_q = state_q.copy()
 
-i = 0
-while i < len(commands):
-    cmd = commands[i]
+for cmd in commands:
 
     if cmd["command"] == "move":
         xyz = cmd["args"][:3]
@@ -67,7 +65,6 @@ while i < len(commands):
     elif cmd["command"] == "grab":
         if len(trajectory) == 0:
             print("[ERROR] Нет предыдущей точки для команды grab.")
-            i += 1
             continue
 
         last_q = trajectory[-1]["joints"]
@@ -77,8 +74,6 @@ while i < len(commands):
             trajectory.append({"joints": last_q, "gripper": None})
 
         trajectory.append({"joints": last_q, "gripper": cmd["args"]})
-
-    i += 1
 
 print(f"[INFO] Сформирована траектория из {len(trajectory)} шагов")
 

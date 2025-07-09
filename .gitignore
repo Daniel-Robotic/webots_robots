@@ -1,11 +1,12 @@
 .vscode/
 venv/
 .venv/
-image_saver_example
 
 **/__pycache__
 **/*.wbproj
 **/*.jpg
+**/*.jpeg
+**/*.png
 
 # UV components
 .python-version

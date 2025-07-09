@@ -18,25 +18,72 @@ from extensions.kinematics.planner import TrajectoryPlannerComponent
 
 
 # ================ Меням путь до файла и разделить ==========================
-# JSON_CARTESIAN_PATH = "$/home/user/webots_project/controllers/supervisor_cartesian_move/example_move.json"
-JSON_CARTESIAN_PATH = os.path.expandvars("${HOME}/dev/webots_projects/webots_robots/controllers/supervisor_cartesian_move/example_move.json")
+# JSON_CARTESIAN_PATH = "/home/user/webots_project/controllers/supervisor_pattern_collection/collect_pattern.json"
+# IMAGE_FOLDER = "/home/user/webots_project/pattern_collect"
+ 
+JSON_CARTESIAN_PATH = os.path.expandvars("${HOME}/dev/webots_projects/webots_robots/controllers/supervisor_pattern_collection/collect_pattern.json")
+IMAGE_FOLDER = os.path.expandvars("${HOME}/dev/webots_projects/webots_robots/pattern_collect")
 # ===========================================================================
 
 
 # =============== Автоматически все выполниться =============================
+with open(JSON_CARTESIAN_PATH, encoding="utf-8") as f:
+    commands = json.load(f)
+if commands and isinstance(commands[0], list):
+    commands = commands[0]
+
 robot = Supervisor()
 timestep = int(robot.getBasicTimeStep())
-
-comm = WebotsJsonComm(robot.getDevice("supervisor_receiver"),
-                      robot.getDevice("supervisor_emitter"))
-comm.enable(timestep)
+dt = timestep / 1000.0
 
 model = LBRiiwaR800Model()
 state_q = model.qz
 
-motion = MotionTracker(0.01)
+comm = WebotsJsonComm(robot.getDevice("supervisor_receiver"),
+                      robot.getDevice("supervisor_emitter"))
+ik_solver = lambda qc, xyz, rpy: solve_ik(model, qc, xyz, rpy)
+motion = MotionTracker(0.05)
 cmd_builder = CommandBuilder([f"lbr_A{i+1}" for i in range(7)], ["camera_motor"])
+planer = TrajectoryPlannerComponent(model)
+
+comm.enable(timestep)
+
+trajectory = []
+current_q = model.qr
+
+for cmd in commands:
+
+    if cmd["command"] == "move":
+        xyz = cmd["args"][:3]
+        rpy = cmd["args"][3:]
+        success = planer.plan(current_q, xyz, rpy, dt, speed_scale=0.5)
+
+        if success:
+            for point in planer.trajectory:
+                trajectory.append({"joints": point, "collect": None})
+            current_q = planer.trajectory[-1]
+        else:
+            print(f"[WARN] Не удалось построить траекторию для: {xyz}, {rpy}")
+
+    elif cmd["command"] == "collect":
+        if len(trajectory) == 0:
+            print("[ERROR] Нет предыдущей точки для команды collect.")
+            continue
+
+        last_q = trajectory[-1]["joints"]
+        n_repeat = int(0.5 / dt)
+
+        for _ in range(n_repeat):
+            trajectory.append({"joints": last_q, "collect": None})
+
+        trajectory.append({"joints": last_q, "collect": cmd["args"]})
+
+print(f"[INFO] Сформирована траектория из {len(trajectory)} шагов")
+
 cmd_builder.set_target(model.qr)
+cmd_builder.gripper_open = True
+index = 0
+first = True
 
 
 while robot.step(timestep) != -1:
@@ -47,26 +94,34 @@ while robot.step(timestep) != -1:
         if m.get("type") == "LBRiiwa7R800_current_pose":
             state_q = list(m["data"]["joints"].values())[:-1]
 
+    if first:
+        comm.send({"source": robot.getName(), 
+                   "type": "robot_position", 
+                   "data": cmd_builder.command})
+        first = False
+        continue
+
     if cmd_builder.has_target and motion.target_reached(state_q, cmd_builder.target):
         cmd_builder.clear_target()
+
+        if index < len(trajectory):
+            point = trajectory[index]
+            cmd_builder.set_target(point["joints"])
+
+            if point["collect"] is not None:
+                comm.send({"source": robot.getName(), 
+                            "type": "save_image", 
+                            "data": {
+                                      "folder": IMAGE_FOLDER,
+                                      "type": "rgb"
+                                    } 
+                            })
+
+            # print_progress_bar(index + 1, len(trajectory))
+            index += 1
 
     comm.send({"source": robot.getName(), 
                    "type": "robot_position", 
                    "data": cmd_builder.command})
-    
-    # Charuco
-    comm.send({
-        "source": robot.getName(),
-        "type": "pattern_detection",
-        "data": {
-            "pattern_type": "charuco",
-            "params": {
-                "grid_cells": [5, 7],
-                "cell_size_mm": 55,
-                "marker_length_mm": 40,
-                "aruco_dict_name": "4x4_50"
-            }
-        }
-    })
 
 comm.disable()

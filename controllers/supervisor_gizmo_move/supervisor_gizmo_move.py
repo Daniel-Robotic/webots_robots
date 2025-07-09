@@ -21,7 +21,7 @@ comm = WebotsJsonComm(robot.getDevice("supervisor_receiver"),
 comm.enable(timestep)
 
 model = LBRiiwaR800Model()
-state_q = model.qz  # хранит только q, FK считаете при необходимости
+state_q = model.qz
 
 robot_node = robot.getFromDef("KUKA")
 trg_node = robot.getFromDef("TARGET_GRIPPER")

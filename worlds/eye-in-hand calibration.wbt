@@ -11,6 +11,7 @@ EXTERNPROTO "../protos/IntelRealsenseD455.proto"
 EXTERNPROTO "../protos/TargetWithGripper.proto"
 
 WorldInfo {
+  basicTimeStep 64
 }
 Viewpoint {
   orientation -0.2608389711948512 0.05976320363043447 0.9635306900134727 2.707036089266698
@@ -41,7 +42,7 @@ DEF KUKA LBRiiwa7R800 {
   ]
 }
 CalibrationPattern {
-  translation 0.15 0 0.79
+  translation 0.36 0 0.79
 }
 DEF TARGET_GRIPPER TargetWithGripper {
   translation 0.24 -2.81569e-07 1.21
@@ -65,6 +66,6 @@ Robot {
   ]
   name "supervisor"
   locked TRUE
-  controller "supervisor_pattern_detection"
+  controller "supervisor_pattern_collection"
   supervisor TRUE
 }
