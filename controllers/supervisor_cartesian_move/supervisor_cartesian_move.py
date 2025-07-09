@@ -11,6 +11,7 @@ from controller import Supervisor
 from extensions.core.motion import MotionTracker
 from extensions.kinematics.solvers import solve_ik
 from extensions.core.commands import CommandBuilder
+from extensions.utils.console import print_progress_bar
 from extensions.webots.communication import WebotsJsonComm
 from extensions.kinematics.robot_models import LBRiiwaR800Model
 from extensions.kinematics.planner import TrajectoryPlannerComponent
@@ -22,13 +23,6 @@ JSON_CARTESIAN_PATH = os.path.expandvars("${HOME}/dev/webots_projects/webots_rob
 
 
 # =============== Автоматически все выполниться =============================
-def print_progress_bar(current: int, total: int, bar_width: int = 20):
-    percent = int((current / total) * 100)
-    bar_filled = int(bar_width * current / total)
-    bar = "█" * bar_filled + "-" * (bar_width - bar_filled)
-    print(f"[{percent:>3}%/100%] {bar} [{current}/{total}]")
-
-
 with open(JSON_CARTESIAN_PATH, encoding="utf-8") as f:
     commands = json.load(f)
 if commands and isinstance(commands[0], list):
