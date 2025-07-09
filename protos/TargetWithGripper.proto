@@ -4,16 +4,31 @@ PROTO TargetWithGripper [
   field SFVec3f     translation  0 0 0
   field SFRotation  rotation     0 1 0 0
   field SFBool      gripper_open TRUE
+  field SFBool      show_box     FALSE
+  field SFVec3f     size          0.03 0.03 0.03
+
 ]
 {
-  Pose {
+  Solid {
     translation IS translation
     rotation IS rotation
+
     children [
-      Transform {
-        translation 0 0 0
-        children []
+      Shape {
+        appearance PBRAppearance {
+          baseColor 1 1 1
+          roughness 1
+          metalness 0
+        }
+
+        %< if (fields.show_box.value) { >%
+          geometry Box {
+            size IS size
+          }
+        %< } >%
       }
     ]
   }
 }
+
+

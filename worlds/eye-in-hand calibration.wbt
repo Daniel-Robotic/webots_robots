@@ -11,11 +11,14 @@ EXTERNPROTO "../protos/IntelRealsenseD455.proto"
 EXTERNPROTO "../protos/TargetWithGripper.proto"
 
 WorldInfo {
-  basicTimeStep 64
+  contactProperties [
+    ContactProperties {
+    }
+  ]
 }
 Viewpoint {
-  orientation -0.2608389711948512 0.05976320363043447 0.9635306900134727 2.707036089266698
-  position 4.593058217785168 -2.315042645583486 4.248680294712511
+  orientation -0.2667152319194103 0.09535575494808286 0.9590465395696166 2.4809623404001746
+  position 4.4965776651638985 -3.1346326413293637 4.70289767037088
 }
 TexturedBackground {
 }
@@ -36,17 +39,18 @@ DEF KUKA LBRiiwa7R800 {
       camera [
         IntelRealsenseD455 {
           controller "camera_controller"
+          resolution "VGA"
         }
       ]
     }
   ]
 }
 CalibrationPattern {
-  translation 0.36 0 0.79
+  translation 0.26 0 0.79
 }
 DEF TARGET_GRIPPER TargetWithGripper {
-  translation 0.24 -2.81569e-07 1.21
-  rotation 1.125079999996903e-14 0.9999999999972473 2.346409999993541e-06 3.14159
+  translation 0.17 4.69285e-08 1.14
+  rotation 0 1 0 3.141592653589793
   gripper_open FALSE
 }
 Robot {

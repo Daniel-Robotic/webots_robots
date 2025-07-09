@@ -4,6 +4,7 @@ from pathlib import Path
 sys.path.append(str(Path(__file__).resolve().parent.parent))
 sys.path.append(str(Path(__file__).resolve().parents[2]))
 
+import json
 from controller import Supervisor
 from extensions.kinematics.robot_models import LBRiiwaR800Model
 from extensions.webots.communication import WebotsJsonComm
@@ -33,6 +34,8 @@ ik_solver = lambda qc, xyz, rpy: solve_ik(model, qc, xyz, rpy)
 motion = MotionTracker(0.01)
 cmd_builder = CommandBuilder([f"lbr_A{i+1}" for i in range(7)], ["camera_motor"])
 
+prev_state_gripper = False
+robot_pose = []
 
 while robot.step(timestep) != -1:
     
@@ -44,7 +47,22 @@ while robot.step(timestep) != -1:
             xyz, rpy = solve_pzk(model, state_q)
             xyz_str = ", ".join(f"{v:.3f}" for v in xyz)
             rpy_str = ", ".join(f"{v:.3f}" for v in rpy)
-            print(f"Позиция робота: [{xyz_str}]  [{rpy_str}]")
+            # print(f"Позиция робота PZK: [{xyz_str}]  [{rpy_str}]")
+
+    # Сохранение данных в файл
+    if target.gripper and prev_state_gripper:
+        prev_state_gripper = False
+        robot_pose.append({"command": "move", "args": xyz.tolist() + rpy.tolist()})
+        robot_pose.append({"command": "collect", "args": True})
+
+        with open("./robot_poses.json", "w", encoding="utf-8") as f:
+            json.dump(robot_pose, f, indent=4, ensure_ascii=False)
+        print(f"Позиция робота: [{xyz_str + rpy_str}]  ")
+        print(f"[LOG] Сохранено в файл: ./robot_poses.json")
+
+    elif not target.gripper and not prev_state_gripper:
+        prev_state_gripper = True
+
 
     if not cmd_builder.has_target:
         xyz, rpy = target.pose

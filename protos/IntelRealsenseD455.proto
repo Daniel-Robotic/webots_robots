@@ -13,34 +13,36 @@ PROTO IntelRealsenseD455 [
   field SFString controller "<generic>"
   field MFString controllerArgs [ ]
   field SFBool supervisor FALSE
-  field SFString{"HD", "VGA"} resolution "VGA"
-  field SFFloat fieldOfView 1.25
+  field SFString{"HD", "VGA", "FULL"} resolution "FULL"
+  field SFFloat fieldOfView 1.71  # Diagonal ~98° from datasheet
   field SFFloat minRange 0.01
   field SFFloat maxRange 6.0
-  field SFNode focus Focus{
-    focalLength 1.93
-    maxFocalDistance 6
-    minFocalDistance 0.4
-  }
+  field SFNode focus NULL
   field SFNode recognition Recognition{}
   field SFNode physics Physics {
-      density -1
-      mass 0.35
-      centerOfMass [0 0 0]
-    }
+    density -1
+    mass 0.35
+    centerOfMass [0 0 0]
+  }
 ]
 {
-   %<
-     const cameraName = fields.name.value;
-     const resMode = fields.resolution.value.toUpperCase();
-     let width = 1280;
-     let height = 720;
-     
-     if (resMode === "VGA") {
-       width = 640;
-       height = 480;
-     }
-   >%
+  %<
+    const cameraName = fields.name.value;
+    const resMode = fields.resolution.value.toUpperCase();
+    let width = 1280;
+    let height = 800;
+
+    if (resMode === "VGA") {
+      width = 640;
+      height = 480;
+    } else if (resMode === "HD") {
+      width = 1280;
+      height = 720;
+    } else if (resMode === "FULL") {
+      width = 1280;
+      height = 800;
+    }
+  >%
 
   Robot {
     translation IS translation
@@ -50,14 +52,14 @@ PROTO IntelRealsenseD455 [
     controller IS controller
     controllerArgs IS controllerArgs
     supervisor IS supervisor
-    
+
     children [
       RangeFinder {
         translation 0.005 0 0
         name %<='"' + cameraName + '_depth"'>%
         locked TRUE
         radarCrossSection 0.01
-        fieldOfView IS fieldOfView  # ~95 degrees
+        fieldOfView IS fieldOfView
         width %<= width >%
         height %<= height >%
         near IS minRange
@@ -66,7 +68,7 @@ PROTO IntelRealsenseD455 [
         noise 0.01
         resolution 0.001
       }
-      
+
       Camera {
         translation 0.005 0 0
         name %<='"' + cameraName + '_rgb"'>%
@@ -101,7 +103,7 @@ PROTO IntelRealsenseD455 [
         width %<= width >%
         height %<= height >%
       }
-      
+
       Solid {
         translation 0.013 0 0
         rotation 0.5773489358556708 0.5773509358554485 0.5773509358554485 2.0944
@@ -115,7 +117,7 @@ PROTO IntelRealsenseD455 [
         locked TRUE
       }
     ]
-    
+
     boundingObject Pose {
       children [
         Box {

@@ -42,7 +42,7 @@ state_q = model.qz
 comm = WebotsJsonComm(robot.getDevice("supervisor_receiver"),
                       robot.getDevice("supervisor_emitter"))
 ik_solver = lambda qc, xyz, rpy: solve_ik(model, qc, xyz, rpy)
-motion = MotionTracker(0.05)
+motion = MotionTracker(0.005)
 cmd_builder = CommandBuilder([f"lbr_A{i+1}" for i in range(7)], ["camera_motor"])
 planer = TrajectoryPlannerComponent(model)
 
@@ -117,7 +117,7 @@ while robot.step(timestep) != -1:
                                     } 
                             })
 
-            # print_progress_bar(index + 1, len(trajectory))
+            print_progress_bar(index + 1, len(trajectory))
             index += 1
 
     comm.send({"source": robot.getName(), 
