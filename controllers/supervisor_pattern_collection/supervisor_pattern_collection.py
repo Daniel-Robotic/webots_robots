@@ -6,6 +6,7 @@ sys.path.append(str(Path(__file__).resolve().parents[2]))
 
 import os
 import json
+import pandas as pd
 
 from controller import Supervisor
 from extensions.core.motion import MotionTracker
@@ -34,7 +35,9 @@ if commands and isinstance(commands[0], list):
 
 robot = Supervisor()
 timestep = int(robot.getBasicTimeStep())
+# dt = 10 / 1000.0
 dt = timestep / 1000.0
+
 
 model = LBRiiwaR800Model()
 state_q = model.qz
@@ -49,10 +52,20 @@ planer = TrajectoryPlannerComponent(model)
 comm.enable(timestep)
 
 trajectory = []
-current_q = model.qr
+current_q = model.qz
+
+path_robot = []
+
+success = planer.plan(current_q, target_rpy=None, target_xyz=None, dt=dt, q_target=model.qr, speed_scale=0.1)
+if success:
+    for point in planer.trajectory:
+        trajectory.append({"joints": point, "collect": None})
+        path_robot.append(point)
+    current_q = planer.trajectory[-1]
+else:
+    print(f"[ERROR] Не удалось построить стартовую траекторию от qz к qr")
 
 for cmd in commands:
-
     if cmd["command"] == "move":
         xyz = cmd["args"][:3]
         rpy = cmd["args"][3:]
@@ -61,6 +74,7 @@ for cmd in commands:
         if success:
             for point in planer.trajectory:
                 trajectory.append({"joints": point, "collect": None})
+                path_robot.append(point)
             current_q = planer.trajectory[-1]
         else:
             print(f"[WARN] Не удалось построить траекторию для: {xyz}, {rpy}")
@@ -75,12 +89,17 @@ for cmd in commands:
 
         for _ in range(n_repeat):
             trajectory.append({"joints": last_q, "collect": None})
+            path_robot.append(last_q)
 
         trajectory.append({"joints": last_q, "collect": cmd["args"]})
+        path_robot.append(last_q)
 
 print(f"[INFO] Сформирована траектория из {len(trajectory)} шагов")
 
-cmd_builder.set_target(model.qr)
+df = pd.DataFrame(data=path_robot, columns=[f"A{i}" for i in range(1, 8)])
+df.to_csv("./trajectory_collect.csv", index=False)
+
+cmd_builder.set_target(model.qz)
 cmd_builder.gripper_open = True
 index = 0
 first = True

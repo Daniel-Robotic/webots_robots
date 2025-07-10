@@ -21,6 +21,7 @@ Viewpoint {
   position 4.4965776651638985 -3.1346326413293637 4.70289767037088
 }
 TexturedBackground {
+  texture "empty_office"
 }
 TexturedBackgroundLight {
 }

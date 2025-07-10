@@ -38,8 +38,8 @@ class CameraImageSaverComponent:
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S_%f")
         base = os.path.join(folder, f"{camera_name}_{timestamp}")
         return {
-            "rgb": f"{base}_rgb.png",
-            "depth": f"{base}_depth.png"
+            "rgb": f"{base}_rgb.jpg",
+            "depth": f"{base}_depth.jpg"
         }
 
     def save(self, sensor, sensor_type: str = "rgb", folder: str = None):
