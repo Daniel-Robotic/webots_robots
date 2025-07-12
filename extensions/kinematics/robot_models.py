@@ -77,7 +77,11 @@ class LBRiiwaR800Model(rtb.DHRobot):
         self.tool = tool
         self.qr = np.array([0, -0.3, 0, -1.9, 0, 1.5, 0])
         self.qz = np.zeros(7)
+        self.qd = np.array([np.deg2rad(98), np.deg2rad(98), np.deg2rad(100),
+                            np.deg2rad(130), np.deg2rad(140), np.deg2rad(180),
+                            np.deg2rad(180)])
 
         self.addconfiguration("qr", self.qr)
         self.addconfiguration("qz", self.qz)
+        self.addconfiguration("qz", self.qd)
         

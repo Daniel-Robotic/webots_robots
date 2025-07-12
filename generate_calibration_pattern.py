@@ -169,7 +169,7 @@ def main():
     print(f"[✔] Calibration pattern saved to: {args.output_image}")
 
     proto_dir = Path(args.proto_path).parent
-    texture_path_relative = str(Path(args.output_image).resolve().relative_to(proto_dir.resolve()))
+    texture_path_relative = str(Path(args.output_image).resolve().relative_to(proto_dir.resolve()).as_posix())
     update_proto_file(proto_path=args.proto_path,
                       texture_path=texture_path_relative,
                       size_mm=board.paper_size_mm,

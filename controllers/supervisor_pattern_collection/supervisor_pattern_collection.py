@@ -35,8 +35,8 @@ if commands and isinstance(commands[0], list):
 
 robot = Supervisor()
 timestep = int(robot.getBasicTimeStep())
-# dt = 10 / 1000.0
-dt = timestep / 1000.0
+dt = 10 / 1000.0
+# dt = timestep / 1000.0
 
 
 model = LBRiiwaR800Model()
@@ -47,7 +47,7 @@ comm = WebotsJsonComm(robot.getDevice("supervisor_receiver"),
 ik_solver = lambda qc, xyz, rpy: solve_ik(model, qc, xyz, rpy)
 motion = MotionTracker(0.005)
 cmd_builder = CommandBuilder([f"lbr_A{i+1}" for i in range(7)], ["camera_motor"])
-planer = TrajectoryPlannerComponent(model)
+planer = TrajectoryPlannerComponent(model, dt=dt)
 
 comm.enable(timestep)
 
@@ -56,7 +56,7 @@ current_q = model.qz
 
 path_robot = []
 
-success = planer.plan(current_q, target_rpy=None, target_xyz=None, dt=dt, q_target=model.qr, speed_scale=0.1)
+success = planer.plan(current_q, target_rpy=None, target_xyz=None, q_target=model.qr, speed_scale=0.5)
 if success:
     for point in planer.trajectory:
         trajectory.append({"joints": point, "collect": None})
@@ -69,7 +69,7 @@ for cmd in commands:
     if cmd["command"] == "move":
         xyz = cmd["args"][:3]
         rpy = cmd["args"][3:]
-        success = planer.plan(current_q, xyz, rpy, dt, speed_scale=0.5)
+        success = planer.plan(current_q, xyz, rpy, speed_scale=0.5)
 
         if success:
             for point in planer.trajectory:

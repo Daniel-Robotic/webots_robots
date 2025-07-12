@@ -1,67 +1,72 @@
-from typing import Tuple
 import numpy as np
+
+from typing import Tuple
 from spatialmath import SE3
-import roboticstoolbox as rtb
+from roboticstoolbox import DHRobot, jtraj
 
 
 class TrajectoryPlannerComponent:
-    def __init__(self, robot: rtb.DHRobot, joint_speed_deg: float = 98.0):
+    def __init__(self,
+                 robot: DHRobot,
+                 dt: float = 0.01):
+        """
+        :param robot: модель робота (DHRobot)
+        :param dt: шаг симуляции в секундах (например, 0.01 для 10 мс)
+        """
         self._robot = robot
         self._trajectory: np.ndarray = np.zeros((0, robot.n))
         self._last_q: np.ndarray = np.zeros(robot.n)
-        self._joint_speed_rad = np.deg2rad(joint_speed_deg)  # ~1.710 rad/s
+        self._dt = dt
+
+    def _euler_to_se3(self,
+                      xyz: Tuple[float, float, float],
+                      rpy: Tuple[float, float, float]) -> SE3:
+        return SE3(*xyz) * SE3.RPY(rpy, order="xyz")
 
     def plan(self,
-         current_q: np.ndarray,
-         target_xyz: Tuple[float, float, float] = None,
-         target_rpy: Tuple[float, float, float] = None,
-         dt: float = 0.01,
-         speed_scale: float = 1.0,
-         q_target: np.ndarray = None) -> bool:
+             current_q: np.ndarray,
+             target_xyz: Tuple[float, float, float],
+             target_rpy: Tuple[float, float, float],
+             speed_scale: float = 1.0,
+             q_target: np.ndarray = None) -> bool:
         """
-        Планирует траекторию:
-        - либо от current_q к (target_xyz, target_rpy) с IK
-        - либо напрямую от current_q к q_target (если задан)
-        
+        Планирует PTP траекторию от текущей позы к целевой позе в XYZ+RPY.
+
         :param current_q: текущие суставные углы
         :param target_xyz: целевая позиция [x, y, z]
-        :param target_rpy: целевая ориентация [roll, pitch, yaw]
-        :param dt: шаг по времени
-        :param speed_scale: масштаб скорости от 0.01 до 1.0
-        :param q_target: целевые суставные углы (если заданы, используется напрямую)
+        :param target_rpy: ориентация [roll, pitch, yaw] в радианах
+        :param speed_scale: масштаб скорости (0.01–1.0)
+        :param q_target: если указан — используется напрямую, без IK
         """
         self._last_q = current_q.copy()
+        velocity = max(0.01, min(speed_scale, 1.0))
 
-        if q_target is not None:
-            q_target = np.array(q_target)
-        
-        else:
+        # Получение целевых суставов
+        if q_target is None:
             if target_xyz is None or target_rpy is None:
-                print("[PLAN ERROR] Не заданы ни q_target, ни XYZ+RPY")
-                self._trajectory = np.zeros((0, self._robot.n))
-                return False
-            
-            T = SE3(*target_xyz) * SE3.RPY(target_rpy, order="xyz")
-            ik_solution = self._robot.ikine_LM(Tep=T, q0=current_q, joint_limits=True)
-
-            if not ik_solution.success:
-                print(f"[IK WARNING] IK не решена для позы: {target_xyz}, {target_rpy}")
-                self._trajectory = np.zeros((0, self._robot.n))
+                print("[PLAN ERROR] Не заданы ни q_target, ни target_xyz+target_rpy")
                 return False
 
-            q_target = ik_solution.q
+            T_goal = self._euler_to_se3(target_xyz, target_rpy)
+            sol = self._robot.ikine_LM(T_goal, q0=current_q, joint_limits=True)
+            if not sol.success:
+                print(f"[IK WARNING] IK не решена для: {target_xyz}, {target_rpy}")
+                return False
+            q_target = sol.q
+        else:
+            q_target = np.array(q_target)
 
-        max_delta = np.max(np.abs(q_target - current_q))
-        max_speed = self._joint_speed_rad * max(0.01, min(speed_scale, 1.0))
-        move_time = max_delta / max_speed
-        n_steps = max(2, int(move_time / dt))
+        # Используем robot.qd как предел скорости
+        qd = getattr(self._robot, "qd", np.ones_like(current_q))
+        delta = np.abs(q_target - current_q)
+        move_time = np.max(delta / (qd * velocity))
+        steps = max(2, int(move_time / self._dt))
 
-        traj = rtb.jtraj(q0=current_q, qf=q_target, t=n_steps)
+        traj = jtraj(current_q, q_target, steps)
         self._trajectory = traj.q
         self._last_q = q_target
 
         return True
-
 
     @property
     def trajectory(self) -> np.ndarray:
