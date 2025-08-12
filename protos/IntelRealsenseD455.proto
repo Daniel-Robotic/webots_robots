@@ -13,8 +13,8 @@ PROTO IntelRealsenseD455 [
   field SFString controller "<generic>"
   field MFString controllerArgs [ ]
   field SFBool supervisor FALSE
-  field SFString{"HD", "VGA", "FULL"} resolution "FULL"
-  field SFFloat fieldOfView 1.71  # Diagonal ~98° from datasheet
+  field SFString{"HD", "VGA", "FULL"} resolution "VGA"
+  field SFFloat fieldOfView 1.4746  # Diagonal ~84.43° from inr parametrs
   field SFFloat minRange 0.01
   field SFFloat maxRange 6.0
   field SFNode focus NULL
