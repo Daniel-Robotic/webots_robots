@@ -15,7 +15,7 @@ from extensions.core.motion import MotionTracker
 from extensions.kinematics.solvers import solve_ik
 from extensions.core.commands import CommandBuilder
 from extensions.utils.console import print_progress_bar
-from extensions.webots.logger import MoveResultLogger
+from extensions.webots.logger import MoveResultLogger, InitialObjectsSnapshotLogger
 from extensions.webots.communication import WebotsJsonComm
 from extensions.webots.target import WebotsTargetObject
 from extensions.kinematics.robot_models import LBRiiwaR800Model
@@ -37,6 +37,9 @@ from extensions.webots.spawner import ObstacleSpawner
 JSON_PATH = os.path.expandvars("${HOME}/dev/webots_projects/webots_robots/controllers/supervisor_llm/example_move_llm.json")
 RESULTS_JSON_PATH = os.path.expandvars(
     "${HOME}/dev/webots_projects/webots_robots/controllers/supervisor_llm/move_results.json"
+)
+OBJECTS_INFO_JSON_PATH = os.path.expandvars(
+    "${HOME}/dev/webots_projects/webots_robots/controllers/supervisor_llm/objects_info.json"
 )
 PROMT_PATH = os.path.expandvars("")
 
@@ -78,10 +81,8 @@ raw_args = sys.argv[1:]
 opts, _ = parser.parse_known_args(raw_args)
 opts.objects = normalize_objects(opts.objects)
 opts.pallet_origin = normalize_vec(opts.pallet_origin, 3) if opts.pallet_origin else None
-opts.pallet_rpy = normalize_vec(opts.pallet_rpy,    3) if opts.pallet_rpy    else [0.0, 0.0, 0.0]
+opts.pallet_rpy = normalize_vec(opts.pallet_rpy, 3) if opts.pallet_rpy else [0.0, 0.0, 0.0]
 opts.target_poses = normalize_target_poses(opts.target_poses) if opts.target_poses else []
-
-
 
 # ==== Настройка параметров Webots ====
 robot = Supervisor()
@@ -135,6 +136,14 @@ targets = [
 ]
 cords_rpy = [t.pose for t in targets] # [np.array, np.array], array shape 3
 num_objs = len(cords_rpy)
+
+InitialObjectsSnapshotLogger(
+    robot=robot,
+    robot_node=robot_node,
+    object_defs=opts.objects,
+    transform_fn=transform_fn,
+    outfile_path=OBJECTS_INFO_JSON_PATH
+).snapshot()
 
 for i, cord in enumerate(cords_rpy):
     print(f"Позиция объекта {i+1}: {cord}")
@@ -197,7 +206,6 @@ if commands and isinstance(commands[0], list):
     commands = commands[0]
 
 # ==== план по объектам для оценки точности ====
-
 objects_plan = []
 planned_end_xyz_list = []
 

@@ -1,3 +1,4 @@
+import math
 import json
 
 
@@ -99,3 +100,146 @@ class MoveResultLogger:
             print(f"[INFO] Результаты перемещений сохранены в {self.results_path}")
         except Exception as e:
             print(f"[WARN] Ошибка записи {self.results_path}: {e}")
+
+
+class InitialObjectsSnapshotLogger:
+    """
+    Отдельный простой логгер, который делает только стартовый снимок объектов
+    и пишет его в JSON. Вызывать ДО основного цикла.
+    """
+    def __init__(self, *, robot, robot_node, object_defs, transform_fn=None, outfile_path=None):
+        self.robot = robot
+        self.robot_node = robot_node
+        self.object_defs = list(object_defs) if object_defs else []
+        self.transform_fn = transform_fn
+        self.outfile_path = outfile_path
+
+    @staticmethod
+    def _mat3_from_flat9(v):
+        return [[v[0], v[1], v[2]],
+                [v[3], v[4], v[5]],
+                [v[6], v[7], v[8]]]
+
+    @staticmethod
+    def _mat3_T(M):
+        return [[M[j][i] for j in range(3)] for i in range(3)]
+
+    @staticmethod
+    def _mat3_mul(A, B):
+        return [
+            [A[0][0]*B[0][0] + A[0][1]*B[1][0] + A[0][2]*B[2][0],
+             A[0][0]*B[0][1] + A[0][1]*B[1][1] + A[0][2]*B[2][1],
+             A[0][0]*B[0][2] + A[0][1]*B[1][2] + A[0][2]*B[2][2]],
+            [A[1][0]*B[0][0] + A[1][1]*B[1][0] + A[1][2]*B[2][0],
+             A[1][0]*B[0][1] + A[1][1]*B[1][1] + A[1][2]*B[2][1],
+             A[1][0]*B[0][2] + A[1][1]*B[1][2] + A[1][2]*B[2][2]],
+            [A[2][0]*B[0][0] + A[2][1]*B[1][0] + A[2][2]*B[2][0],
+             A[2][0]*B[0][1] + A[2][1]*B[1][1] + A[2][2]*B[2][1],
+             A[2][0]*B[0][2] + A[2][1]*B[1][2] + A[2][2]*B[2][2]],
+        ]
+
+    @staticmethod
+    def _rmat_to_rpy_zyx(R):
+        sy = -R[2][0]
+        cy = math.sqrt(max(0.0, 1.0 - sy*sy))
+        if cy > 1e-8:
+            roll  = math.atan2(R[2][1], R[2][2])
+            pitch = math.asin(sy)
+            yaw   = math.atan2(R[1][0], R[0][0])
+        else:
+            roll  = math.atan2(-R[1][2], R[1][1])
+            pitch = math.asin(sy)
+            yaw   = 0.0
+        return (roll, pitch, yaw)
+
+    def _get_node_color_safe(self, node):
+        try:
+            children = node.getField("children") if node.getField("children") else None
+            if children and children.getCount() > 0:
+                shape = children.getMFNode(0)
+                if shape:
+                    app_field = shape.getField("appearance")
+                    if app_field:
+                        app = app_field.getSFNode()
+                        if app:
+                            base = app.getField("baseColor")
+                            if base:
+                                v = base.getSFColor()
+                                return [float(v[0]), float(v[1]), float(v[2])]
+                            mat_field = app.getField("material")
+                            if mat_field:
+                                mat = mat_field.getSFNode()
+                                if mat:
+                                    diff = mat.getField("diffuseColor")
+                                    if diff:
+                                        v = diff.getSFColor()
+                                        return [float(v[0]), float(v[1]), float(v[2])]
+            app_field = node.getField("appearance")
+            if app_field:
+                app = app_field.getSFNode()
+                if app:
+                    base = app.getField("baseColor")
+                    if base:
+                        v = base.getSFColor()
+                        return [float(v[0]), float(v[1]), float(v[2])]
+                    mat_field = app.getField("material")
+                    if mat_field:
+                        mat = mat_field.getSFNode()
+                        if mat:
+                            diff = mat.getField("diffuseColor")
+                            if diff:
+                                v = diff.getSFColor()
+                                return [float(v[0]), float(v[1]), float(v[2])]
+        except Exception:
+            pass
+        return None
+
+    def snapshot(self):
+        if not self.object_defs:
+            print("[WARN] InitialObjectsSnapshotLogger: object_defs пуст.")
+            return []
+
+        R_wr = self._mat3_from_flat9(self.robot_node.getOrientation())
+        R_rw = self._mat3_T(R_wr)
+
+        export = []
+        for def_name in self.object_defs:
+            node = self.robot.getFromDef(def_name)
+            if node is None:
+                export.append({
+                    "def": def_name,
+                    "position_robot": None,
+                    "rpy_robot": None,
+                    "color": None,
+                    "note": "node not found"
+                })
+                continue
+
+            wp = node.getPosition()
+            pos_world = [float(wp[0]), float(wp[1]), float(wp[2])]
+            try:
+                pos_robot = list(map(float, self.transform_fn(pos_world))) if self.transform_fn else pos_world
+            except Exception:
+                pos_robot = pos_world
+
+            R_wo = self._mat3_from_flat9(node.getOrientation())
+            R_ro = self._mat3_mul(R_rw, R_wo)
+            rpy_robot = self._rmat_to_rpy_zyx(R_ro)
+
+            color = self._get_node_color_safe(node)
+
+            export.append({
+                "def": def_name,
+                "position_robot": pos_robot,
+                "rpy_robot": [float(rpy_robot[0]), float(rpy_robot[1]), float(rpy_robot[2])],
+                "color": color
+            })
+
+        if self.outfile_path:
+            try:
+                with open(self.outfile_path, "w", encoding="utf-8") as f:
+                    json.dump(export, f, ensure_ascii=False, indent=2)
+                print(f"[INFO] Стартовые параметры объектов сохранены в {self.outfile_path}")
+            except Exception as e:
+                print(f"[WARN] Не удалось записать стартовый JSON '{self.outfile_path}': {e}")
+        return export
