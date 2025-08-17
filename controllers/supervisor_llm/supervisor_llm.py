@@ -97,7 +97,7 @@ if opts.objects_config:
     except Exception as e:
         print(f"[WARN] Ошибка применения конфигурации объектов: {e}")
 
-# Спавн препятсвия
+# Спавн препятсвия (в мировоых координатах, не в робота)
 spawner = ObstacleSpawner(supervisor=robot)
 
 # box_def = spawner.spawn_box(
@@ -196,6 +196,7 @@ else:
             f"{num_objs} (как объектов) или задай параметры палеты."
         )
 
+# Сохранение данных, построенных команд
 # with open(JSON_PATH, "w", encoding="utf-8") as f:
 #     json.dump(commands, f, ensure_ascii=False, indent=2)
 
