@@ -1,0 +1,752 @@
+#VRML_SIM R2025a utf8
+
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/floors/protos/RectangleArena.proto"
+EXTERNPROTO "../protos/CollaborativeRobotTable.proto"
+EXTERNPROTO "../protos/LBRiiwa7R800.proto"
+EXTERNPROTO "../protos/LBRiiwaGripper.proto"
+EXTERNPROTO "../protos/IntelRealsenseD455.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/factory/pallet/protos/WoodenPallet.proto"
+
+WorldInfo {
+  contactProperties [
+    ContactProperties {
+      bounce 0
+      softERP 0.7
+    }
+  ]
+}
+Viewpoint {
+  orientation -0.20714135185089858 0.03041023344193142 0.9778382678415636 2.856429807041331
+  position 2.943273409217195 -0.8622594805638018 2.382999377885433
+  followType "Mounted Shot"
+}
+TexturedBackground {
+  texture "empty_office"
+}
+TexturedBackgroundLight {
+}
+RectangleArena {
+  floorSize 3 3
+}
+CollaborativeRobotTable {
+  locked TRUE
+}
+DEF KUKA LBRiiwa7R800 {
+  translation -0.267 0 0.79
+  controller "iiwa_controller"
+  controllerArgs [
+    ""
+  ]
+  endEffectorSlot [
+    LBRiiwaGripper {
+      camera [
+        IntelRealsenseD455 {
+          controller "camera_controller"
+        }
+      ]
+    }
+  ]
+}
+Robot {
+  children [
+    Emitter {
+      name "supervisor_emitter"
+      channel 2
+    }
+    Receiver {
+      name "supervisor_receiver"
+      channel 1
+    }
+  ]
+  name "supervisor"
+  controller "supervisor_llm"
+  controllerArgs [
+    "--objects"
+    "OBJ27"
+    "OBJ26"
+    "OBJ25"
+    "OBJ24"
+    "OBJ23"
+    "OBJ22"
+    "OBJ21"
+    "OBJ20"
+    "OBJ19"
+    "OBJ18"
+    "OBJ17"
+    "OBJ16"
+    "OBJ15"
+    "OBJ14"
+    "OBJ13"
+    "OBJ12"
+    "OBJ11"
+    "OBJ10"
+    "OBJ9"
+    "OBJ8"
+    "OBJ7"
+    "OBJ6"
+    "OBJ5"
+    "OBJ4"
+    "OBJ3"
+    "OBJ2"
+    "OBJ1"
+    "--pallet-origin"
+    "0.41"
+    "0.1"
+    "0.15"
+    "--pallet-rpy"
+    "-3.14"
+    "0"
+    "3.14"
+    "--pallet-nx"
+    "3"
+    "--pallet-ny"
+    "3"
+    "--pallet-nz"
+    "3"
+    "--pallet-sx"
+    "0.10"
+    "--pallet-sy"
+    "0.10"
+    "--pallet-sz"
+    "0.05"
+    "--pallet-order"
+    "zxy"
+    "--delta-z"
+    "0.08"
+  ]
+  supervisor TRUE
+}
+WoodenPallet {
+  translation 0.31 0.27 0.8
+  size 0.6 0.5 0.09
+  lathNumber 5
+  mass 10
+  locked TRUE
+}
+Group {
+  children [
+    DEF OBJ1 Solid {
+      translation 0.21 -0.35 0.82
+      rotation 0 1 0 3.14159
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.878431 0.105882 0.141176
+            roughness 1
+          }
+          geometry Box {
+            size 0.05 0.05 0.05
+          }
+        }
+      ]
+      name "moved_object1"
+      boundingObject Box {
+        size 0.05 0.05 0.05
+      }
+      physics Physics {
+        density -1
+        mass 1
+      }
+    }
+    DEF OBJ2 Solid {
+      translation 0.31 -0.35 0.82
+      rotation 0 1 0 3.14159
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 1 0.470588 0
+            roughness 1
+          }
+          geometry Box {
+            size 0.05 0.05 0.05
+          }
+        }
+      ]
+      name "moved_object2"
+      boundingObject Box {
+        size 0.05 0.05 0.05
+      }
+      physics Physics {
+        density -1
+        mass 1
+      }
+    }
+    DEF OBJ3 Solid {
+      translation 0.41 -0.35 0.82
+      rotation 0 1 0 3.14159
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.180392 0.760784 0.494118
+            roughness 1
+          }
+          geometry Box {
+            size 0.05 0.05 0.05
+          }
+        }
+      ]
+      name "moved_object3"
+      boundingObject Box {
+        size 0.05 0.05 0.05
+      }
+      physics Physics {
+        density -1
+        mass 1
+      }
+    }
+    DEF OBJ4 Solid {
+      translation 0.21 -0.25 0.82
+      rotation 0 1 0 3.14159
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.878431 0.105882 0.141176
+            roughness 1
+          }
+          geometry Box {
+            size 0.05 0.05 0.05
+          }
+        }
+      ]
+      name "moved_object4"
+      boundingObject Box {
+        size 0.05 0.05 0.05
+      }
+      physics Physics {
+        density -1
+        mass 1
+      }
+    }
+    DEF OBJ5 Solid {
+      translation 0.31 -0.25 0.82
+      rotation 0 1 0 3.14159
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 1 0.470588 0
+            roughness 1
+          }
+          geometry Box {
+            size 0.05 0.05 0.05
+          }
+        }
+      ]
+      name "moved_object5"
+      boundingObject Box {
+        size 0.05 0.05 0.05
+      }
+      physics Physics {
+        density -1
+        mass 1
+      }
+    }
+    DEF OBJ6 Solid {
+      translation 0.41 -0.25 0.82
+      rotation 0 1 0 3.14159
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.180392 0.760784 0.494118
+            roughness 1
+          }
+          geometry Box {
+            size 0.05 0.05 0.05
+          }
+        }
+      ]
+      name "moved_object6"
+      boundingObject Box {
+        size 0.05 0.05 0.05
+      }
+      physics Physics {
+        density -1
+        mass 1
+      }
+    }
+    DEF OBJ7 Solid {
+      translation 0.21 -0.15 0.82
+      rotation 0 1 0 3.14159
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.878431 0.105882 0.141176
+            roughness 1
+          }
+          geometry Box {
+            size 0.05 0.05 0.05
+          }
+        }
+      ]
+      name "moved_object7"
+      boundingObject Box {
+        size 0.05 0.05 0.05
+      }
+      physics Physics {
+        density -1
+        mass 1
+      }
+    }
+    DEF OBJ8 Solid {
+      translation 0.31 -0.15 0.82
+      rotation 0 1 0 3.14159
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 1 0.470588 0
+            roughness 1
+          }
+          geometry Box {
+            size 0.05 0.05 0.05
+          }
+        }
+      ]
+      name "moved_object8"
+      boundingObject Box {
+        size 0.05 0.05 0.05
+      }
+      physics Physics {
+        density -1
+        mass 1
+      }
+    }
+    DEF OBJ9 Solid {
+      translation 0.41 -0.15 0.82
+      rotation 0 1 0 3.14159
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.180392 0.760784 0.494118
+            roughness 1
+          }
+          geometry Box {
+            size 0.05 0.05 0.05
+          }
+        }
+      ]
+      name "moved_object9"
+      boundingObject Box {
+        size 0.05 0.05 0.05
+      }
+      physics Physics {
+        density -1
+        mass 1
+      }
+    }
+    DEF OBJ10 Solid {
+      translation 0.21 -0.35 0.87
+      rotation 0 1 0 3.14159
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.180392 0.760784 0.494118
+            roughness 1
+          }
+          geometry Box {
+            size 0.05 0.05 0.05
+          }
+        }
+      ]
+      name "moved_object10"
+      boundingObject Box {
+        size 0.05 0.05 0.05
+      }
+      physics Physics {
+        density -1
+        mass 1
+      }
+    }
+    DEF OBJ11 Solid {
+      translation 0.31 -0.35 0.87
+      rotation 0 1 0 3.14159
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.878431 0.105882 0.141176
+            roughness 1
+          }
+          geometry Box {
+            size 0.05 0.05 0.05
+          }
+        }
+      ]
+      name "moved_object11"
+      boundingObject Box {
+        size 0.05 0.05 0.05
+      }
+      physics Physics {
+        density -1
+        mass 1
+      }
+    }
+    DEF OBJ12 Solid {
+      translation 0.41 -0.35 0.87
+      rotation 0 1 0 3.14159
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 1 0.470588 0
+            roughness 1
+          }
+          geometry Box {
+            size 0.05 0.05 0.05
+          }
+        }
+      ]
+      name "moved_object12"
+      boundingObject Box {
+        size 0.05 0.05 0.05
+      }
+      physics Physics {
+        density -1
+        mass 1
+      }
+    }
+    DEF OBJ13 Solid {
+      translation 0.21 -0.25 0.87
+      rotation 0 1 0 3.14159
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.180392 0.760784 0.494118
+            roughness 1
+          }
+          geometry Box {
+            size 0.05 0.05 0.05
+          }
+        }
+      ]
+      name "moved_object13"
+      boundingObject Box {
+        size 0.05 0.05 0.05
+      }
+      physics Physics {
+        density -1
+        mass 1
+      }
+    }
+    DEF OBJ14 Solid {
+      translation 0.31 -0.25 0.87
+      rotation 0 1 0 3.14159
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.878431 0.105882 0.141176
+            roughness 1
+          }
+          geometry Box {
+            size 0.05 0.05 0.05
+          }
+        }
+      ]
+      name "moved_object14"
+      boundingObject Box {
+        size 0.05 0.05 0.05
+      }
+      physics Physics {
+        density -1
+        mass 1
+      }
+    }
+    DEF OBJ15 Solid {
+      translation 0.41 -0.25 0.87
+      rotation 0 1 0 3.14159
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 1 0.470588 0
+            roughness 1
+          }
+          geometry Box {
+            size 0.05 0.05 0.05
+          }
+        }
+      ]
+      name "moved_object15"
+      boundingObject Box {
+        size 0.05 0.05 0.05
+      }
+      physics Physics {
+        density -1
+        mass 1
+      }
+    }
+    DEF OBJ16 Solid {
+      translation 0.21 -0.15 0.87
+      rotation 0 1 0 3.14159
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.180392 0.760784 0.494118
+            roughness 1
+          }
+          geometry Box {
+            size 0.05 0.05 0.05
+          }
+        }
+      ]
+      name "moved_object16"
+      boundingObject Box {
+        size 0.05 0.05 0.05
+      }
+      physics Physics {
+        density -1
+        mass 1
+      }
+    }
+    DEF OBJ17 Solid {
+      translation 0.31 -0.15 0.87
+      rotation 0 1 0 3.14159
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.878431 0.105882 0.141176
+            roughness 1
+          }
+          geometry Box {
+            size 0.05 0.05 0.05
+          }
+        }
+      ]
+      name "moved_object17"
+      boundingObject Box {
+        size 0.05 0.05 0.05
+      }
+      physics Physics {
+        density -1
+        mass 1
+      }
+    }
+    DEF OBJ18 Solid {
+      translation 0.41 -0.15 0.87
+      rotation 0 1 0 3.14159
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 1 0.470588 0
+            roughness 1
+          }
+          geometry Box {
+            size 0.05 0.05 0.05
+          }
+        }
+      ]
+      name "moved_object18"
+      boundingObject Box {
+        size 0.05 0.05 0.05
+      }
+      physics Physics {
+        density -1
+        mass 1
+      }
+    }
+    DEF OBJ19 Solid {
+      translation 0.21 -0.35 0.92
+      rotation 0 1 0 3.14159
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.878431 0.105882 0.141176
+            roughness 1
+          }
+          geometry Box {
+            size 0.05 0.05 0.05
+          }
+        }
+      ]
+      name "moved_object19"
+      boundingObject Box {
+        size 0.05 0.05 0.05
+      }
+      physics Physics {
+        density -1
+        mass 1
+      }
+    }
+    DEF OBJ20 Solid {
+      translation 0.31 -0.35 0.92
+      rotation 0 1 0 3.14159
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 1 0.470588 0
+            roughness 1
+          }
+          geometry Box {
+            size 0.05 0.05 0.05
+          }
+        }
+      ]
+      name "moved_object20"
+      boundingObject Box {
+        size 0.05 0.05 0.05
+      }
+      physics Physics {
+        density -1
+        mass 1
+      }
+    }
+    DEF OBJ21 Solid {
+      translation 0.41 -0.35 0.92
+      rotation 0 1 0 3.14159
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.180392 0.760784 0.494118
+            roughness 1
+          }
+          geometry Box {
+            size 0.05 0.05 0.05
+          }
+        }
+      ]
+      name "moved_object21"
+      boundingObject Box {
+        size 0.05 0.05 0.05
+      }
+      physics Physics {
+        density -1
+        mass 1
+      }
+    }
+    DEF OBJ22 Solid {
+      translation 0.21 -0.25 0.92
+      rotation 0 1 0 3.14159
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.878431 0.105882 0.141176
+            roughness 1
+          }
+          geometry Box {
+            size 0.05 0.05 0.05
+          }
+        }
+      ]
+      name "moved_object22"
+      boundingObject Box {
+        size 0.05 0.05 0.05
+      }
+      physics Physics {
+        density -1
+        mass 1
+      }
+    }
+    DEF OBJ23 Solid {
+      translation 0.31 -0.25 0.92
+      rotation 0 1 0 3.14159
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 1 0.470588 0
+            roughness 1
+          }
+          geometry Box {
+            size 0.05 0.05 0.05
+          }
+        }
+      ]
+      name "moved_object23"
+      boundingObject Box {
+        size 0.05 0.05 0.05
+      }
+      physics Physics {
+        density -1
+        mass 1
+      }
+    }
+    DEF OBJ24 Solid {
+      translation 0.41 -0.25 0.92
+      rotation 0 1 0 3.14159
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.180392 0.760784 0.494118
+            roughness 1
+          }
+          geometry Box {
+            size 0.05 0.05 0.05
+          }
+        }
+      ]
+      name "moved_object24"
+      boundingObject Box {
+        size 0.05 0.05 0.05
+      }
+      physics Physics {
+        density -1
+        mass 1
+      }
+    }
+    DEF OBJ25 Solid {
+      translation 0.21 -0.15 0.92
+      rotation 0 1 0 3.14159
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.878431 0.105882 0.141176
+            roughness 1
+          }
+          geometry Box {
+            size 0.05 0.05 0.05
+          }
+        }
+      ]
+      name "moved_object25"
+      boundingObject Box {
+        size 0.05 0.05 0.05
+      }
+      physics Physics {
+        density -1
+        mass 1
+      }
+    }
+    DEF OBJ26 Solid {
+      translation 0.31 -0.15 0.92
+      rotation 0 1 0 3.14159
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 1 0.470588 0
+            roughness 1
+          }
+          geometry Box {
+            size 0.05 0.05 0.05
+          }
+        }
+      ]
+      name "moved_object26"
+      boundingObject Box {
+        size 0.05 0.05 0.05
+      }
+      physics Physics {
+        density -1
+        mass 1
+      }
+    }
+    DEF OBJ27 Solid {
+      translation 0.41 -0.15 0.92
+      rotation 0 1 0 3.14159
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.180392 0.760784 0.494118
+            roughness 1
+          }
+          geometry Box {
+            size 0.05 0.05 0.05
+          }
+        }
+      ]
+      name "moved_object27"
+      boundingObject Box {
+        size 0.05 0.05 0.05
+      }
+      physics Physics {
+        density -1
+        mass 1
+      }
+    }
+  ]
+}

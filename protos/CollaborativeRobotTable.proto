@@ -137,10 +137,10 @@ PROTO CollaborativeRobotTable [
         }
         %< } >%
         Pose {
-          translation 0 0 0.39
+          translation 0 0 0.403
           children [
             Box {
-              size 1.28 1.08 0.82
+              size 1.28 1.08 0.79
             }
           ]
         }

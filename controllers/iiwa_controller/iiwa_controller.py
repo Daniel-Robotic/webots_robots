@@ -8,7 +8,7 @@ from controller import Robot, Motor, PositionSensor
 from extensions.webots.communication import WebotsJsonComm
 from extensions.utils.device_search import is_gripper_motor
 
-# — init —
+
 robot = Robot()
 ts = int(robot.getBasicTimeStep())
 comm = WebotsJsonComm(robot.getDevice(f"{robot.getName()}_receiver"),
@@ -35,7 +35,7 @@ for i in range(robot.getNumberOfDevices()):
         except Exception:
             pass
 
-# — helper —
+
 def apply_cmd(joints: dict, gr_open: bool):
     for n, v in joints.items():
         if n in arm_motors:
@@ -53,7 +53,7 @@ def build_state():
     }
 
 
-# — loop —
+
 while robot.step(ts) != -1:
 
     # Получаем позиции от supervisor

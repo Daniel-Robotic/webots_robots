@@ -53,7 +53,7 @@ for cmd in commands:
     if cmd["command"] == "move":
         xyz = cmd["args"][:3]
         rpy = cmd["args"][3:]
-        success = planer.plan(current_q, xyz, rpy, dt, speed_scale=0.5)
+        success = planer.plan(current_q, xyz, rpy, speed_scale=0.5)
 
         if success:
             for point in planer.trajectory:

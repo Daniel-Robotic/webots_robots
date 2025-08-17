@@ -1,0 +1,172 @@
+#VRML_SIM R2025a utf8
+
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/floors/protos/RectangleArena.proto"
+EXTERNPROTO "../protos/CollaborativeRobotTable.proto"
+EXTERNPROTO "../protos/LBRiiwa7R800.proto"
+EXTERNPROTO "../protos/LBRiiwaGripper.proto"
+EXTERNPROTO "../protos/IntelRealsenseD455.proto"
+
+WorldInfo {
+  contactProperties [
+    ContactProperties {
+      bounce 0
+      softERP 0.8
+      softCFM 0.0001
+    }
+  ]
+}
+Viewpoint {
+  orientation -0.18258415805598077 0.03822842179802633 0.9824467481720426 2.73585392138876
+  position 4.371669041936894 -1.766472187413251 3.1220943463722732
+  followType "Mounted Shot"
+}
+TexturedBackground {
+  texture "empty_office"
+}
+TexturedBackgroundLight {
+}
+RectangleArena {
+  floorSize 3 3
+}
+CollaborativeRobotTable {
+  locked TRUE
+}
+DEF KUKA LBRiiwa7R800 {
+  translation -0.267 0 0.79
+  controller "iiwa_controller"
+  controllerArgs [
+    ""
+  ]
+  endEffectorSlot [
+    LBRiiwaGripper {
+      camera [
+        IntelRealsenseD455 {
+          controller "camera_controller"
+        }
+      ]
+    }
+  ]
+}
+Robot {
+  children [
+    Emitter {
+      name "supervisor_emitter"
+      channel 2
+    }
+    Receiver {
+      name "supervisor_receiver"
+      channel 1
+    }
+  ]
+  name "supervisor"
+  controller "supervisor_llm"
+  controllerArgs [
+    "--gap"
+    "0.002"
+    "--place-step-z"
+    "0.05"
+    "--delta-z"
+    "0.1"
+    "--target-poses"
+    "0.5 0.2 0.04 -3.14 0 3.14"
+    "--objects"
+    "OBJ1"
+    "OBJ2"
+    "OBJ3"
+    "--objects-config"
+    "/home/daniel/dev/webots_projects/webots_robots/controllers/supervisor_llm/parametrs.json"
+  ]
+  supervisor TRUE
+}
+DEF OBJ1 Solid {
+  translation 0.41 -0.25 0.83
+  rotation 0 1 0 3.14159
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.180392 0.760784 0.494118
+        roughness 1
+      }
+      geometry Box {
+        size 0.05 0.05 0.05
+      }
+    }
+  ]
+  name "moved_object"
+  boundingObject Box {
+    size 0.05 0.05 0.05
+  }
+  physics Physics {
+    density -1
+    mass 2
+    centerOfMass [
+      0 0 0
+    ]
+    inertiaMatrix [
+      0.0008333333333333335 0.0008333333333333335 0.0008333333333333335
+      0 0 0
+    ]
+  }
+}
+DEF OBJ2 Solid {
+  translation 0.31 -0.25 0.83
+  rotation 0 1 0 3.14159
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.568627 0.254902 0.67451
+        roughness 1
+      }
+      geometry Box {
+        size 0.05 0.05 0.05
+      }
+    }
+  ]
+  name "moved_object2"
+  boundingObject Box {
+    size 0.05 0.05 0.05
+  }
+  physics Physics {
+    density -1
+    mass 2
+    centerOfMass [
+      0 0 0
+    ]
+    inertiaMatrix [
+      0.0008333333333333335 0.0008333333333333335 0.0008333333333333335
+      0 0 0
+    ]
+  }
+}
+DEF OBJ3 Solid {
+  translation 0.21 -0.25 0.83
+  rotation 0 1 0 3.14159
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.207843 0.517647 0.894118
+        roughness 1
+      }
+      geometry Box {
+        size 0.05 0.05 0.05
+      }
+    }
+  ]
+  name "moved_object3"
+  boundingObject Box {
+    size 0.05 0.05 0.05
+  }
+  physics Physics {
+    density -1
+    mass 2
+    centerOfMass [
+      0 0 0
+    ]
+    inertiaMatrix [
+      0.0008333333333333335 0.0008333333333333335 0.0008333333333333335
+      0 0 0
+    ]
+  }
+}

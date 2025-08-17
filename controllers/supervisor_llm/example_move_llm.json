@@ -1,0 +1,31 @@
+[
+{ "command": "move", "args": [0.677, 0.25, 0.21, 3.14, 0, 3.14] },
+{ "command": "move", "args": [0.677, 0.25, 0.13, 3.14, 0, 3.14] },
+{ "command": "grab", "args": true },
+{ "command": "move", "args": [0.677, 0.25, 0.21, 3.14, 0, 3.14] },
+
+{ "command": "move", "args": [0.55, 0.35, 0.11, 3.14, 0, 3.14] },
+{ "command": "move", "args": [0.55, 0.35, 0.03, 3.14, 0, 3.14] },
+{ "command": "grab", "args": false },
+{ "command": "move", "args": [0.55, 0.35, 0.11, 3.14, 0, 3.14] },
+
+{ "command": "move", "args": [0.677, 0.25, 0.16, 3.14, 0, 3.14] },
+{ "command": "move", "args": [0.677, 0.25, 0.08, 3.14, 0, 3.14] },
+{ "command": "grab", "args": true },
+{ "command": "move", "args": [0.677, 0.25, 0.16, 3.14, 0, 3.14] },
+
+{ "command": "move", "args": [0.4, -0.2, 0.12, 3.14, 0, 3.14] },
+{ "command": "move", "args": [0.4, -0.2, 0.04, 3.14, 0, 3.14] },
+{ "command": "grab", "args": false },
+{ "command": "move", "args": [0.4, -0.2, 0.12, 3.14, 0, 3.14] },
+
+{ "command": "move", "args": [0.55, 0.35, 0.11, 3.14, 0, 3.14] },
+{ "command": "move", "args": [0.55, 0.35, 0.03, 3.14, 0, 3.14] },
+{ "command": "grab", "args": true },
+{ "command": "move", "args": [0.55, 0.35, 0.11, 3.14, 0, 3.14] },
+
+{ "command": "move", "args": [0.677, 0.25, 0.21, 3.14, 0, 3.14] },
+{ "command": "move", "args": [0.677, 0.25, 0.13, 3.14, 0, 3.14] },
+{ "command": "grab", "args": false },
+{ "command": "move", "args": [0.677, 0.25, 0.21, 3.14, 0, 3.14] }
+]

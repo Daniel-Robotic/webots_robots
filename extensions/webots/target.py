@@ -29,3 +29,20 @@ class WebotsTargetGizmo(BaseTarget):
     @property
     def gripper(self) -> bool:
         return bool(self._gr_field.getSFBool())
+
+
+class WebotsTargetObject(BaseTarget):
+    def __init__(self, robot_node: Node, object_node: Node):
+        self._robot_node = robot_node
+        self._tr_field = object_node.getField("translation")
+        self._rot_field = object_node.getField("rotation")
+    
+    @property
+    def pose(self) -> tuple[ArrayLike, ArrayLike]:
+        xyz = transform_world_to_local(self._robot_node,
+                                       self._tr_field.getSFVec3f())
+        rot = self._rot_field.getSFRotation()
+        R = rodrigues(np.asarray(rot[:3]) * rot[3])
+        rpy = tr2rpy(r2t(R), order="xyz")
+        return xyz, rpy
+    
